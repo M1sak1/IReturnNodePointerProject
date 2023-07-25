@@ -1,1 +1,43 @@
-﻿How you going
+﻿Users:
+Customer
+Admin User
+Employees
+
+User Actions:
+Customers:
+	Browse Items 
+	Create User Accounts 
+	Add item to cart 
+	Modify User account 
+	Retrieve login information (forgot your password?)
+Admin:
+	Add/edit/delete items from the shop
+	Add/Edit/Delete Users from the shop
+Employee:
+	View Items
+	View Accounts
+
+Website Actions:
+Search Bar for items
+List items
+Account creation information validation (correct user input)
+
+
+Webstie screens 
+Account creation/login screen 
+Account Modification Screen
+Item List 
+Item cart
+Item Management Page (Admin)
+User Management Page (Admin)
+
+
+Website Validation:
+Validation Notes:
+• Elements to check when updating an Address for Australian Postage
+• Address Line 1/2 contains both letters and numbers e.g. 377 Ring Road
+• Post Code Contains Numbers only e.g. 2308 not two thousand and eight
+• State can be selected from a dropdown – can be Full Names or acronyms e.g. New
+South Wales or NSW
+• Each of these things should have a message displayed to the User if they are incorrect
+or missing.
