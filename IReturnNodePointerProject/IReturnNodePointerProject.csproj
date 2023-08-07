@@ -4,11 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>03ceac2a-5fda-4eae-80e8-d4fb822bbfc2</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Shared\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.9" />

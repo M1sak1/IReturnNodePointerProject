@@ -1,14 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Encodings.Web;
 
 namespace IReturnNodePointerProject.Controllers
 {
     public class HomeController : Controller
     {
+        // 
+        // GET: /Home/
         public IActionResult Index()
         {
-            ViewBag.Name = "Mary";
-            ViewBag.FV = 999999999.99;
             return View();
         }
-    }
+		// 
+		// GET: /Home/Welcome/3?name=Andrew
+		public IActionResult Welcome(string name, int numTimes = 1)
+		{
+			ViewData["Message"] = "Hello " + name;
+			ViewData["NumTimes"] = numTimes;
+			return View();
+		}
+	}
 }
