@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<>
+@{
 	ViewData["Title"] = "MovieList";
 
 }
@@ -14,6 +15,16 @@
 	</head>
 	<body>
 		<h2>My Movie List</h2>
-		<p>TemplateView</p>
+		<br />
+		<tbody>
+		@foreach(var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+			</tr>
+		}
+		</tbody>
 	</body>
 </html>
