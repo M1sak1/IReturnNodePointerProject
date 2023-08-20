@@ -17,13 +17,5 @@
 		<Title >@ViewData["Title"] - Movie Store</Title>
 		<h2>My Movie List</h2>
 		<br />
-		<tbody>
-		@foreach (var product in Model)
-		{
-			<tr>
-				@Html.DisplayFor(ModelItem => product.Name)
-			</tr>
-		}
-		</tbody>
 	</body>
 </html>
