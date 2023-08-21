@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IReturnNodePointerProject.Models;
 using Microsoft.EntityFrameworkCore;
 
 public class OnlineStoreContext : DbContext
@@ -11,6 +12,5 @@ public class OnlineStoreContext : DbContext
 		: base(options)
 	{
 	}
-	public DbSet<IReturnNodePointerProject.Models.DatabaseControllers.Product> Product { get; set; }
-
+	public DbSet<Product> Product { get; set; }
 }

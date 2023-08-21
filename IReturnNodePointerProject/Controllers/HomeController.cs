@@ -12,27 +12,31 @@ namespace IReturnNodePointerProject.Controllers
 		}
 
 		//Get Items
-		public async Task<IActionResult> CreateView(string searchTerm)
+		public async Task<IActionResult> Index(string searchString)
 		{
-			return _storeContext.Product != null ?
-						View(await _storeContext.Product.ToListAsync()) :
-						Problem("Entity set '_storContext.Movie' is null.");
+			var products = _storeContext.Product;
+			var pList = products.ToList();
+
+			return View(pList);
+		//if (string.IsNullOrEmpty(searchString)) { }
+		//	return  != null ?
+		//		View(await _storeContext.Product.ToListAsync() ) :
+		//		Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+		}
+
+		public async Task<IActionResult> Details(int? id) { 
+			if (id == null) {
+				 return NotFound();
+			}
+			var prod = await _storeContext.Product.FirstOrDefaultAsync(m => m.ID == id);
+			if (prod == null) {
+				return NotFound();
+			}
+			return View(prod);
 		}
 
 		// 
 		// GET: /Home/
-		public IActionResult Index()
-		{
-			try
-			{
-				Console.WriteLine("Here");
-				return ((IActionResult)CreateView("A"));
-			}
-			catch(Exception ex)
-			{
-				return View();
-			}
-		} 
 		// GET: /Home/Welcome/3?name=Andrew
 		public IActionResult Welcome(string name, int numTimes = 1)
 		{
