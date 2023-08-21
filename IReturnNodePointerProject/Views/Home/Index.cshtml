@@ -17,5 +17,15 @@
 		<Title> @ViewData["Title"] - Book Store</Title>
 		<h2>Book Listing</h2>
 		<br />
+		<TBody>
+		@foreach(var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+			</tr>
+		}
+		</TBody>
 	</body>
 </html>

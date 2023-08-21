@@ -11,6 +11,6 @@ public class OnlineStoreContext : DbContext
 		: base(options)
 	{
 	}
-	public DbSet<IReturnNodePointerProject.Models.DatabaseControllers.Product> Products { get; set; }
+	public DbSet<IReturnNodePointerProject.Models.DatabaseControllers.Product> Product { get; set; }
 
 }
