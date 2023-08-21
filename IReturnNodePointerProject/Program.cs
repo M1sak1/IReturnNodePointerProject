@@ -29,4 +29,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "custom",
+    pattern: "{controller}/{action}/conf-{activeConf}/div-{activeDiv}");
+
 app.Run();

@@ -25,9 +25,9 @@ Account creation information validation (correct user input)
 
 Webstie screens 
 Account creation/login screen 
-Account Modification Screen
-Item List 
-Item cart
+Account Modification Screen (Customer, Admin, Employee???)
+Item List (Employee, Customer)
+Item cart (Customer)
 Item Management Page (Admin)
 User Management Page (Admin)
 
