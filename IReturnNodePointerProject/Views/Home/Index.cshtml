@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<IReturnNodePointerProject.Models.DatabaseControllers.Product>
 @{
 	ViewData["Title"] = "MovieList";
-
 }
 @{
 	Layout = "_Layout";
@@ -17,5 +16,15 @@
 		<Title >@ViewData["Title"] - Movie Store</Title>
 		<h2>My Movie List</h2>
 		<br />
+		<TBody>
+		@foreach(var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+			</tr>
+		}
+		</TBody>
 	</body>
 </html>
