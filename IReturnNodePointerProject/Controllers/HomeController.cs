@@ -15,6 +15,7 @@ namespace IReturnNodePointerProject.Controllers
 		public async Task<IActionResult> Index(string searchString)
 		{
 			var products = _storeContext.Product;
+			//Console.WriteLine(products);
 			var pList = products.ToList();
 
 			return View(pList);
