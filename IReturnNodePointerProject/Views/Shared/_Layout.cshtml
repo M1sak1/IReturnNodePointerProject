@@ -13,21 +13,30 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">Random Store</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-0.5">
+                        @*Link to home page / i class is adding an image*@
                         <li class="navbar-nav flex-grow-1"> 
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Index"> <i class ="badge-info bi-film"></i>Home</a>
                         </li>
+                        @*Link to Cart Screen *@
                         <li class="navbar-nav flex-grow-1">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Cart"> <i class ="badge-info bi-film"></i> Cart (icon)</a>
+                            <a class="nav-link text-dark" asp-controller="Cart" asp-action="Cart"> Cart (icon)</a>
                         </li>
-                        <li class="navbar-nav flex-grow-1">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Account"> <i class ="badge-info bi-film"></i> Account (icon)</a>
-                        </li> 
+                        @*Account DropDown Menu *@
+                        <li class ="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropDown" role="button" data-toggle = "button" aria-haspopup="true" aria-expanded="false">
+                                Account
+                            </a> 
+                            <div class="dropdown-menu-dark" aria-labelledby="navbarDropDown">
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Account"> Account Page</a>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Login"> Log Out</a>
+                            </div>
+                        </li>
                     </ul>
                     @*Add the action to re-direct back to thee same page but with extra bits in the url that informs the view? For the Search BAr*@
                     <form class="form-inline my-2 my-lg-0" asp-controller = "Home" asp-action = "Index" style="padding-right: 20px;">

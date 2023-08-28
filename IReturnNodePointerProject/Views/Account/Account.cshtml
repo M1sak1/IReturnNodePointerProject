@@ -1,0 +1,71 @@
+﻿@model IEnumerable<IReturnNodePointerProject.Models.User>
+@{
+    ViewData["Title"] = "WelcomeToTheBigLeagues";
+
+}
+@{
+    Layout = "_Layout";
+}
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Account Page</title>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.UserID)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.UserName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Name)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Email)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.IsAdmin)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Salt)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.HashPW)
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.UserID)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.UserName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Name)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Email)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.IsAdmin)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Salt)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.HashPW)
+				</th>
+			</tr>
+		}
+		</tbody>
+	</table>
+</body>
+</html>

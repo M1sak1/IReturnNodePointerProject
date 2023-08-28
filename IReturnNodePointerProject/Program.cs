@@ -31,6 +31,6 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "custom",
-    pattern: "{controller}/{action}/conf-{activeConf}/div-{activeDiv}");
+    pattern: "{controller}/{action}"/*{activeConf}/div-{activeDiv}*/);
 
 app.Run();
