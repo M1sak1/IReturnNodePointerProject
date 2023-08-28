@@ -26,21 +26,10 @@ namespace IReturnNodePointerProject.Controllers
 		//		View(await _storeContext.Product.ToListAsync() ) :
 		//		Problem("Entity set 'MvcMovieContext.Movie'  is null.");
 		}
-
 		public static int ConvertToYear(DateTime dt)
 		{
 			var year = dt.Year;
 			return year;
 		}
-
-		// 
-		// GET: /Home/
-		// GET: /Home/Welcome/3?name=Andrew
-		public IActionResult Welcome(string name, int numTimes = 1)
-		{
-			ViewData["Message"] = "Hello " + name;
-			ViewData["NumTimes"] = numTimes;
-			return View();
-		}
-	}
+    }
 }
