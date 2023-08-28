@@ -13,4 +13,10 @@ public class OnlineStoreContext : DbContext
 	{
 	}
 	public DbSet<Product> Product { get; set; }
+	public DbSet<Genre> Genre { get; set; }
+	public DbSet<Genre_Book> GenreBook { get; set; }
+	public DbSet<Genre_Book_New> GenreBook_New { get; set; }
+	public DbSet<Genre_Game> GenreGame { get; set; }
+	public DbSet<Genre_Movie> GenreMovie { get; set; }
+	public DbSet<Orders> Orders { get; set; }
 }

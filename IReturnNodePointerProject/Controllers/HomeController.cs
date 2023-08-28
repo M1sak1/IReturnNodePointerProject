@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.Text.Encodings.Web;
+using System.Xml.Serialization;
 
 namespace IReturnNodePointerProject.Controllers
 {
@@ -25,15 +27,10 @@ namespace IReturnNodePointerProject.Controllers
 		//		Problem("Entity set 'MvcMovieContext.Movie'  is null.");
 		}
 
-		public async Task<IActionResult> Details(int? id) { 
-			if (id == null) {
-				 return NotFound();
-			}
-			var prod = await _storeContext.Product.FirstOrDefaultAsync(m => m.ID == id);
-			if (prod == null) {
-				return NotFound();
-			}
-			return View(prod);
+		public static int ConvertToYear(DateTime dt)
+		{
+			var year = dt.Year;
+			return year;
 		}
 
 		// 
