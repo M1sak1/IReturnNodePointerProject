@@ -12,7 +12,7 @@
 	<title>Account Page</title>
 </head>
 <body>
-	<table>
+	<table stye="padding: 6px;">
 		<thead>
 			<tr>
 				<th>
@@ -42,27 +42,27 @@
 			@foreach (var item in Model)
 			{
 			<tr>
-				<th>
-					@Html.DisplayNameFor(model => model.UserID)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.UserName)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Name)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Email)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.IsAdmin)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.Salt)
-				</th>
-				<th>
-					@Html.DisplayNameFor(model => model.HashPW)
-				</th>
+				<td>
+					@item.UserID
+				</td>
+				<td>
+					@item.UserName
+				</td>
+				<td>
+					@item.Name
+				</td>
+				<td>
+					@item.Email
+				</td>
+				<td>
+					@item.IsAdmin
+				</td>
+				<td>
+					@item.Salt;
+				</td>
+				<td>
+					@item.HashPW;
+				</td>
 			</tr>
 		}
 		</tbody>

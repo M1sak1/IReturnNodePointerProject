@@ -19,7 +19,6 @@ namespace IReturnNodePointerProject.Controllers
 			var products = _storeContext.Product;
 			//Console.WriteLine(products);
 			var pList = products.ToList();
-
 			return View(pList);
 		//if (string.IsNullOrEmpty(searchString)) { }
 		//	return  != null ?
