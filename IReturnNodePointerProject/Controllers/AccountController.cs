@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
@@ -16,7 +17,9 @@ namespace IReturnNodePointerProject.Controllers
 		{
 			var User = _storeContext.User;
 			// grabbed how to parse non NUll from here https://stackoverflow.com/questions/3069748/how-to-remove-all-the-null-elements-inside-a-generic-list-in-one-go
-			var pList = User.ToList();
+			
+			var pList = User.Where(x => x.UserID == HttpContext.Session.GetInt32("TestData")).ToList();
+			
 			return View(pList);
 		}
 	}
