@@ -1,6 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+//enables session state and must be called before add controllerswithViews()
+
+builder.Services.AddMemoryCache();
+builder.Services.AddSession(options =>
+{
+    //options.IdleTimeout = TimeSpan.FromSeconds(60 * 5); //not currently used but the code to change the timeout feature on the session  (default is 20 min)
+    options.Cookie.HttpOnly = false; //would allow client side scripts to access cookies, security issue so false 
+    options.Cookie.IsEssential = true; //forces them to use cookies or not run the page, is essential for us as user permissions and stuff need to be set with an account 
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -17,9 +26,11 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+//Before useendpoints() which is the mappcontrollerroute 
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 
 app.UseRouting();
 

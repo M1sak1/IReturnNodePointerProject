@@ -15,21 +15,9 @@ namespace IReturnNodePointerProject.Controllers
 		public async Task<IActionResult> Account(string searchString)
 		{
 			var User = _storeContext.User;
+			// grabbed how to parse non NUll from here https://stackoverflow.com/questions/3069748/how-to-remove-all-the-null-elements-inside-a-generic-list-in-one-go
 			var pList = User.ToList();
 			return View(pList);
 		}
-		// putting this here for funzies, but this is *broadly* how you return somthing from the database based on a seach string or ID, (in this example ID)
-		/*
-			public async Task<IActionResult> Details(int? id) { 
-			if (id == null) {
-				 return NotFound();
-			}
-			var prod = await _storeContext.Product.FirstOrDefaultAsync(m => m.ID == id);
-			if (prod == null) {
-				return NotFound();
-			}
-			return View(prod);
-		}	 
-		 */
 	}
 }
