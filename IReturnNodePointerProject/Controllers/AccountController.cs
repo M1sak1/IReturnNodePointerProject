@@ -16,9 +16,7 @@ namespace IReturnNodePointerProject.Controllers
 		public async Task<IActionResult> Account(string searchString)
 		{
 			var User = _storeContext.User;
-			// grabbed how to parse non NUll from here https://stackoverflow.com/questions/3069748/how-to-remove-all-the-null-elements-inside-a-generic-list-in-one-go
-			
-			var pList = User.Where(x => x.UserID == HttpContext.Session.GetInt32("TestData")).ToList();
+			var pList = User.Where(x => x.UserID == HttpContext.Session.GetInt32("TestData")).ToList(); //grabbing one user using the id declared in homecontroller.cs
 			
 			return View(pList);
 		}

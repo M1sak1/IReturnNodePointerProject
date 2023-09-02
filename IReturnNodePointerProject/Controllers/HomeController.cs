@@ -16,7 +16,7 @@ namespace IReturnNodePointerProject.Controllers
 		//Get Items
 		public async Task<IActionResult> Index(string searchString)
 		{
-			HttpContext.Session.SetInt32("TestData", 4);
+			HttpContext.Session.SetInt32("TestData", 4); //session state tracking 
 			var products = _storeContext.Product;
 			//Console.WriteLine(products);
 			var pList = products.ToList();

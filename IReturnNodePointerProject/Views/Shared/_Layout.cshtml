@@ -9,46 +9,7 @@
     <link rel="stylesheet" href="https://cdm.jsdelivr.net/npm/bootstrap-icons@Int16.5.0/font/bootstrap-icons.css"
 </head>
 <body> 
-    @* Followed code guide in this video https://www.youtube.com/watch?v=VA4ThmZ8lH4 With additions of these for the search bar updating list and cart/account links *@
     <header class="navBar">
-        <!--
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Random Store</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-0.5">
-                        @*Link to home page / i class is adding an image*@
-                        <li class="navbar-nav flex-grow-1"> 
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index"> <i class ="badge-info bi-film"></i>Home</a>
-                        </li>
-                        @*Link to Cart Screen *@
-                        <li class="navbar-nav flex-grow-1">
-                            <a class="nav-link text-dark" asp-controller="Cart" asp-action="Cart"> Cart (icon)</a>
-                        </li>
-                        @*Account DropDown Menu *@
-                        <li class ="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropDown" role="button" data-toggle = "button" aria-haspopup="true" aria-expanded="false">
-                                Account
-                            </a> 
-                            <div class="dropdown-menu-dark" aria-labelledby="navbarDropDown">
-                                <a class="dropdown-item" asp-controller="Account" asp-action="Account"> Account Page</a>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="Login"> Log Out</a>
-                            </div>
-                        </li>
-                    </ul>
-                    @*Add the action to re-direct back to thee same page but with extra bits in the url that informs the view? For the Search BAr*@
-                    <form class="form-inline my-2 my-lg-0" asp-controller = "Home" asp-action = "Index" style="padding-right: 20px;">
-                        <input name = "searchString" type="text" class="form-control" placeholder="Search For a ____...." />
-                        <button class="btn btn-outline-sucess my-2 my-sm-0" type="submit"> <i class= "bi bi-search"></i></button> 
-                    </form>
-                </div>
-            </div>
-        </nav>
-        -->
         <div class="navControls">
             <button class="navBtn">
                 <a asp-controller="Home" asp-action="Index">Home</a>
