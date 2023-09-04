@@ -20,4 +20,9 @@ public class OnlineStoreContext : DbContext
 	public DbSet<Genre_Movie> GenreMovie { get; set; }
 	public DbSet<Orders> Orders { get; set; }
 	public DbSet<User> User { get; set; }
+	public DbSet<Stocktake> Stocktake { get; set; }
+	public DbSet<TO> TO { get; set; }
+	public DbSet<Source> Source { get; set; }
+	public DbSet<ProductsInOrders> ProductsInOrders { get; set; }
+	public DbSet<Patrons> Patrons { get; set; }
 }
