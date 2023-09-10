@@ -6,7 +6,7 @@ namespace IReturnNodePointerProject.Models
 	{
 		[Key]
 		public int? OrderID { get; set; }
-		[Key]
+		//[Key]
 		public int? produktId { get; set; }
 		public int? Quantity { get; set; }
 	}

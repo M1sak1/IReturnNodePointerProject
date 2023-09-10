@@ -1,0 +1,48 @@
+﻿@model IEnumerable<IReturnNodePointerProject.Models.User>
+@{
+    ViewData["Title"] = "AccountView";
+}
+@{
+    Layout = "_Layout";
+}
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Account Page</title>
+</head>
+<body>
+	<h1> </h1>
+	<table stye="padding: 6px;">
+		<thead>
+			<tr>
+				<th>
+					<h1>User Name</h1> 
+				</th>
+				<br />
+				<th>
+					<h1>Prefered Name</h1>
+				</th>
+				<th>
+					<h1> Email </h1>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+			<tr>
+				<td>
+					@item.UserName
+				</td>
+				<td>
+					@item.Name
+				</td>
+				<td>
+					@item.Email
+				</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+</body>
+</html>

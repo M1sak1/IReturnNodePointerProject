@@ -6,9 +6,9 @@ namespace IReturnNodePointerProject.Models
 	{
 		[Key]
 		public int customerID { get; set; }
-		[Key]
+		//[Key]
 		public int? patronID { get; set; }
-		[Required]
+		//[Required]
 		public string Email	{ get; set; }
 		public int? PhoneNumber { get; set; }
 		public string? StreetAddress { get; set; }

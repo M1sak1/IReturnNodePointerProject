@@ -4,11 +4,11 @@ namespace IReturnNodePointerProject.Models
 {
 	public class Source
 	{
-		[Required] [Key]
+		//[Required] [Key]
 		public int sourceid {  get; set; }
 		public string? Source_name { get; set; }
 		public string? extenalLink { get; set; }
-		[Key]
+		//[Key]
 		public int? Genre { get; set; }
 	}
 }

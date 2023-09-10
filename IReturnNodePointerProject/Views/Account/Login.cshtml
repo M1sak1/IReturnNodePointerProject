@@ -1,5 +1,46 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<IReturnNodePointerProject.Models.User>
 @{
+	ViewData["Title"] = "Login";
 }
+<html>
+    <head>
+		<meta name="viewport" content="width=device-width" />
+        <title>Login Page</title>
+    </head>
+    <body>
+        <h1>Login Page</h1>
+        <br /> 
+        <h2> Please Choose an Account </h2>
+	<table stye="padding: 6px;">
+		<thead>
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.UserName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.IsAdmin)
+				</th>
+				<th>
+					
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@item.UserName
+					</td>
+					<td>
+						@item.IsAdmin
+					</td>
+					<td>
+						<input type="button" value="Log into this account" onclick="location.href='@Url.Action("Index", "Home", new {UserID = item.UserID})'" />
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+    </body>
+</html>

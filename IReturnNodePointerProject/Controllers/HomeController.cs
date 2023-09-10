@@ -14,9 +14,13 @@ namespace IReturnNodePointerProject.Controllers
 		}
 
 		//Get Items
-		public async Task<IActionResult> Index(string searchString)
+		//The login page will always go to the store page 
+		public async Task<IActionResult> Index(int UserID)
 		{
-			HttpContext.Session.SetInt32("TestData", 4); //session state tracking 
+			if (UserID != -1)
+			{
+				HttpContext.Session.SetInt32("UserID", UserID);
+			}
 			var products = _storeContext.Product;
 			//Console.WriteLine(products);
 			var pList = products.ToList();
@@ -27,6 +31,7 @@ namespace IReturnNodePointerProject.Controllers
 		//		Problem("Entity set 'MvcMovieContext.Movie'  is null.");
 		}
 		public static int ConvertToYear(DateTime dt)
+
 		{
 			var year = dt.Year;
 			return year;
