@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IReturnNodePointerProject.Models.Product>
+﻿@model ListViewModel
 @{
 	ViewData["Title"] = "MediaStore";
 
@@ -18,24 +18,32 @@
 		<Title> @ViewData["Title"] - Media Store</Title>
 		<h2>Media Listing</h2>
 		<br />
+		<label>filtering controlls</label>
+		<select>
+		@foreach (var genre in Model.genres)
+		{
+			<option value=@genre.genreID>@genre.Name</option>
+		}
+		</select>
+		
 		<br />
 	<!-- ALot of the stuff in here was modified from the tutorial in the doccumentation here: https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model?view=aspnetcore-7.0&tabs=visual-studio-->
 		<table>
 			<thead>
 				<tr>
 					<th>
-						@Html.DisplayNameFor(model => model.Name)
+						Name
 					</th>
 					<th>
-						@Html.DisplayNameFor(model => model.Author)
+						Author
 					</th>
 					<th>
-						@Html.DisplayNameFor(model => model.Published)
+						Year Relesed
 					</th>
 				</tr>
 			</thead>
 			<tbody>
-			@foreach (var item in Model)
+			@foreach (var item in Model.Products)
 			{
 				<tr>
 					<td>
