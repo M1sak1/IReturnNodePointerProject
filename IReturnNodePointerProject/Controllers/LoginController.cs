@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+
 
 namespace IReturnNodePointerProject.Controllers
 {
@@ -16,10 +19,5 @@ namespace IReturnNodePointerProject.Controllers
 		{
 			return View("Login");
 		}
-		/*public IActionResult LetsLogIn(int UserID)
-		{
-			return View("Account");
-		}
-		*/
 	}
 }

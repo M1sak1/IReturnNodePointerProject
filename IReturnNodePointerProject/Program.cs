@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+
 
 var builder = WebApplication.CreateBuilder(args);
 //enables session state and must be called before add controllerswithViews()
@@ -14,8 +16,11 @@ builder.Services.AddSession(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddRazorPages();
+
 builder.Services.AddDbContext<OnlineStoreContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineStoreContext")));
+
 
 var app = builder.Build();
 
@@ -33,9 +38,14 @@ app.UseStaticFiles();
 
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+});
 app.MapControllerRoute(    
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
