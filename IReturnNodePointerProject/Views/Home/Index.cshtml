@@ -20,14 +20,18 @@
 		<br />
 		<label>filtering controlls</label>
 		<select>
-		@foreach (var genre in Model.genres)
+			@foreach (var genre in Model.genres)
 		{
 			<option value=@genre.genreID>@genre.Name</option>
 		}
 		</select>
-		
+		<!--using this https://stackoverflow.com/questions/36743743/how-to-show-selected-value-in-dropdownlist-of-mvc-->
+		<div class="dropdown" ">
+			@Html.DropDownList("Product Type", new SelectList(Model.genres, "genreID", "Name", ViewBag.pickType), new { @class = "form-control" });
+		</div>
+
 		<br />
-	<!-- ALot of the stuff in here was modified from the tutorial in the doccumentation here: https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model?view=aspnetcore-7.0&tabs=visual-studio-->
+		<!-- ALot of the stuff in here was modified from the tutorial in the doccumentation here: https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model?view=aspnetcore-7.0&tabs=visual-studio-->
 		<table>
 			<thead>
 				<tr>
@@ -43,7 +47,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			@foreach (var item in Model.Products)
+				@foreach (var item in Model.Products)
 			{
 				<tr>
 					<td>
