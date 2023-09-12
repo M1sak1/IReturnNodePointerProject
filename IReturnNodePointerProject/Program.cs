@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using IReturnNodePointerProject.Data;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,11 +18,14 @@ builder.Services.AddSession(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<OnlineStoreContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineStoreContext")));
 
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<StoreDB>();
+
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -44,8 +49,9 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapRazorPages();
+	endpoints.MapRazorPages();
 });
+
 app.MapControllerRoute(    
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
