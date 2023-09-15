@@ -12,18 +12,17 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width"/>
-		<title>Store Page</title>
+		<title> @ViewData["Title"] - Media Store</title>
 	</head>
 	<body>
-		<Title> @ViewData["Title"] - Media Store</Title>
 		<h2>Media Listing</h2>
-		<br />
+		<br/>
 		<label>filtering controlls</label>
 		<select>
 			@foreach (var genre in Model.genres)
-		{
+			{
 			<option value=@genre.genreID>@genre.Name</option>
-		}
+			}
 		</select>
 		<!--using this https://stackoverflow.com/questions/36743743/how-to-show-selected-value-in-dropdownlist-of-mvc-->
 		<div class="dropdown" ">

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using IReturnNodePointerProject.Data;
+
 
 
 
@@ -22,8 +22,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<OnlineStoreContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineStoreContext")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<StoreDB>();
 
 builder.Services.AddRazorPages();
 
