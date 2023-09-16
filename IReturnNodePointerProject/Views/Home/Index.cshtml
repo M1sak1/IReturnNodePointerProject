@@ -18,14 +18,16 @@
 		<h2>Media Listing</h2>
 		<br/>
 		<label>filtering controlls</label>
-		<select>
-			@foreach (var genre in Model.genres)
-			{
-			<option value=@genre.genreID>@genre.Name</option>
-			}
-		</select>
+		<form>
+			<select>
+				@foreach (var genre in Model.genres)
+				{
+				<option> value=@genre.genreID>@genre.Name</option>
+				}
+			</select>
+		</form>
 		<!--using this https://stackoverflow.com/questions/36743743/how-to-show-selected-value-in-dropdownlist-of-mvc-->
-		<div class="dropdown" ">
+		<div class="dropdown">
 			@Html.DropDownList("Product Type", new SelectList(Model.genres, "genreID", "Name", ViewBag.pickType), new { @class = "form-control" });
 		</div>
 
