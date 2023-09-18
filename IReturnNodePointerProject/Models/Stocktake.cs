@@ -5,7 +5,7 @@ namespace IReturnNodePointerProject.Models
 	public class Stocktake
 	{
 		[Key]
-		public int ItemID { get; set; }
+		public int ItemId { get; set; }
 		//[Key]
 		public int SourceId { get; set; }
 		//[Key]

@@ -63,7 +63,7 @@ namespace IReturnNodePointerProject
             app.MapControllerRoute(
                 name: "custom",
                 pattern: "{controller}/{action}"/*{activeConf}/div-{activeDiv}*/);
-            //Generic roles
+            /*Generic roles
             using (var scope = app.Services.CreateScope())
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -93,9 +93,9 @@ namespace IReturnNodePointerProject
                     await userManager.AddToRoleAsync(user, "Admin");
                 }
                        
-               
+               	  
             }
-
+			*/
             app.Run();
         }
     }
