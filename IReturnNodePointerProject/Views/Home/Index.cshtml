@@ -15,6 +15,11 @@
 		<title> @ViewData["Title"] - Media Store</title>
 	</head>
 	<body>
+		<style type="text/css">
+			td {
+				padding: 0 15px;
+			}
+		</style>
 		<h2>Media Listing</h2>
 		<hr>
 		<!--using this https://stackoverflow.com/questions/36743743/how-to-show-selected-value-in-dropdownlist-of-mvc-->
@@ -36,7 +41,7 @@
 						Author
 					</th>
 					<th>
-						Year Relesed
+						Year
 					</th>
 					<th>
 						Price
@@ -56,13 +61,8 @@
 					<td>
 						@IReturnNodePointerProject.Controllers.HomeController.ConvertToYear(item.Published)
 					</td>
-				</tr>
-			}
-			@foreach(var item in Model.Stonks)
-			{
-				<tr>
 					<td>
-						@item.Price
+						$@IReturnNodePointerProject.Controllers.HomeController.findPrice(item.ID)
 					</td>
 				</tr>
 			}

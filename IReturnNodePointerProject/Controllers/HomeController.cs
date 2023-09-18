@@ -41,18 +41,19 @@ namespace IReturnNodePointerProject.Controllers
 			var year = dt.Year;
 			return year;
 		}
-		public static float findPrice(int itemID) {
+		public static double findPrice(int itemID) {
 			
-			var price = 0f;
+			var price = 0d;
 			var loc = allLists.Stonks.ElementAt(0);
-			for (var i = 0; i < allLists.Stonks.Count || price != 0; i++){
-				loc = allLists.Stonks.ElementAt(0);
+			for (var i = 0; i < allLists.Stonks.Count; i++){
+				loc = allLists.Stonks.ElementAt(i);
 				if (loc.ItemId == itemID){
+					Console.WriteLine("found");
 					price = loc.Price; 
 					break; //just in case the price is 0, O(n)
 				}
 			}
-			return 0;
+			return price;
 		}
     }
 }
