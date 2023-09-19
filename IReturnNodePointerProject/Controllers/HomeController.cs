@@ -1,5 +1,6 @@
 ﻿using IReturnNodePointerProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System.Text.Encodings.Web;
@@ -10,7 +11,9 @@ namespace IReturnNodePointerProject.Controllers
     public class HomeController : Controller
     {
 		private readonly OnlineStoreContext _storeContext;
+		private static ListViewModel allLists;
 		public HomeController(OnlineStoreContext context) {
+			allLists = new ListViewModel();
 			_storeContext = context;
 		}
 		//Get Items
@@ -21,12 +24,13 @@ namespace IReturnNodePointerProject.Controllers
 			{
 				HttpContext.Session.SetInt32("UserID", UserID);
 			}
-			var vm = new ListViewModel();
 			var gg = _storeContext.Genre;
 			var pd = _storeContext.Product;
-			vm.genres = gg.ToList();
-			vm.Products = pd.ToList();
-			return View(vm);
+			var st = _storeContext.Stocktake;
+			allLists.Stonks = st.ToList();
+			allLists.genres = gg.ToList();
+			allLists.Products = pd.ToList();
+			return View(allLists);
 		//if (string.IsNullOrEmpty(searchString)) { }
 		//	return  != null ?
 		//		View(await _storeContext.Product.ToListAsync() ) :
@@ -36,6 +40,20 @@ namespace IReturnNodePointerProject.Controllers
 		{
 			var year = dt.Year;
 			return year;
+		}
+		public static double findPrice(int itemID) {
+			
+			var price = 0d;
+			var loc = allLists.Stonks.ElementAt(0);
+			for (var i = 0; i < allLists.Stonks.Count; i++){
+				loc = allLists.Stonks.ElementAt(i);
+				if (loc.ItemId == itemID){
+					Console.WriteLine("found");
+					price = loc.Price; 
+					break; //just in case the price is 0, O(n)
+				}
+			}
+			return price;
 		}
     }
 }
