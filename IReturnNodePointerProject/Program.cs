@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using IReturnNodePointerProject.Controllers;
+using IReturnNodePointerProject.Areas;
 namespace IReturnNodePointerProject
 {
     public class Program
@@ -22,12 +23,12 @@ namespace IReturnNodePointerProject
             builder.Services.AddControllersWithViews();
 
 
-            builder.Services.AddDbContext<OnlineStoreContext>(options =>
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineStoreContext")));
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<OnlineStoreContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddRazorPages();
 

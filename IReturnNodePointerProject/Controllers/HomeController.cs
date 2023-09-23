@@ -10,9 +10,9 @@ namespace IReturnNodePointerProject.Controllers
 {
     public class HomeController : Controller
     {
-		private readonly OnlineStoreContext _storeContext;
+		private readonly ApplicationDbContext _storeContext;
 		private static ListViewModel allLists;
-		public HomeController(OnlineStoreContext context) {
+		public HomeController(ApplicationDbContext context) {
 			allLists = new ListViewModel();
 			_storeContext = context;
 		}

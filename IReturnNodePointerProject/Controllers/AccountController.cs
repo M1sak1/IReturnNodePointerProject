@@ -7,8 +7,8 @@ namespace IReturnNodePointerProject.Controllers
 {
     public class AccountController : Controller
     {
-		private readonly OnlineStoreContext _storeContext;
-		public AccountController(OnlineStoreContext context)
+		private readonly ApplicationDbContext _storeContext;
+		public AccountController(ApplicationDbContext context)
 		{
 			_storeContext = context;
 		}

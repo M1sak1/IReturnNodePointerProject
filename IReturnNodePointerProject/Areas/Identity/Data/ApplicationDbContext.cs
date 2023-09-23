@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IReturnNodePointerProject.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-public class OnlineStoreContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
 	//the place to put settings
-	public OnlineStoreContext(DbContextOptions<OnlineStoreContext> options)
+	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 		: base(options)
 	{
 	}
+	protected override void OnModelCreating(ModelBuilder builder)
+	{
+		base.OnModelCreating(builder);
+		// Customize the ASP.NET Identity model and override the defaults if needed.
+		// For example, you can rename the ASP.NET Identity table names and more.
+		// Add your customizations after calling base.OnModelCreating(builder);
+	}
+
 	public DbSet<Product> Product { get; set; }
 	public DbSet<Genre> Genre { get; set; }
 	public DbSet<Genre_Book> GenreBook { get; set; }

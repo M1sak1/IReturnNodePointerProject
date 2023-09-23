@@ -10,8 +10,8 @@ namespace IReturnNodePointerProject.Controllers
 {
 	public class LoginController : Controller
 	{
-		private readonly OnlineStoreContext _storeContext;
-		public LoginController(OnlineStoreContext context)
+		private readonly ApplicationDbContext _storeContext;
+		public LoginController(ApplicationDbContext context)
 		{
 			_storeContext = context;
 		}

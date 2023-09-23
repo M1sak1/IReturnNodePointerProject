@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IReturnNodePointerProject.Migrations
 {
-    [DbContext(typeof(OnlineStoreContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class OnlineStoreContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
