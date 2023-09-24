@@ -32,5 +32,11 @@ namespace IReturnNodePointerProject.Controllers
 			var User = _storeContext.User;
 			return View("Login", User);
 		}
+
+		public IActionResult Register()
+		{
+
+			return View("Register");
+		}
 	}
 }
