@@ -20,7 +20,6 @@
 				padding: 0 15px;
 			}
 		</style>
-		<button onclick="deez()">ClickME!</button>
 		<h2>Media Listing</h2>
 		<hr>
 		<!--using this https://stackoverflow.com/questions/36743743/how-to-show-selected-value-in-dropdownlist-of-mvc-->
@@ -32,42 +31,8 @@
 		</div>
 		<hr>
 		<!-- ALot of the stuff in here was modified from the tutorial in the doccumentation here: https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model?view=aspnetcore-7.0&tabs=visual-studio-->
-		<table>
-			<thead>
-				<tr>
-					<th>
-						Name
-					</th>
-					<th>
-						Author
-					</th>
-					<th>
-						Year
-					</th>
-					<th>
-						Price
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var item in Model.Products)
-			{
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.Name)
-					</td>
-					<td>
-						@item.Author
-					</td>
-					<td>
-						@IReturnNodePointerProject.Controllers.HomeController.ConvertToYear(item.Published)
-					</td>
-					<td>
-						$@IReturnNodePointerProject.Controllers.HomeController.findPrice(item.ID)
-					</td>
-				</tr>
-			}
-		</tbody>
-		</table>
+		@{
+			Html.RenderPartial("_itemIndex");
+		}
 	</body>
 </html>

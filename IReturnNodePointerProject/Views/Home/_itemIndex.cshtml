@@ -1,0 +1,40 @@
+﻿@model ListViewModel
+@{
+}
+<table>
+	<thead>
+		<tr>
+			<th>
+				Name
+			</th>
+			<th>
+				Author
+			</th>
+			<th>
+				Year
+			</th>
+			<th>
+				Price
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Products)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@item.Author
+				</td>
+				<td>
+					@IReturnNodePointerProject.Controllers.HomeController.ConvertToYear(item.Published)
+				</td>
+				<td>
+					$@IReturnNodePointerProject.Controllers.HomeController.findPrice(item.ID)
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
