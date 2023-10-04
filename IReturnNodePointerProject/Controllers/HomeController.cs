@@ -18,7 +18,7 @@ namespace IReturnNodePointerProject.Controllers
 		}
 		//Get Items
 		//The login page will always go to the store page 
-		public async Task<IActionResult> Index(int UserID)
+		public async Task<IActionResult> Index(int UserID, string? sortingME)
 		{
 			if (UserID != -1)
 			{
@@ -30,6 +30,23 @@ namespace IReturnNodePointerProject.Controllers
 			allLists.Stonks = st.ToList();
 			allLists.genres = gg.ToList();
 			allLists.Products = pd.ToList();
+
+			if (sortingME != null)
+			{
+				switch (sortingME)
+				{
+					case "Books":
+						
+						break;
+					case "Movies":
+
+						break;
+					case "Games":
+
+						break;
+				}
+			}
+
 			return View(allLists);
 		//if (string.IsNullOrEmpty(searchString)) { }
 		//	return  != null ?
