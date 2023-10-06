@@ -30,12 +30,19 @@ namespace IReturnNodePointerProject.Controllers
 		{
 			HttpContext.Session.SetInt32("UserID",0); //session state tracking 
 			var User = _storeContext.User;
-			return View("Login", User);
+            return View("Login", User);
 		}
-
-		public IActionResult Register()
+        public IActionResult LoginToAccount(string Username, string Password)
+        {
+            if (Username == null || Password == null)
+            {
+                return new ContentResult() { Content = "<script language='javascript' type='text/javascript'>alert('Enter a name');</script>" };
+            }
+            return new ContentResult() { Content = "<script language='javascript' type='text/javascript'>alert('Thanks for Feedback!');</script>" };
+        }
+        
+        public IActionResult Register()
 		{
-
 			return View("Register");
 		}
 	}
