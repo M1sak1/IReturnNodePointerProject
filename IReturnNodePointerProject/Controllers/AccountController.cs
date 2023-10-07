@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using IReturnNodePointerProject.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -8,9 +9,11 @@ namespace IReturnNodePointerProject.Controllers
     public class AccountController : Controller
     {
 		private readonly ApplicationDbContext _storeContext;
+		private readonly LoginViewModel loginViewModel;
 		public AccountController(ApplicationDbContext context)
 		{
 			_storeContext = context;
+			loginViewModel = new LoginViewModel();
 		}
 
 		public async Task<IActionResult> AccountView(int UserID)
@@ -29,7 +32,7 @@ namespace IReturnNodePointerProject.Controllers
 		public IActionResult Login()
 		{
 			HttpContext.Session.SetInt32("UserID",0); //session state tracking 
-			var User = _storeContext;
+			var User = loginViewModel;
             return View("Login", User);
 		}
         public IActionResult LoginToAccount(string Username, string Password)
