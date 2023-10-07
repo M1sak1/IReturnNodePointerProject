@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Management.SqlParser.Parser;
 using Microsoft.VisualBasic;
 using System.Text.Encodings.Web;
 using System.Xml.Serialization;
@@ -20,33 +21,27 @@ namespace IReturnNodePointerProject.Controllers
 		//The login page will always go to the store page 
 		public async Task<IActionResult> Index(int UserID, string? sortingME)
 		{
+			ViewBag.GenSortParam = String.IsNullOrEmpty(sortingME);
+			
 			if (UserID != -1)
 			{
 				HttpContext.Session.SetInt32("UserID", UserID);
 			}
-			var gg = _storeContext.Genre;
-			var pd = _storeContext.Product;
-			var st = _storeContext.Stocktake;
-			allLists.Stonks = st.ToList();
-			allLists.genres = gg.ToList();
-			allLists.Products = pd.ToList();
+			var gg = _storeContext.Genre.AsQueryable();
+			var pd = _storeContext.Product.AsQueryable();
+			var st = _storeContext.Stocktake.AsQueryable();
 
 			if (sortingME != null)
 			{
-				switch (sortingME)
+				if (sortingME != "")
 				{
-					case "Books":
-						
-						break;
-					case "Movies":
-
-						break;
-					case "Games":
-
-						break;
+					var target = gg.Where(gg => gg.Name == sortingME).ToArray()[0].genreID;
+					pd = pd.Where(pd => pd.Genre == target);
 				}
 			}
-
+			allLists.Stonks = st.ToList();
+			allLists.genres = gg.ToList();
+			allLists.Products = pd.ToList();
 			return View(allLists);
 		//if (string.IsNullOrEmpty(searchString)) { }
 		//	return  != null ?
@@ -59,7 +54,7 @@ namespace IReturnNodePointerProject.Controllers
 			return year;
 		}
 		public static double findPrice(int itemID) {
-			
+			//this is a stupid way to do this but it works lol O(n)
 			var price = 0d;
 			var loc = allLists.Stonks.ElementAt(0);
 			for (var i = 0; i < allLists.Stonks.Count; i++){

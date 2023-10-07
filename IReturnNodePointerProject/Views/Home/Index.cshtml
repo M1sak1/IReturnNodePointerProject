@@ -24,10 +24,7 @@
 		<hr>
 		<!--using this https://stackoverflow.com/questions/36743743/how-to-show-selected-value-in-dropdownlist-of-mvc-->
 		<div class="dropdown" id="prodType" style="float: inherit;">
-			@Html.DropDownList("Product Type", new SelectList(Model.genres, "genreID", "Name", ViewBag.pickType), "--Product --", new { @class = "form-control" })
-		</div>
-		<div class="dropdown" id="prodGen" style="float: inherit;">	
-			@Html.DropDownList("Product Type", new SelectList(Model.genres, "genreID", "Name", ViewBag.pickType), "--genre --", new { @class = "form-control" })
+		@Html.DropDownList("Product Type", new SelectList(Model.genres, "Name", "Name"), "--Product --", new { @class = "form-control" })
 		</div>
 		<button class="RefreshBtn">Referesh</button>
 		<hr>
