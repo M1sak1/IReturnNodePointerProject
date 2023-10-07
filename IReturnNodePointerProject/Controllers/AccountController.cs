@@ -29,7 +29,7 @@ namespace IReturnNodePointerProject.Controllers
 		public IActionResult Login()
 		{
 			HttpContext.Session.SetInt32("UserID",0); //session state tracking 
-			var User = _storeContext.User;
+			var User = _storeContext;
             return View("Login", User);
 		}
         public IActionResult LoginToAccount(string Username, string Password)
