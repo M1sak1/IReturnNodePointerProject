@@ -24,13 +24,16 @@
 		<hr>
 		<!--using this https://stackoverflow.com/questions/36743743/how-to-show-selected-value-in-dropdownlist-of-mvc-->
 		<div class="dropdown" id="prodType" style="float: inherit;">
-		@Html.DropDownList("Product Type", new SelectList(Model.genres, "Name", "Name"), "--Product --", new { @class = "form-control" })
+		@using (Html.BeginForm("Index", "", FormMethod.Get))
+		{
+			@Html.DropDownList("sortingME", new SelectList(Model.genres, "Name", "Name", ViewBag.GenSortParam), "--Product --", new { @class = "form-control" })
+			<input type="submit" value="search" />
+		} 
 		</div>
-		<button class="RefreshBtn">Referesh</button>
 		<hr>
 		<!-- ALot of the stuff in here was modified from the tutorial in the doccumentation here: https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model?view=aspnetcore-7.0&tabs=visual-studio-->
 		@{
-			Html.RenderPartial("_itemIndex");
+			await Html.RenderPartialAsync("_itemIndex");
 		}
 	</body>
 </html>
