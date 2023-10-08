@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
 using Microsoft.VisualBasic;
+using System.Drawing;
 using System.Text.Encodings.Web;
 using System.Xml.Serialization;
 
@@ -19,9 +20,9 @@ namespace IReturnNodePointerProject.Controllers
 		}
 		//Get Items
 		//The login page will always go to the store page 
-		public async Task<IActionResult> Index(int UserID, string sortingME)
+		public async Task<IActionResult> Index(int UserID, string Product, string Genre)
 		{
-			ViewBag.GenSortParam = String.IsNullOrEmpty(sortingME);
+			ViewBag.GenSortParam = String.IsNullOrEmpty(Product);
 			//sortingME = "Books";
 			if (UserID != -1)
 			{
@@ -31,11 +32,11 @@ namespace IReturnNodePointerProject.Controllers
 			var pd = _storeContext.Product.AsQueryable();
 			var st = _storeContext.Stocktake.AsQueryable();
 
-			if (sortingME != null)
+			if (Product != null)
 			{
-				if (sortingME != "")
+				if (Product != "")
 				{
-					var target = gg.Where(gg => gg.Name == sortingME).ToArray()[0].genreID;
+					var target = gg.Where(gg => gg.Name == Product).ToArray()[0].genreID;
 					pd = pd.Where(pd => pd.Genre == target);
 				}
 			}
@@ -69,7 +70,10 @@ namespace IReturnNodePointerProject.Controllers
 		}
     }
 }
-public class ListViewModel{
+public class ListViewModel {
+	public List<Genre_Book> bookGen { get; set; }
+	public List<Genre_Game> gameGen { get; set; }
+	public List<Genre_Movie> movieGen { get; set; }
 	public List<Genre> genres { get; set; }
 	public List<Product> Products { get; set; }
 	public List<Stocktake> Stonks { get; set; }
