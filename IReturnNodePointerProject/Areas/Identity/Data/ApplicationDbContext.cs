@@ -17,10 +17,10 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		base.OnModelCreating(builder);
-		// Customize the ASP.NET Identity model and override the defaults if needed.
-		// For example, you can rename the ASP.NET Identity table names and more.
-		// Add your customizations after calling base.OnModelCreating(builder);
-	}
+        // Customize the ASP.NET Identity model and override the defaults if needed.
+        // For example, you can rename the ASP.NET Identity table names and more.
+        // Add your customizations after calling base.OnModelCreating(builder);
+    }
 
 	public DbSet<Product> Product { get; set; }
 	public DbSet<Genre> Genre { get; set; }
@@ -35,4 +35,5 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 	public DbSet<Source> Source { get; set; }
 	public DbSet<ProductsInOrders> ProductsInOrders { get; set; }
 	public DbSet<Patrons> Patrons { get; set; }
+	public DbSet<LoginViewModel> LoginViewModel { get; set; }	
 }

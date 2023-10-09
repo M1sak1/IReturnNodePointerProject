@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using IReturnNodePointerProject.Controllers;
 using IReturnNodePointerProject.Areas;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 namespace IReturnNodePointerProject
 {
     public class Program
@@ -26,9 +28,6 @@ namespace IReturnNodePointerProject
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineStoreContext")));
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddRazorPages();
 
@@ -48,7 +47,7 @@ namespace IReturnNodePointerProject
 
 
             app.UseRouting();
-            app.UseAuthentication(); ;
+            app.UseAuthentication(); 
 
             app.UseAuthorization();
 
@@ -64,29 +63,18 @@ namespace IReturnNodePointerProject
             app.MapControllerRoute(
                 name: "custom",
                 pattern: "{controller}/{action}"/*{activeConf}/div-{activeDiv}*/);
-            //Generic roles
-            
-            using (var scope = app.Services.CreateScope())
-            {
-                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+  
 
-                var roles = new[] { "Admin", "Employee", "Customer" };
-
-                foreach (var role in roles)
-                {
-                    if (!await roleManager.RoleExistsAsync(role))
-                        await roleManager.CreateAsync(new IdentityRole(role));
-                }
-            }
             //generic admin account 
+            /*
             using (var scope = app.Services.CreateScope())
             {
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<>>();
                 string email = "admin@admin.com";
                 string password = "Password1!";
                 if (await userManager.FindByEmailAsync(email) == null)
                 {
-                    var user = new IdentityUser();
+                    var user = new Models.User();
                     user.Email = email;
                     user.UserName = email;
 
@@ -95,7 +83,7 @@ namespace IReturnNodePointerProject
                     await userManager.AddToRoleAsync(user, "Admin");
                 }
             }
-            
+            */
             app.Run();
         }
     }

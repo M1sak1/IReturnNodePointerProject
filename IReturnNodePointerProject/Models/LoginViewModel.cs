@@ -4,6 +4,7 @@ namespace IReturnNodePointerProject.Models
 {
     public class LoginViewModel
     {
+        [Key]
         [Required(ErrorMessage = "Please enter a username.")]
         [StringLength(255)]
         public string Username { get; set; } = string.Empty;
