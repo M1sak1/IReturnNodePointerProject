@@ -24,10 +24,10 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
 	public DbSet<Product> Product { get; set; }
 	public DbSet<Genre> Genre { get; set; }
-	public DbSet<Genre_Book> GenreBook { get; set; }
+	public DbSet<Book_genre> Book_genre { get; set; }
 	public DbSet<Genre_Book_New> GenreBook_New { get; set; }
-	public DbSet<Genre_Game> GenreGame { get; set; }
-	public DbSet<Genre_Movie> GenreMovie { get; set; }
+	public DbSet<Game_genre> Game_genre { get; set; }
+	public DbSet<Movie_genre> Movie_genre { get; set; }
 	public DbSet<Orders> Orders { get; set; }
 	public DbSet<User> User { get; set; }
 	public DbSet<Stocktake> Stocktake { get; set; }

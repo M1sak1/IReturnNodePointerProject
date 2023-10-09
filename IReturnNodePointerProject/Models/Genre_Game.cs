@@ -2,10 +2,10 @@
 
 namespace IReturnNodePointerProject.Models
 {
-	public class Genre_Game
+	public class Game_genre
 	{
-		//[Key]
-		public int ID { get; set; }
+		[Key]
+		public int subGenreID { get; set; }
 		public string Name { get; set; }
 	}
 }

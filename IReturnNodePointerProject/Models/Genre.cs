@@ -4,7 +4,7 @@ namespace IReturnNodePointerProject.Models
 {
 	public class Genre
 	{
-		//[Key]
+		[Key]
 		public int genreID { get; set; }
 		public string Name { get; set; }
 	}

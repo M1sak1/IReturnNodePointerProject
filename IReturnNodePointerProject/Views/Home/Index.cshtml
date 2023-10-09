@@ -27,7 +27,20 @@
 			@using (Html.BeginForm("Index", "", FormMethod.Get))
 			{
 				@Html.DropDownList("Product", new SelectList(Model.genres, "Name", "Name", ViewBag.GenSortParam), "--Product --", new { @class = "form-control" })
-				<p> </p>
+			<p></p>
+			@if (Model.bookGen != null)
+			{
+				@Html.DropDownList("Genre", new SelectList(Model.bookGen, "Name", "Name", ViewBag.GenSortParam), "--Genre--", new { @class = "form-control" })
+			}
+			@if(Model.movieGen != null)
+			{
+				@Html.DropDownList("Genre", new SelectList(Model.movieGen, "Name", "Name", ViewBag.GenSortParam), "--Genre--", new { @class = "form-control" })
+			}
+			@if(Model.gameGen != null)
+			{
+				@Html.DropDownList("Genre", new SelectList(Model.gameGen, "Name", "Name", ViewBag.GenSortParam), "--Genre--", new { @class = "form-control" })
+			}
+			<p> </p>
 				<input type="submit" value="search"/>
 			} 
 		</div>
