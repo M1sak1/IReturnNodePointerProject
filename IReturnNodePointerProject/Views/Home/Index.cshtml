@@ -23,17 +23,18 @@
 		<h2>Media Listing</h2>
 		<hr>
 		<!--using this https://stackoverflow.com/questions/36743743/how-to-show-selected-value-in-dropdownlist-of-mvc-->
-		<div class="dropdown" id="prodType" style="float: inherit;">
-			@Html.DropDownList("Product Type", new SelectList(Model.genres, "genreID", "Name", ViewBag.pickType), "--Product --", new { @class = "form-control" })
+		<div class="dropdown" id="prodType" style="float: inherit; display: inline-block;">
+			@using (Html.BeginForm("Index", "", FormMethod.Get))
+			{
+				@Html.DropDownList("Product", new SelectList(Model.genres, "Name", "Name", ViewBag.GenSortParam), "--Product --", new { @class = "form-control" })
+				<p> </p>
+				<input type="submit" value="search"/>
+			} 
 		</div>
-		<div class="dropdown" id="prodGen" style="float: inherit;">	
-			@Html.DropDownList("Product Type", new SelectList(Model.genres, "genreID", "Name", ViewBag.pickType), "--genre --", new { @class = "form-control" })
-		</div>
-		<button class="RefreshBtn">Referesh</button>
 		<hr>
 		<!-- ALot of the stuff in here was modified from the tutorial in the doccumentation here: https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model?view=aspnetcore-7.0&tabs=visual-studio-->
 		@{
-			Html.RenderPartial("_itemIndex");
+			await Html.RenderPartialAsync("_itemIndex");
 		}
 	</body>
 </html>
