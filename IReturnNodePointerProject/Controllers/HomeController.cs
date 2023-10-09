@@ -27,6 +27,7 @@ namespace IReturnNodePointerProject.Controllers
 			//sortingME = "Books";
 			if (UserID != -1)
 			{
+				HttpContext.Session.SetString("AccessLevel", "Patron");
 				HttpContext.Session.SetInt32("UserID", UserID);
 			}
 			var bg = _storeContext.Book_genre.AsQueryable();

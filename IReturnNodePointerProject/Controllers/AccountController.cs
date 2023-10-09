@@ -63,9 +63,12 @@ namespace IReturnNodePointerProject.Controllers
                     HttpContext.Session.SetInt32("UserID", (int)User.UserID);
 					if ((bool)User.IsAdmin)
 					{
-						//Return view to the admin side
-					}
-					return View("Home" , "Index");
+                        //Return view to the admin side
+                        HttpContext.Session.SetString("AccessLevel", "Admin");
+                    }
+                    //employee View
+                    HttpContext.Session.SetString("AccessLevel", "Employee");
+                    return RedirectToAction("Home" , "Index");
                 }
 			}
 			else if (PatronCheck.Any(x => x.Email == model.Username))
@@ -77,17 +80,36 @@ namespace IReturnNodePointerProject.Controllers
                 var HashedPassword = SHA256.HashData(BytePassword).ToString(); //creates a hashed version of the local password inputted
                 if (HashedPassword == User.HashPW) //compares the 2 hashed passwords if they are the same the user has used the right login information
                 {
-					//Normal Pages
+					//Patron View
                     result = true;
                     HttpContext.Session.SetInt32("UserID", (int)User.UserID);
-                    return View("Home", "Index");
+                    HttpContext.Session.SetString("AccessLevel", "Patron");
+                    return RedirectToAction("Home", "Index");
                 }
             }
             return View(); //Login Failed
         }
+		[HttpGet]
         public IActionResult Register()
 		{
 			return View("Register");
 		}
+		[HttpPost]
+		public IActionResult Register(LoginViewModel model) 
+		{
+			//Check if that user already exists 
+			if(_storeContext.User.Any(x => x.UserName == model.Username)){
+			}
+			else if(_storeContext.Patrons.Any(x => x.Email == model.Username)){
+			}
+			else
+			{
+
+				//add to database and generate a salt / hash the password 
+                return RedirectToAction("Home", "Index");
+            }
+			//user name already exists 
+			return View();
+        }
 	}
 }
