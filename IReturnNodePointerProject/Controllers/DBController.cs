@@ -5,7 +5,7 @@ using IReturnNodePointerProject.Models;
 
 namespace IReturnNodePointerProject.Controllers
 {
-	public class DBController : IdentityDbContext<User>
+	public class DBController : DbContext
     {
         public DBController(DbContextOptions<DBController> options)
        : base(options)

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+public class ApplicationDbContext : DbContext
 {
 	//the place to put settings
 	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -35,5 +35,5 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 	public DbSet<Source> Source { get; set; }
 	public DbSet<ProductsInOrders> ProductsInOrders { get; set; }
 	public DbSet<Patrons> Patrons { get; set; }
-	public DbSet<LoginViewModel> LoginViewModel { get; set; }	
+	//public DbSet<LoginViewModel> LoginViewModel { get; set; }	
 }
