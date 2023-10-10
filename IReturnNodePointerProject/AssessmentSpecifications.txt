@@ -6,10 +6,10 @@ Employees
 User Actions:
 Customers:
 	Browse Items 
-	Create User Accounts 
+	Create Patron Accounts 
 	Add item to cart 
 	Modify User account 
-	Retrieve login information (forgot your password?)
+	Retrieve login information (forgot your password?) god i hope not 
 Admin:
 	Add/edit/delete items from the shop
 	Add/Edit/Delete Users from the shop

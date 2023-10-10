@@ -21,14 +21,13 @@ namespace IReturnNodePointerProject.Controllers
 		}
 		//Get Items
 		//The login page will always go to the store page 
-		public async Task<IActionResult> Index(int UserID, string Product, string Genre)
+		public async Task<IActionResult> Index(string Product, string Genre)
 		{
 			ViewBag.GenSortParam = String.IsNullOrEmpty(Product);
 			//sortingME = "Books";
-			if (UserID != -1)
+			if (HttpContext.Session.GetInt32("UserID") == -1)
 			{
 				HttpContext.Session.SetString("AccessLevel", "Patron");
-				HttpContext.Session.SetInt32("UserID", UserID);
 			}
 			var bg = _storeContext.Book_genre.AsQueryable();
 			var jg = _storeContext.Game_genre.AsQueryable();

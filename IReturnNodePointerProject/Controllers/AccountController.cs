@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.SqlServer.Management.Smo;
@@ -39,7 +40,6 @@ namespace IReturnNodePointerProject.Controllers
 		public IActionResult Login(string returnUrl = " ")
 		{
 			HttpContext.Session.SetInt32("UserID", 0); //session state tracking 
-			//var model = _storeContext.LoginViewModel;
 			return View(new LoginViewModel());
 		}
 
@@ -48,8 +48,7 @@ namespace IReturnNodePointerProject.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
 			var Admin_EmployeeCheck = _storeContext.User;
-			var PatronCheck = _storeContext.Patrons;
-			bool result; 
+			var PatronCheck = _storeContext.Patrons; 
 			if (Admin_EmployeeCheck.Any(x => x.UserName == model.Username))
 			{
 				//Make a NULL checker since that would be a vaild login and would break it 
@@ -68,7 +67,7 @@ namespace IReturnNodePointerProject.Controllers
                     }
                     //employee View
                     HttpContext.Session.SetString("AccessLevel", "Employee");
-                    return RedirectToAction("Home" , "Index");
+                    return RedirectToAction("Index", "Home");
                 }
 			}
 			else if (PatronCheck.Any(x => x.Email == model.Username))
@@ -76,40 +75,71 @@ namespace IReturnNodePointerProject.Controllers
 				var User = PatronCheck.FirstOrDefault(x => x.Email == model.Username);
                 //Make a NULL checker since that would be a vaild login and would break it 
                 var Password = User.Salt + model.Password;
-                byte[] BytePassword = Encoding.UTF8.GetBytes(Password, 0, Password.Length); //idk if they used UTF8 for the existing ones but whatever 
+                byte[] BytePassword = Encoding.UTF8.GetBytes(Password, 0, Password.Length); 
                 var HashedPassword = SHA256.HashData(BytePassword).ToString(); //creates a hashed version of the local password inputted
                 if (HashedPassword == User.HashPW) //compares the 2 hashed passwords if they are the same the user has used the right login information
                 {
 					//Patron View
-                    result = true;
                     HttpContext.Session.SetInt32("UserID", (int)User.UserID);
                     HttpContext.Session.SetString("AccessLevel", "Patron");
-                    return RedirectToAction("Home", "Index");
+                    return RedirectToAction("Index", "Home");
                 }
             }
-            return View(); //Login Failed
+            return RedirectToAction("Index", "Home"); //Login Failed add something to represent this 
         }
 		[HttpGet]
         public IActionResult Register()
 		{
-			return View("Register");
+			return View(new LoginViewModel());
 		}
 		[HttpPost]
+		//Only Patron accounts can be created this way, to create admin/employee accounts you must be an admin 
 		public IActionResult Register(LoginViewModel model) 
 		{
-			//Check if that user already exists 
-			if(_storeContext.User.Any(x => x.UserName == model.Username)){
-			}
-			else if(_storeContext.Patrons.Any(x => x.Email == model.Username)){
-			}
-			else
-			{
-
-				//add to database and generate a salt / hash the password 
-                return RedirectToAction("Home", "Index");
-            }
-			//user name already exists 
-			return View();
+			//if (ModelState.IsValid)
+			//{
+				//Check if that Patron already exists 
+				if (!_storeContext.Patrons.Any(x => x.Email == model.Username))
+				{
+					if (model.Password == model.ConfirmPassword)
+					{
+						Patrons patrons = new Patrons();
+						//add to database and generate a salt / hash the password 
+						//Creates a salt of size 16 and randon numbers/letters
+						byte[] salt = RandomNumberGenerator.GetBytes(16);
+						//generating a string to combine with the password and to have a value ready to go into the database
+						var stringSalt = salt.ToString();
+						var Combinedpassword = stringSalt + model.Password;
+						//converts the password into bytes 
+						byte[] CombinedPassword = Encoding.UTF8.GetBytes(Combinedpassword, 0, Combinedpassword.Length);
+						//turns it into a hashed value
+						byte[] HashedPassword = SHA256.HashData(CombinedPassword);
+						//changing the typing of the HashPW to fit into the db 
+						var stringHashedPassword = HashedPassword.ToString();
+						//database data 
+						patrons.Email = model.Username;
+						patrons.Name = model.PreferedName;
+						patrons.Salt = stringSalt;
+						patrons.HashPW = stringHashedPassword;
+						_storeContext.Patrons.Add(patrons);
+						_storeContext.SaveChanges();
+						return RedirectToAction("Index", "Home");
+					}
+					else
+					{
+						//Passwords Do not match
+						return View();
+					}
+				}
+				else
+				{
+					//user name already exists please enter a new name 
+					return View();
+				}
+			//}
+			//Something went wrong 
+			//return View();
+			
         }
 	}
 }
