@@ -57,11 +57,11 @@ namespace IReturnNodePointerProject.Controllers
                 byte[] BytePassword = Encoding.UTF8.GetBytes(Password, 0, Password.Length); //idk if they used UTF8 for the existing ones but whatever 
                 var HashedPassword = SHA256.HashData(BytePassword).ToString(); //creates a hashed version of the local password inputted
 				if(HashedPassword == User.HashPW) //compares the 2 hashed passwords if they are the same the user has used the right login information
-				{
+				{ 
 					//Admin Pages
                     HttpContext.Session.SetInt32("UserID", (int)User.UserID);
 					if ((bool)User.IsAdmin)
-					{
+					{ 
                         //Return view to the admin side
                         HttpContext.Session.SetString("AccessLevel", "Admin");
                     }
@@ -117,10 +117,10 @@ namespace IReturnNodePointerProject.Controllers
 						//changing the typing of the HashPW to fit into the db 
 						var stringHashedPassword = HashedPassword.ToString();
 						//database data 
-						patrons.Email = model.Username;
-						patrons.Name = model.PreferedName;
-						patrons.Salt = stringSalt;
-						patrons.HashPW = stringHashedPassword;
+						patrons.Email = model.Username.ToString();
+						patrons.Name = model.PreferedName.ToString();
+						patrons.Salt = stringSalt.ToString();
+						patrons.HashPW = stringHashedPassword.ToString();
 						_storeContext.Patrons.Add(patrons);
 						_storeContext.SaveChanges();
 						return RedirectToAction("Index", "Home");
