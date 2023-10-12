@@ -27,7 +27,15 @@ namespace IReturnNodePointerProject.Controllers
                 SelectedProduct.Description = _pd[0].Description;
                 SelectedProduct.price = _st[0].Price;
                 SelectedProduct.Author = _pd[0].Author;
-                SelectedProduct.Genre = "Unkonwn";
+                SelectedProduct.Genre = gg.Where(gg => gg.genreID == _pd[0].Genre).ToArray()[0].Name;
+				if (_st[0].Quantity > 0)
+				{
+					SelectedProduct.Stock = "In Stock";
+				}
+				else
+				{
+					SelectedProduct.Stock = "Out Of Stock";
+				}
             }
 			else
 			{
@@ -47,5 +55,6 @@ namespace IReturnNodePointerProject.Controllers
 		public Double price { get; set; }
 		public string Author { get; set; }
 		public string Genre { get; set; }
+		public string Stock { get; set; }
 	}
 }

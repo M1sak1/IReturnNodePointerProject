@@ -14,14 +14,15 @@
 			float: Left;
 			border: solid black;
 			padding-right: 2%;
-			padding-top: 48%;
+			padding-top: 42%;
 			margin-top: 30px;
+			position: relative;
 		}
-		.prodPhoto p {
+		.prodPhoto #plaecholder {
 			top: 50%;
 			position: absolute;
 			margin-top: -10px;
-			left: 25%;
+			left: 44%;
 			margin-left: -10px;
 		}
 		.Details{
@@ -36,7 +37,7 @@
 			font-size: 23px;
 		}
 		.PriceBlock{
-			width: 100%
+			width: 100%;
 			display: inline-block;
 		}
 		.PriceBlock #Price{
@@ -62,14 +63,14 @@
 	</style>
 	<body>
 		<div class="prodPhoto">
-			<p>{NO IMAGE}</p>
+			<p id="plaecholder">{NO IMAGE}</p>
 		</div>
 		<div class="Details">
 			<p id="Title-Genre"><b>@Model.Name | @Model.Genre</b></p>
 			<p id="Author">@Model.Author</p>
 			<div class="PriceBlock">
 				<p id="Price"><b>$@Model.price</b></p>
-				<p id="Stock">{check if it is instock}</p>
+				<p id="Stock">@Model.Stock</p>
 			</div>
 			<span id="btnHolder">
 				<button id="CardAdd">ADD TO CART</button>

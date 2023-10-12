@@ -23,7 +23,9 @@
 		{
 			<tr>
 				<td>
-					@Html.DisplayFor(modelItem => item.Name)
+ 					@* <input type="submit" asp-controller="Product" asp-action="Index" asp-route-ProductID=@item.ID value=@item.Name /> *@
+ 					@* @Html.ActionLink(item.Name, "Product", new {prodctID = item.ID}) *@
+					<a href="@Url.Action("Index", "Product", new {productID = item.ID})">@item.Name</a>
 				</td>
 				<td>
 					@item.Author
