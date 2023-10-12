@@ -1,7 +1,6 @@
 ﻿@model ListViewModel
 @{
 	ViewData["Title"] = "MediaStore";
-
 }
 @{
 	Layout = "_Layout";
@@ -23,10 +22,10 @@
 		<h2>Media Listing</h2>
 		<hr>
 		<!--using this https://stackoverflow.com/questions/36743743/how-to-show-selected-value-in-dropdownlist-of-mvc-->
-		<div class="dropdown" id="prodType" style="float: inherit; display: inline-block;">
+		<div class="dropdown" id="prodType" style="float: inherit;">
 			@using (Html.BeginForm("Index", "", FormMethod.Get))
 			{
-				@Html.DropDownList("Product", new SelectList(Model.genres, "Name", "Name", ViewBag.GenSortParam), "--Product --", new { @class = "form-control" })
+				@Html.DropDownList("Product", new SelectList(Model.genres, "Name", "Name", ViewBag.GenSortParam), "--Product --", new { @class = "form-control", @style = ""})
 			<p></p>
 			@if (Model.bookGen != null)
 			{

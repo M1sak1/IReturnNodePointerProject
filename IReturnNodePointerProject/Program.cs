@@ -61,6 +61,10 @@ namespace IReturnNodePointerProject
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
+                name: "Product",
+                pattern: "{controller=Product}/{action=Index}/{id?}");
+
+            app.MapControllerRoute(
                 name: "custom",
                 pattern: "{controller}/{action}"/*{activeConf}/div-{activeDiv}*/);
   
