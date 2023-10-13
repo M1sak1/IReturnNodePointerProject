@@ -1,61 +1,55 @@
 ﻿@page
 @model IReturnNodePointerProject.Models.LoginViewModel;
 
+
+<!---Some basic stuff https://learn.microsoft.com/en-us/aspnet/mvc/overview/older-versions/hands-on-labs/aspnet-mvc-4-helpers-forms-and-validation -->
 <div class="row">
     <div class="col-md-4">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <form method="post" asp-action="Register">
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">Email:</label>
                 <div class="col-md-4">
-                    <input asp-for="Email" class="form-control" />
-                </div>
-                <div class="col">
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <input asp-for="Username" class="form-control" id="Username" name="Username" type="text" displaytext = "something@something.com" value="" />
+                    <span class="field-validation-valid" data-valmsg-for="Username" data-valmsg-replace="true"></span>
+                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">DisplayName:</label>
                 <div class="col-md-4">
-                    <input asp-for="PreferedName" class="form-control" />
-                </div>
-                <div class="col">
-                    <span asp-validation-for="PreferedName" class="text-danger"></span>
+                    <input asp-for="PreferedName" class="form-control" id="PreferedName" name="PreferedName" type="text" value="" />
+                    <span class="field-validation-valid" </span>
                 </div>
             </div>
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">Password:</label>
                 <div class="col-md-4">
-                    <input type="password" asp-for="Password" class="form-control" />
-                </div>
-                <div class="col">
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <input type="Password" asp-for="Password" class="form-control" id="Password" name="Password" value="" />
+                    <span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">Confirm Password:</label>
                 <div class="col-md-4">
-                    <input type="password" asp-for="ConfirmPassword" class="form-control" />
-                </div>
-                <div class="col">
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col offset-md-2">
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <input type="password" asp-for="ConfirmPassword" class="form-control" id="ConfirmPassword" name="ConfirmPassword" value="" />
+                    <span class="field-validation-valid" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row">
                 <div class="col offset-md-2">
-                    Have an account? <a asp-action="Login">Login</a>
+                    <button type="submit" class="btn btn-primary" value="LoginViewModel">Register</button>
                 </div>
             </div>
         </form>
     </div>
     <div>
         <h2>Aleady have an account:</h2>
-        <button id="ToLoginPage" type="submit" asp-controller="Account" asp-action="Login"> Login</button>
+        <form>
+            <button class="btn btn-primary" asp-action="Login" asp-controller="AccountController">Login</button>
+        </form>
     </div>
 </div>
+
 

@@ -37,7 +37,7 @@ namespace IReturnNodePointerProject.Controllers
 		}
 		
 		[HttpGet]
-		public IActionResult Login(string returnUrl = " ")
+		public IActionResult Login()
 		{
 			HttpContext.Session.SetInt32("UserID", 0); //session state tracking 
 			return View(new LoginViewModel());
@@ -96,8 +96,8 @@ namespace IReturnNodePointerProject.Controllers
 		//Only Patron accounts can be created this way, to create admin/employee accounts you must be an admin 
 		public IActionResult Register(LoginViewModel model) 
 		{
-			//if (ModelState.IsValid)
-			//{
+			if (ModelState.IsValid)
+			{
 				//Check if that Patron already exists 
 				if (!_storeContext.Patrons.Any(x => x.Email == model.Username))
 				{
@@ -136,9 +136,9 @@ namespace IReturnNodePointerProject.Controllers
 					//user name already exists please enter a new name 
 					return View();
 				}
-			//}
+			}
 			//Something went wrong 
-			//return View();
+			return View();
 			
         }
 	}

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using IReturnNodePointerProject.Controllers;
 using IReturnNodePointerProject.Areas;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
 namespace IReturnNodePointerProject
 {
@@ -31,6 +32,10 @@ namespace IReturnNodePointerProject
 
             builder.Services.AddRazorPages();
 
+            builder.Services.AddControllers(options =>
+            {
+                options.ModelMetadataDetailsProviders.Add(new SystemTextJsonValidationMetadataProvider());
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
