@@ -1,4 +1,5 @@
-﻿using IReturnNodePointerProject.Models;
+﻿using Humanizer;
+using IReturnNodePointerProject.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -101,44 +102,79 @@ namespace IReturnNodePointerProject.Controllers
 				//Check if that Patron already exists 
 				if (!_storeContext.Patrons.Any(x => x.Email == model.Username))
 				{
-					if (model.Password == model.ConfirmPassword)
-					{
-						Patrons patrons = new Patrons();
-						//add to database and generate a salt / hash the password 
-						//Creates a salt of size 16 and randon numbers/letters
-						byte[] salt = RandomNumberGenerator.GetBytes(16);
-						//generating a string to combine with the password and to have a value ready to go into the database
-						var stringSalt = salt.ToString();
-						var Combinedpassword = stringSalt + model.Password;
-						//converts the password into bytes 
-						byte[] CombinedPassword = Encoding.UTF8.GetBytes(Combinedpassword, 0, Combinedpassword.Length);
-						//turns it into a hashed value
-						byte[] HashedPassword = SHA256.HashData(CombinedPassword);
-						//changing the typing of the HashPW to fit into the db 
-						var stringHashedPassword = HashedPassword.ToString();
-						//database data 
-						patrons.Email = model.Username.ToString();
-						patrons.Name = model.PreferedName.ToString();
-						patrons.Salt = stringSalt.ToString();
-						patrons.HashPW = stringHashedPassword.ToString();
-						_storeContext.Patrons.Add(patrons);
-						_storeContext.SaveChanges();
-						return RedirectToAction("Index", "Home");
-					}
-					else
-					{
-						//Passwords Do not match
-						return View();
-					}
+					Patrons patrons = new Patrons();
+					TO tO = new TO();
+					//add to database and generate a salt / hash the password 
+					//Creates a salt of size 16 and randon numbers/letters
+					byte[] salt = RandomNumberGenerator.GetBytes(16);
+					//generating a string to combine with the password and to have a value ready to go into the database
+					var stringSalt = salt.ToString();
+					var Combinedpassword = stringSalt + model.Password;
+					//converts the password into bytes 
+					byte[] CombinedPassword = Encoding.UTF8.GetBytes(Combinedpassword, 0, Combinedpassword.Length);
+					//turns it into a hashed value
+					byte[] HashedPassword = SHA256.HashData(CombinedPassword);
+					//changing the typing of the HashPW to fit into the db 
+					var stringHashedPassword = HashedPassword.ToString();
+					//database data 
+					patrons.Email = model.Username.ToString();
+					patrons.Name = model.PreferedName.ToString();
+					patrons.Salt = stringSalt.ToString();
+					patrons.HashPW = stringHashedPassword.ToString();
+					tO.patronID = patrons.UserID;
+					tO.Email = model.Username;
+					tO.PhoneNumber = model.PhoneNumber;
+					tO.StreetAddress = model.StreetAddress;
+					tO.PostCode = model.PostCode;
+					tO.Suburb = model.Suburb;
+					tO.State = model.State;
+					tO.CardNumber = model.CardNumber;
+					tO.CardOwner = model.CardOwner;
+					tO.Expiry = model.Expiry;
+					tO.CVV = model.CVV;
+					_storeContext.Patrons.Add(patrons);
+					_storeContext.TO.Add(tO);
+					_storeContext.SaveChanges();
+					//Flag a message saying you have correctly created an account
+					return RedirectToAction("Index", "Home");
 				}
-				else
+                else
 				{
+					//your input is not lost apon validation failure 
+					//would be funny if there was an easier way to do this and im just bad 
+                    ViewBag.UserName = model.Username;
+                    ViewBag.PreferedName = model.PreferedName;
+                    ViewBag.Password = model.Password;
+					ViewBag.ConfirmPassword = model.ConfirmPassword;
+                    ViewBag.PhoneNumber = model.PhoneNumber;
+                    ViewBag.StreetAddress = model.StreetAddress;
+                    ViewBag.PostCode = model.PostCode;
+                    ViewBag.Suburb = model.Suburb;
+                    ViewBag.State = model.State;
+                    ViewBag.CardNumber = model.CardNumber;
+                    ViewBag.CardOwner = model.CardOwner;
+                    ViewBag.Expiry = model.Expiry;
+                    ViewBag.CVV = model.CVV;
+                    
 					//user name already exists please enter a new name 
-					return View();
+					return View(model);
 				}
 			}
-			//Something went wrong 
-			return View();
+            //Model Not Valid
+            ViewBag.UserName = model.Username;
+            ViewBag.PreferedName = model.PreferedName;
+            ViewBag.Password = model.Password;
+            ViewBag.ConfirmPassword = model.ConfirmPassword;
+            ViewBag.PhoneNumber = model.PhoneNumber;
+            ViewBag.StreetAddress = model.StreetAddress;
+            ViewBag.PostCode = model.PostCode;
+            ViewBag.Suburb = model.Suburb;
+            ViewBag.State = model.State;
+            ViewBag.CardNumber = model.CardNumber;
+            ViewBag.CardOwner = model.CardOwner;
+            ViewBag.Expiry = model.Expiry;
+            ViewBag.CVV = model.CVV;
+            return View(model);
 			
         }
 	}

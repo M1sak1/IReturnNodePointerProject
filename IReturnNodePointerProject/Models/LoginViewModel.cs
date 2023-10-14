@@ -1,18 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static IReturnNodePointerProject.Models.Patrons;
 namespace IReturnNodePointerProject.Models
 {
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Please enter an Email.")]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
         [EmailAddress(ErrorMessage ="Email must be in the format of an email something@gmail.com")]
         //try to see if you can run a validation against already existing emails
 
         public string Username { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Please enter a password")]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
         [StringLength(32, MinimumLength = 5, ErrorMessage = "Password must be within 5 to 32 characters")]
         public string Password { get; set; } = string.Empty;
         
@@ -23,8 +20,36 @@ namespace IReturnNodePointerProject.Models
         [StringLength(32)]
         [Required] //probs not required but i havent coded against it 
         public string PreferedName { get; set; } = string.Empty;
-        public string ReturnUrl { get; set; } = string.Empty;
-        //idk might use this, we'll see 
+        [StringLength(10, ErrorMessage ="Phone number must be in standard australian format 04 or 02")]
+        [RegularExpression(@"(\S\d)+")] //No whitespace or non-decimal characters
+        public int? PhoneNumber { get; set; }
+        [Required(ErrorMessage = "Please enter an address")]
+        [RegularExpression(@"(\A\1-9\z\D\W)+")]
+
+        public string? StreetAddress { get; set; }
+        [Required(ErrorMessage ="Please Enter a PostCode")]
+        [DataType(DataType.PostalCode)]
+        public int? PostCode { get; set; }
+
+        [Required(ErrorMessage ="Please Enter a Suburb")]
+        [RegularExpression(@"(\D\W)+")]
+        public string? Suburb { get; set; }
+        public string? State { get; set; }
+
+        [DataType(DataType.CreditCard)]
+        public int? CardNumber { get; set; }
+        public string? CardOwner { get; set; }
+
+        [Required(ErrorMessage = "Please Enter a ExpiryDate")]
+        [DataType(DataType.Date)]
+        [StringLength(5, MinimumLength = 5)]
+        public string? Expiry { get; set; }
+
+        [Required(ErrorMessage = "Please Enter a CVV")]
+        [StringLength(3, MinimumLength = 3)]
+        public int? CVV { get; set; }
+
+        //idk might use this, we'll see....re-fucking required ;( add your name on the top right to signify if your logged in and change the text on the login/logout button 
         public bool RememberMe { get; set; }
 
     }
