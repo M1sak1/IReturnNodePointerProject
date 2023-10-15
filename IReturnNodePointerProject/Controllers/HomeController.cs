@@ -25,9 +25,10 @@ namespace IReturnNodePointerProject.Controllers
 		{
 			ViewBag.GenSortParam = String.IsNullOrEmpty(Product);
 			//sortingME = "Books";
-			if (HttpContext.Session.GetInt32("UserID") == -1)
+			if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
 			{
-				HttpContext.Session.SetString("AccessLevel", "Patron");
+				HttpContext.Session.SetString("UserID", "3003");
+                HttpContext.Session.SetString("AccessLevel", "Patron");
 			}
 			var bg = _storeContext.Book_genre.AsQueryable();
 			var jg = _storeContext.Game_genre.AsQueryable();

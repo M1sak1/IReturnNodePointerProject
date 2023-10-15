@@ -1,6 +1,9 @@
-﻿@model IReturnNodePointerProject.Models.LoginViewModel
+﻿@model IReturnNodePointerProject.Models.ViewModel
 @{
     ViewData["Title"] = "Login";
+}
+@{
+    Layout = "_Layout";
 }
 <html>
     <head>
@@ -8,21 +11,17 @@
         <title>Login Page</title>
     </head>
     <body>
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <form method="post" asp-action="LogIn">
+        <form method="post" asp-action="Login">
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">UserName:</label>
                 <div class="col-md-4">
-                    <input asp-for="Username" class="form-control" />
-                </div>
-                <div class="col">
-                    <span asp-validation-for="Username" class="text-danger"></span>
+                    <input asp-for="Username" class="form-control" id="Username" name="Username" type="text" value="" />
                 </div>
             </div>
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">Password:</label>
                 <div class="col-md-4">
-                    <input type="password" asp-for="Password" class="form-control" />
+                    <input type="Password" asp-for="Password" class="form-control" id="Password" name="Password" value= "" />
                 </div>
                 <div class="col">
                     <span asp-validation-for="Password" class="text-danger"></span>

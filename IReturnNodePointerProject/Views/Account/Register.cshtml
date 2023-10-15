@@ -1,6 +1,7 @@
-﻿@page
-@model IReturnNodePointerProject.Models.LoginViewModel;
-
+﻿@model IReturnNodePointerProject.Models.LoginViewModel;
+@{
+    Layout = "_Layout";
+}
 <!-- change validation so it dounst remove the existing data that is not incorrect or any -->
 <!---Some basic stuff https://learn.microsoft.com/en-us/aspnet/mvc/overview/older-versions/hands-on-labs/aspnet-mvc-4-helpers-forms-and-validation -->
 <div class="row">
@@ -10,7 +11,7 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">Email:</label>
                 <div class="col-md-4">
-                    <input asp-for="Username" class="form-control" id="Username" name="Username" type="text" displaytext = "something@something.com" value=@ViewBag.Username />
+                    <input asp-for="Username" class="form-control" id="Username" name="Username" type="text" value=@ViewBag.Data.Username />
                     <span class="field-validation-valid" data-valmsg-for="Username" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
                 </div>
@@ -18,14 +19,14 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">DisplayName:</label>
                 <div class="col-md-4">
-                    <input asp-for="PreferedName" class="form-control" id="PreferedName" name="PreferedName" type="text" value=@ViewBag.PreferedName />
+                    <input asp-for="PreferedName" class="form-control" id="PreferedName" name="PreferedName" type="text" value=@ViewBag.Data.PreferedName />
                     <span class="field-validation-valid" </span>
                 </div>
             </div>
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">Password:</label>
                 <div class="col-md-4">
-                    <input type="Password" asp-for="Password" class="form-control" id="Password" name="Password" value=@ViewBag.Password />
+                    <input type="Password" asp-for="Password" class="form-control" id="Password" name="Password" value=@ViewBag.Data.Password />
                     <span class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
@@ -33,7 +34,7 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">Confirm Password:</label>
                 <div class="col-md-4">
-                    <input type="password" asp-for="ConfirmPassword" class="form-control" id="ConfirmPassword" name="ConfirmPassword" value=@ViewBag.ConfirmPassword />
+                    <input type="password" asp-for="ConfirmPassword" class="form-control" id="ConfirmPassword" name="ConfirmPassword" value=@ViewBag.Data.ConfirmPassword />
                     <span class="field-validation-valid" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                 </div>
@@ -41,7 +42,7 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">PhoneNumber:</label>
                 <div class="col-md-4">
-                    <input asp-for="PhoneNumber" class="form-control" id="PhoneNumber" name="Phonenumber" type="text" value=@ViewBag.PhoneNumber />
+                    <input asp-for="PhoneNumber" class="form-control" id="PhoneNumber" name="Phonenumber" type="text" value=@ViewBag.Data.PhoneNumber />
                     <span class="field-validation-valid" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
@@ -51,7 +52,7 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">Street Address:</label>
                 <div class="col-md-4">
-                    <input type="text" asp-for="StreetAddress" class="form-control" id="StreetAddress" name="StreetAddress" value=@ViewBag.StreetAddress />
+                    <input type="text" asp-for="StreetAddress" class="form-control" id="StreetAddress" name="StreetAddress" value=@ViewBag.Data.StreetAddress />
                     <span class="field-validation-valid" data-valmsg-for="StreetAddress" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.StreetAddress, "", new { @class = "text-danger" })
                 </div>
@@ -59,7 +60,7 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">PostCode:</label>
                 <div class="col-md-4">
-                    <input type="text" asp-for="PostCode" class="form-control" id="PostCode" name="PostCode" value=@ViewBag.PostCode />
+                    <input type="number" asp-for="PostCode" class="form-control" id="PostCode" name="PostCode" value=@ViewBag.Data.PostCode />
                     <span class="field-validation-valid" data-valmsg-for="PostCode" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.PostCode, "", new { @class = "text-danger" })
                 </div>
@@ -67,7 +68,7 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">Suburb:</label>
                 <div class="col-md-4">
-                    <input type="text" asp-for="Suburb" class="form-control" id="Suburb" name="Suburb" value=@ViewBag.Suberb />
+                    <input type="text" asp-for="Suburb" class="form-control" id="Suburb" name="Suburb" value=@ViewBag.Data.Suburb />
                     <span class="field-validation-valid" data-valmsg-for="Suburb" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.Suburb, "", new { @class = "text-danger" })
                 </div>
@@ -75,7 +76,7 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">State:</label>
                 <div class="col-md-4">
-                    <input type="text" asp-for="State" class="form-control" id="State" name="State" value=@ViewBag.State />
+                    <input type="text" asp-for="State" class="form-control" id="State" name="State" value=@ViewBag.Data.State />
                     <span class="field-validation-valid" data-valmsg-for="State" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
                 </div>
@@ -84,15 +85,15 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">CardNumbers:</label>
                 <div class="col-md-4">
-                    <input type="text" asp-for="CardNumbers" class="form-control" id="CardNumbers" name="CardNumbers" value=@ViewBag.CardNumbers />
-                    <span class="field-validation-valid" data-valmsg-for="CardNumbers" data-valmsg-replace="true"></span>
+                    <input type="text" asp-for="CardNumber" class="form-control" id="CardNumber" name="CardNumber" value=@ViewBag.Data.CardNumber />
+                    <span class="field-validation-valid" data-valmsg-for="CardNumber" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.CardNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">CardOwner:</label>
                 <div class="col-md-4">
-                    <input type="text" asp-for="CardOwner" class="form-control" id="CardOwner" name="CardOwner" value=@ViewBag.CardOwner />
+                    <input type="text" asp-for="CardOwner" class="form-control" id="CardOwner" name="CardOwner" value=@ViewBag.Data.CardOwner />
                     <span class="field-validation-valid" data-valmsg-for="CardOwner" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.CardOwner, "", new { @class = "text-danger" })
                 </div>
@@ -100,7 +101,7 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">Expiry:</label>
                 <div class="col-md-4">
-                    <input type="text" asp-for="Expiry" class="form-control" id="Expiry" name="Expiry" value=@ViewBag.Expiry />
+                    <input type="text" asp-for="Expiry" class="form-control" id="Expiry" name="Expiry" value=@ViewBag.Data.Expiry />
                     <span class="field-validation-valid" data-valmsg-for="Expiry" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.Expiry, "", new { @class = "text-danger" })
                 </div>
@@ -108,7 +109,7 @@
             <div class="row mb-2">
                 <label class="col-form-label col-md-2">CVV:</label>
                 <div class="col-md-4">
-                    <input type="text" asp-for="CVV" class="form-control" id="CVV" name="CVV" value=@ViewBag.CVV />
+                    <input type="number" asp-for="CVV" class="form-control" id="CVV" name="CVV" value=@ViewBag.Data.CVV />
                     <span class="field-validation-valid" data-valmsg-for="CVV" data-valmsg-replace="true"></span>
                     @Html.ValidationMessageFor(m => m.CVV, "", new { @class = "text-danger" })
                 </div>
