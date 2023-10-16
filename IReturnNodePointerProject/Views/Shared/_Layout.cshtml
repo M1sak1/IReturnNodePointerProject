@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+	bool loggedIn = string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserID"));
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,11 +23,18 @@
             </button>
         </div>
         <!--The base template for this was taken from https://www.w3schools.com/css/css_dropdowns.asp we will contune to modify it from here, but take the core elements as a launch pad for our design-->
-        <div class="dropdown">
+        <div class="dropdown" id="Account ">
             <button class="dropdown-btn">Account</button>
             <div class="dropdown-item"> 
-                <a asp-controller="Account" asp-action="Login">Login</a>  
-                <a asp-controller="Account" asp-action="Register">Register</a>
+				@if (loggedIn)
+				{
+					<a asp-controller="Account" asp-action="Login">Login</a>
+				}
+				else
+				{
+					<a asp-controller="Account" asp-action="Login">Logout</a>
+				}
+				<a asp-controller="Account" asp-action="Register">Register</a>
                 <a asp-controller="Account" asp-action="AccountView"> Account Page</a>
             </div>
         </div>
@@ -33,11 +45,13 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted" style="width:100%; float:inline-end; margin-top: 10px;">
-        <div class="container">
-            &copy; 1984 - RandomWebsite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+	<div style="width: 100%">
+		<footer class="border-top footer text-muted" style="width:100%; float:left; margin-top: 10px;">
+			<div class="container">
+				&copy; 1984 - RandomWebsite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+			</div>
+		</footer>
+	</div>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
