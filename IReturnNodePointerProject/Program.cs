@@ -25,8 +25,9 @@ namespace IReturnNodePointerProject
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+			builder.Services.AddHttpContextAccessor();
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+			builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineStoreContext")));
 
 

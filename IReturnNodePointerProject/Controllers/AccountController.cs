@@ -85,7 +85,7 @@ namespace IReturnNodePointerProject.Controllers
 		[HttpGet]
 		public IActionResult Login()
 		{
-			HttpContext.Session.SetString("UserID", "0"); //session state tracking logs the user out 
+			HttpContext.Session.SetString("UserID", ""); //session state tracking logs the user out 
             HttpContext.Session.SetString("AccessLevel", "Patron"); //resets the access level
             return View(new ViewModel());
 		}
@@ -143,6 +143,7 @@ namespace IReturnNodePointerProject.Controllers
 		[HttpGet]
         public IActionResult Register()
 		{
+			ViewBag.Data = new LoginViewModel();
 			return View(new LoginViewModel());
 		}
 		[HttpPost]
