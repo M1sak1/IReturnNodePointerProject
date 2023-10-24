@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="CodeGenerator" Version="2019.2.9.2128" />
+    <PackageReference Include="jQuery.UI.Combined" Version="1.13.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
@@ -36,6 +37,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations" />
+    <Folder Include="scripts\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>
