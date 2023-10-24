@@ -1,0 +1,57 @@
+﻿@model AdminListViewModel
+@{
+    Layout = "_Layout";
+}
+@{
+    ViewData["Title"] = "AdminAccountsView";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+</head>
+<body>
+	<h1>Accounts</h1>
+	<hr>
+	<table>
+		<thead>
+			<tr>
+				<th>
+					Account
+				</th>
+			</tr>
+		</thead>
+		<tbody>	
+			@foreach (var item in Model.Users)
+			{
+				<tr>
+					<td>
+						@item.Name
+					</td>
+				</tr>
+			}		
+		</tbody>
+		<tbody>
+			@foreach (var item in Model.Employees)
+			{
+				<tr>
+					<td>
+						@item.Name
+					</td>
+				</tr>
+			}
+		</tbody>
+		<tbody>
+			@foreach (var item in Model.Admins)
+			{
+				<tr>
+					<td>
+						@item.Name
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</body>
+</html>
