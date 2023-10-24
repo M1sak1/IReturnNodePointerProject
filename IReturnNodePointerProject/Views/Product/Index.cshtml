@@ -6,6 +6,22 @@
 }
 @model IReturnNodePointerProject.Controllers.prodAmalgam;
 <!DOCTYPE HTML>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript">
+	$('#CartAdd').click(function () {
+		$.ajax({
+			url: "/Product/AddToCart",
+			datatype: "text",
+			type: "POST",
+			success: function (data) {
+				$alert(data);
+			},
+			error: function () {
+				$alert("You Failed");
+			}
+		});
+	});
+</script>
 <html>
 	<style>
 		.prodPhoto{
@@ -73,7 +89,7 @@
 				<p id="Stock">@Model.Stock</p>
 			</div>
 			<span id="btnHolder">
-				<button id="CardAdd">ADD TO CART</button>
+			<button id="CardAdd">ADD TO CART</button>
 			</span>
 			<p id="Description">@Model.Description</p>
 		</div>

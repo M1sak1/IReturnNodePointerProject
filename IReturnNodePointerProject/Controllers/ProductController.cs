@@ -47,6 +47,11 @@ namespace IReturnNodePointerProject.Controllers
             }
 			return View(SelectedProduct);
 		}
+		[HttpPost]
+		public string AddToCart(){
+			Console.WriteLine("Booo!");
+			return "Boo";
+		}
 	}
 	public class prodAmalgam
 	{
