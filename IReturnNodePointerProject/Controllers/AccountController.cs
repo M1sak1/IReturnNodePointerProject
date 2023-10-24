@@ -1,21 +1,14 @@
-﻿using Humanizer;
-using IReturnNodePointerProject.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using IReturnNodePointerProject.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.SqlServer.Management.Smo;
-using Microsoft.SqlServer.Management.SqlParser.Metadata;
-using System.Dynamic;
-using System.Linq;
+using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Unicode;
 
 namespace IReturnNodePointerProject.Controllers
 {
-	public class AccountController : Controller
+    public class AccountController : Controller
 	{
         private readonly ApplicationDbContext _storeContext;
 		
@@ -35,16 +28,18 @@ namespace IReturnNodePointerProject.Controllers
 				
 				ViewBag.Patrons = UserData;
 				ViewBag.TO = UserShoppingData;
-                return View(new LoginViewModel()); //gives the user data from the Patrons and TO databases and creates a new LVM to store it 
+                
+                return View(new AccountViewModel()); //gives the user data from the Patrons and TO databases and creates a new LVM to store it 
 			}
 			else
-			{ 
+			{
 				//add something about not being logged in 
+				
 				return RedirectToAction("Login");
 			}
 		}
 		[HttpPost]
-		public IActionResult AccountView(LoginViewModel NewData)
+		public IActionResult AccountView(AccountViewModel NewData)
 		{
             var UserData = (Patrons)_storeContext.Patrons.FirstOrDefault(x => x.UserID == Convert.ToInt32(HttpContext.Session.GetString("UserID")));
             var UserShoppingData = (TO)_storeContext.TO.FirstOrDefault(x => x.patronID == Convert.ToInt32(HttpContext.Session.GetString("UserID")));
@@ -104,8 +99,11 @@ namespace IReturnNodePointerProject.Controllers
 					var User = Admin_EmployeeCheck.FirstOrDefault(x => x.UserName == model.Username);
 					var Password = User.Salt + model.Password;
 					byte[] BytePassword = Encoding.UTF8.GetBytes(Password, 0, Password.Length); //idk if they used UTF8 for the existing ones but whatever 
-					var HashedPassword = SHA256.HashData(BytePassword).ToString(); //creates a hashed version of the local password inputted
-					if (HashedPassword == User.HashPW) //compares the 2 hashed passwords if they are the same the user has used the right login information
+                    SHA256 mySHA256 = SHA256.Create();
+                    byte[] HashedPassword = mySHA256.ComputeHash(BytePassword);
+                    //changing the typing of the HashPW to fit into the db 
+                    string stringHashedPassword = Convert.ToHexString(HashedPassword);
+                    if (stringHashedPassword == User.HashPW) //compares the 2 hashed passwords if they are the same the user has used the right login information
 					{
 						//Admin Pages
 						HttpContext.Session.SetInt32("UserID", (int)User.UserID);
@@ -125,8 +123,12 @@ namespace IReturnNodePointerProject.Controllers
 					//Make a NULL checker since that would be a vaild login and would break it 
 					var Password = User.Salt + model.Password;
 					byte[] BytePassword = Encoding.UTF8.GetBytes(Password, 0, Password.Length);
-					var HashedPassword = SHA256.HashData(BytePassword).ToString(); //creates a hashed version of the local password inputted
-					if (HashedPassword == User.HashPW) //compares the 2 hashed passwords if they are the same the user has used the right login information
+					 //creates a hashed version of the local password inputted
+                    SHA256 mySHA256 = SHA256.Create();
+                    byte[] HashedPassword = mySHA256.ComputeHash(BytePassword);
+                    //changing the typing of the HashPW to fit into the db 
+                    string stringHashedPassword = Convert.ToHexString(HashedPassword);
+                    if (stringHashedPassword == User.HashPW) //compares the 2 hashed passwords if they are the same the user has used the right login information
 					{
 						//Patron View
 						HttpContext.Session.SetString("UserID", Convert.ToString(User.UserID));
@@ -134,11 +136,12 @@ namespace IReturnNodePointerProject.Controllers
 						return RedirectToAction("Index", "Home");
 					}
 				}
-				else {
-                    return View(); ; //Login Failed add something to represent this 
-				}
+				ModelState.AddModelError("key", "Login Failed:  Incorrect user details");
+                 return View(); ; //Login Failed add something to represent this 
+				
 			}
-				return View();
+            ModelState.AddModelError("key", "Login Failed:  Please enter all details");
+            return View();
         }
 		[HttpGet]
         public IActionResult Register()
@@ -155,54 +158,45 @@ namespace IReturnNodePointerProject.Controllers
 				//Check if that Patron already exists 
 				if (!_storeContext.Patrons.Any(x => x.Email == model.Username))
 				{
+					Random random = new Random();
 					Patrons patrons = new Patrons();
 					TO tO = new TO();
 					//add to database and generate a salt / hash the password 
 					//Creates a salt of size 16 and randon numbers/letters
-					byte[] salt = RandomNumberGenerator.GetBytes(16);
 					//generating a string to combine with the password and to have a value ready to go into the database
-					var stringSalt = salt.ToString();
-					var Combinedpassword = stringSalt + model.Password;
+					const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+					string Salt = new string(Enumerable.Range(1,32).Select(_ => chars[random.Next(chars.Length)]).ToArray());
+                    string Combinedpassword = Salt + model.Password;
 					//converts the password into bytes 
 					byte[] CombinedPassword = Encoding.UTF8.GetBytes(Combinedpassword, 0, Combinedpassword.Length);
 					//turns it into a hashed value
-					byte[] HashedPassword = SHA256.HashData(CombinedPassword);
+					string Password = Encoding.UTF8.GetString(CombinedPassword);
+					SHA256 mySHA256 = SHA256.Create();
+                    byte[] HashedPassword = mySHA256.ComputeHash(CombinedPassword);
 					//changing the typing of the HashPW to fit into the db 
-					var stringHashedPassword = HashedPassword.ToString();
-					//database data 
-					patrons.Email = model.Username;
+					string stringHashedPassword = Convert.ToHexString(HashedPassword);
+                    //database data 
+                    patrons.Email = model.Username;
 					patrons.Name = model.PreferedName;
-					patrons.Salt = stringSalt;
+					patrons.Salt = Salt;
 					patrons.HashPW = stringHashedPassword;
                     _storeContext.Patrons.Add(patrons);
                     _storeContext.SaveChanges();
 					//to use the primary key generated in patrons we gotta save it first to stop foreign key issues 
                     tO.patronID = patrons.UserID;
 					tO.Email = model.Username;
-					tO.PhoneNumber = model.PhoneNumber;
-					tO.StreetAddress = model.StreetAddress;
-					tO.PostCode = model.PostCode;
-					tO.Suburb = model.Suburb;
-					tO.State = model.State;
-					tO.CardNumber = model.CardNumber;
-					tO.CardOwner = model.CardOwner;
-					tO.Expiry = model.Expiry;
-					tO.CVV = model.CVV;
-					
 					_storeContext.TO.Add(tO);
                     _storeContext.SaveChanges();
-                    //Flag a message saying you have correctly created an account
+					
                     HttpContext.Session.SetString("UserID", Convert.ToString(patrons.UserID));
                     HttpContext.Session.SetString("AccessLevel", "Patron"); //reductive but its whatever
                     return RedirectToAction("Index", "Home");
 				}
                 else
 				{
-                    //your input is not lost apon validation failure 
-                    //would be funny if there was an easier way to do this and im just bad 
+                    ModelState.AddModelError("Error", "Registration Failed: user already exists");
                     ViewBag.Data = model;
-                    
-					//user name already exists please enter a new name 
+                   
 					return View(model);
 				}
 			}
@@ -211,21 +205,6 @@ namespace IReturnNodePointerProject.Controllers
             return View(model);
 			
         }
-		public void UpdateData(LoginViewModel model)
-		{
-            ViewBag.UserName = model.Username;
-            ViewBag.PreferedName = model.PreferedName;
-            ViewBag.Password = model.Password;
-            ViewBag.ConfirmPassword = model.ConfirmPassword;
-            ViewBag.PhoneNumber = model.PhoneNumber;
-            ViewBag.StreetAddress = model.StreetAddress;
-            ViewBag.PostCode = model.PostCode;
-            ViewBag.Suburb = model.Suburb;
-            ViewBag.State = model.State;
-            ViewBag.CardNumber = model.CardNumber;
-            ViewBag.CardOwner = model.CardOwner;
-            ViewBag.Expiry = model.Expiry;
-            ViewBag.CVV = model.CVV;
-        }
-	}
+    }
+    
 }

@@ -8,17 +8,17 @@ namespace IReturnNodePointerProject.Models
         [Key]
 		public int customerID { get; set; }
 		[ForeignKey("Patrons")]
-		public int? patronID { get; set; }
+		public int? patronID { get; set; } 
 		//[Required]
 		public string Email	{ get; set; }
-		public string? PhoneNumber { get; set; }
-		public string? StreetAddress { get; set; }
-		public int? PostCode { get; set; }
-		public string? Suburb { get; set; }
-		public string? State { get; set; }
-		public string?	CardNumber { get; set; }
-		public string? CardOwner { get; set; }
-		public string? Expiry { get; set; }
-		public int? CVV { get; set; }
+		public string? PhoneNumber { get; set; } = null;
+		public string? StreetAddress { get; set; } = null;	
+		public int? PostCode { get; set; } = null;
+		public string? Suburb { get; set; } = null;
+		public string? State { get; set; } = null;
+		public string? CardNumber { get; set; } = null;
+		public string? CardOwner { get; set; } = null;
+		public string? Expiry { get; set; } = null;
+		public int? CVV { get; set; } = null;
 	}
 }

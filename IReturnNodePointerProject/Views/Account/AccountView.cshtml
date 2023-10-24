@@ -1,16 +1,17 @@
-﻿@model IReturnNodePointerProject.Models.LoginViewModel;
+﻿@model IReturnNodePointerProject.Models.AccountViewModel;
 @{
     ViewData["Title"] = "AccountView";
 }
 @{
     Layout = "_Layout";
 }
+
 <html>
 <head>
 	<style type="text/css">
 		{Text-align: center;}
 	</style>
-
+    
 	<meta name="viewport" content="width=device-width" />
 	<title>Account Page</title>
 </head>
@@ -37,7 +38,7 @@
                 <div class="row mb-2">
                     <label class="col-form-label col-md-5">PhoneNumber:</label>
                     <div class="col-md-10">
-                        <input asp-for="PhoneNumber" class="form-control" id="PhoneNumber" name="Phonenumber" type="text" value=@ViewBag.TO.PhoneNumber />
+                        <input asp-for="PhoneNumber" class="form-control" id="PhoneNumber" name="Phonenumber" type="text" value=@ViewBag.TO.PhoneNumber/> 
                         <span class="field-validation-valid" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span>
                         @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                     </div>
