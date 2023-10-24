@@ -18,29 +18,59 @@
 			td {
 				padding: 0 15px;
 			}
+			.form-control{
+				display: flex;
+				flex-flow: row wrap;
+				align-items: center;
+				width: 300%;
+				border: 0px;
+			}
+			.form-control input{
+				vertical-align: middle;
+				margin: 5px 10px 5px 0;
+				padding: 10px;
+				background-color: #fff;
+				border: 1px solid #ddd;
+			}
+			.form-control select{
+				max-width: 180px;
+				margin: 5px 10px 5px 0;
+				padding: 10px;
+				background-color: #fff;
+				border: 1px solid #ddd;
+			}
+			.form-control #submit{
+				padding: 10px 20px;
+				background-color: white;
+				border: 1px solid #ddd;
+				color: black;
+			}
+			.form-control #submit:hover{
+				background-color: #ee90fc;
+				color: white;
+			}
 		</style>
 		<h2>Media Listing</h2>
 		<hr>
 		<!--using this https://stackoverflow.com/questions/36743743/how-to-show-selected-value-in-dropdownlist-of-mvc-->
 		<div class="dropdown" id="prodType" style="float: inherit;">
-			@using (Html.BeginForm("Index", "", FormMethod.Get))
+			@using (Html.BeginForm("Index", "", FormMethod.Get, new { @class = "form-control"}))
 			{
+				@Html.TextBox("Search");
 				@Html.DropDownList("Product", new SelectList(Model.genres, "Name", "Name", ViewBag.GenSortParam), "--Product --", new { @class = "form-control", @style = ""})
-			<p></p>
-			@if (Model.bookGen != null)
-			{
-				@Html.DropDownList("Genre", new SelectList(Model.bookGen, "Name", "Name", ViewBag.GenSortParam), "--Genre--", new { @class = "form-control" })
-			}
-			@if(Model.movieGen != null)
-			{
-				@Html.DropDownList("Genre", new SelectList(Model.movieGen, "Name", "Name", ViewBag.GenSortParam), "--Genre--", new { @class = "form-control" })
-			}
-			@if(Model.gameGen != null)
-			{
-				@Html.DropDownList("Genre", new SelectList(Model.gameGen, "Name", "Name", ViewBag.GenSortParam), "--Genre--", new { @class = "form-control" })
-			}
-			<p> </p>
-				<input type="submit" value="search"/>
+				@if (Model.bookGen != null)
+				{
+					@Html.DropDownList("Genre", new SelectList(Model.bookGen, "Name", "Name", ViewBag.GenSortParam), "--Genre--", new { @class = "form-control" })
+				}
+				@if(Model.movieGen != null)
+				{
+					@Html.DropDownList("Genre", new SelectList(Model.movieGen, "Name", "Name", ViewBag.GenSortParam), "--Genre--", new { @class = "form-control" })
+				}
+				@if(Model.gameGen != null)
+				{
+					@Html.DropDownList("Genre", new SelectList(Model.gameGen, "Name", "Name", ViewBag.GenSortParam), "--Genre--", new { @class = "form-control" })
+				}
+				<input type="submit" value="search" id="submit"/>
 			} 
 		</div>
 		<hr>

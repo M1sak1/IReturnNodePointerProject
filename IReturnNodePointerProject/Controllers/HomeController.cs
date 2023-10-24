@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
 using Microsoft.SqlServer.Management.XEvent;
 using Microsoft.VisualBasic;
+using System.Data;
 using System.Drawing;
 using System.Text.Encodings.Web;
 using System.Xml.Serialization;
@@ -21,7 +22,7 @@ namespace IReturnNodePointerProject.Controllers
 		}
 		//Get Items
 		//The login page will always go to the store page 
-		public async Task<IActionResult> Index(string Product, string Genre)
+		public async Task<IActionResult> Index(string Product, string Genre, string Search)
 		{
 			ViewBag.GenSortParam = String.IsNullOrEmpty(Product);
 			//sortingME = "Books";
@@ -37,12 +38,18 @@ namespace IReturnNodePointerProject.Controllers
 			var gg = _storeContext.Genre.AsQueryable();
 			var pd = _storeContext.Product.AsQueryable();
 			var st = _storeContext.Stocktake.AsQueryable();
-
+			var target = 0;
+			if(Search != null)
+			{
+				//returns a queerable object then assigns that to pd, so it can be filtred down even more.
+				var results = pd.Where(pd => pd.Name.Contains(Search));
+				pd = results;
+			}
 			if (Product != null)
 			{
 				if (Product != "")
 				{
-					var target = gg.Where(gg => gg.Name == Product).ToArray()[0].genreID;
+					target = gg.Where(gg => gg.Name == Product).ToArray()[0].genreID;
 					pd = pd.Where(pd => pd.Genre == target);
 					switch(Product){
 						case "Books":
