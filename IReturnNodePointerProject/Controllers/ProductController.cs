@@ -1,6 +1,10 @@
 ﻿using IReturnNodePointerProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Configuration;
+using System.Reflection.Metadata;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Text.Json;
 
 namespace IReturnNodePointerProject.Controllers
 {
@@ -48,9 +52,14 @@ namespace IReturnNodePointerProject.Controllers
 			return View(SelectedProduct);
 		}
 		[HttpPost]
-		public string AddToCart(){
-			Console.WriteLine("Booo!");
-			return "Boo";
+		public void AddToCart(int productID)
+		{
+			var Data = new cart();
+			//creating a cookie to fill in with the void
+			if(string.IsNullOrEmpty( HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart") )) 
+			{ 
+					
+			}
 		}
 	}
 	public class prodAmalgam

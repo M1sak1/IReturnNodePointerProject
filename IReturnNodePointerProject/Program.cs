@@ -21,6 +21,12 @@ namespace IReturnNodePointerProject
                 options.Cookie.HttpOnly = false; //would allow client side scripts to access cookies, security issue so false 
                 options.Cookie.IsEssential = true; //forces them to use cookies or not run the page, is essential for us as user permissions and stuff need to be set with an account 
             });
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = "BlockBuster_2_Electric_Boogaloo_Cart";
+                options.Cookie.HttpOnly = false;
+                options.Cookie.IsEssential = true;
+            });
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
