@@ -13,6 +13,7 @@
 			$("#CardAdd").click(function () {
 				$.ajax({
 					url: "/Product/AddToCart",
+					data: { 'productID': @Model.ProductID},
 					datatype: "text",
 					type: "POST",
 					success: function () {
