@@ -9,9 +9,4 @@
         }
         public List<int> productIDs { get; set; }
 	}
-    public class cartitm
-    {
-        public int productID { get; set;}
-        public int productQuantity { get; set;}
-    }
 }

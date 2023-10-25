@@ -75,14 +75,4 @@ namespace IReturnNodePointerProject.Controllers
 			Console.WriteLine(HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart"));
 		}
 	}
-	public class prodAmalgam
-	{
-		public string Name { get; set; }
-		public string Description { get; set; }
-		public Double price { get; set; }
-		public string Author { get; set; }
-		public string Genre { get; set; }
-		public string Stock { get; set; }
-		public int ProductID { get; set; }
-	}
 }
