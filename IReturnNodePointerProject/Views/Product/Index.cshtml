@@ -4,8 +4,29 @@
 @{
 	Layout = "_Layout";
 }
-@model IReturnNodePointerProject.Controllers.prodAmalgam;
+@model IReturnNodePointerProject.Models.prodAmalgam;
 <!DOCTYPE HTML>
+<head>
+	<script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+	<script>
+		$(document).ready(function () {
+			$("#CardAdd").click(function () {
+				$.ajax({
+					url: "/Product/AddToCart",
+					data: { 'productID': @Model.ProductID},
+					datatype: "text",
+					type: "POST",
+					success: function () {
+						//alert("Added");
+					},
+					error: function () {
+						alert("Gix has failed, I shall not - Sheldred");
+					}
+				});
+			});
+		});
+	</script>
+</head>
 <html>
 	<style>
 		.prodPhoto{
@@ -73,7 +94,7 @@
 				<p id="Stock">@Model.Stock</p>
 			</div>
 			<span id="btnHolder">
-				<button id="CardAdd">ADD TO CART</button>
+			<button id="CardAdd">ADD TO CART</button>
 			</span>
 			<p id="Description">@Model.Description</p>
 		</div>

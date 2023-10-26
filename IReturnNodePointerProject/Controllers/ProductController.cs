@@ -1,6 +1,11 @@
 ﻿using IReturnNodePointerProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NuGet.Configuration;
+using System.Reflection.Metadata;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Text.Json;
 
 namespace IReturnNodePointerProject.Controllers
 {
@@ -23,6 +28,7 @@ namespace IReturnNodePointerProject.Controllers
 			var _st = st.Where(st => st.ProductId == productID).ToArray();
 
 			if(_pd.Length > 0) {
+				SelectedProduct.ProductID = productID;
                 SelectedProduct.Name = _pd[0].Name;
                 SelectedProduct.Description = _pd[0].Description;
                 SelectedProduct.price = _st[0].Price;
@@ -47,14 +53,26 @@ namespace IReturnNodePointerProject.Controllers
             }
 			return View(SelectedProduct);
 		}
-	}
-	public class prodAmalgam
-	{
-		public string Name { get; set; }
-		public string Description { get; set; }
-		public Double price { get; set; }
-		public string Author { get; set; }
-		public string Genre { get; set; }
-		public string Stock { get; set; }
+		[HttpPost]
+		public void AddToCart(int productID)
+		{
+			Console.WriteLine(productID);
+			var JsOBJ = "";
+			//creating a cookie to fill in with the void
+			if (string.IsNullOrEmpty( HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart") )) 
+			{
+				var Cart = new cart();
+				Cart.productIDs.Add(productID);
+				JsOBJ = JsonConvert.SerializeObject(Cart);
+			}
+			else
+			{
+				var Cart = JsonConvert.DeserializeObject<cart>(HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart"));
+				Cart.productIDs.Add(productID);
+				JsOBJ = JsonConvert.SerializeObject(Cart);
+			}
+			HttpContext.Session.SetString("BlockBuster_2_Electric_Boogaloo_Cart", JsOBJ);
+			Console.WriteLine(HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart"));
+		}
 	}
 }
