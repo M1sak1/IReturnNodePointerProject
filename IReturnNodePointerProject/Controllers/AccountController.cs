@@ -19,8 +19,7 @@ namespace IReturnNodePointerProject.Controllers
 		[HttpGet]
 		public ActionResult AccountView()
 		{
-			
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+			if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
             {
 				//its so stupid but it wont run without it
 				var UserData = (Patrons)_storeContext.Patrons.FirstOrDefault(x => x.UserID == Convert.ToInt32(HttpContext.Session.GetString("UserID")));
