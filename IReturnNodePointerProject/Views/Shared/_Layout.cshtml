@@ -17,8 +17,8 @@
 <body> 
     <header class="navBar" style="width: 100%">
         <div class="navControls">
-            <button class="navBtn">
-                <a asp-controller="Home" asp-action="Index" asp-route-UserID="-1">Home</a>
+            <button class="navBtn" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");">
+                Cart
             </button>
         </div>
         <!--The base template for this was taken from https://www.w3schools.com/css/css_dropdowns.asp we will contune to modify it from here, but take the core elements as a launch pad for our design-->
@@ -37,8 +37,8 @@
                 <a asp-controller="Account" asp-action="AccountView"> Account Page</a>
             </div>
         </div>
-        <button class="navBtn">
-            <a asp-controller="Cart" asp-action="Cart">ToCart</a>
+        <button class="navBtn" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart") + "'");">
+            Cart
         </button>
     </header>
     <div class="container">
@@ -81,6 +81,8 @@
            background-color: #ee90fc;
         }
         .navBtn a{
+            width: 100%;
+            height: 100%;
             color: white;
             text-decoration: none;
         }
