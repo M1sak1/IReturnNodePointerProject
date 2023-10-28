@@ -75,11 +75,13 @@ namespace IReturnNodePointerProject.Controllers
 			_pd.Name = newData.Name;
 			_pd.LastUpdated = DateTime.Now;
             //fancy stuff
+			
 			//updateing
 			_storeContext.Update(_st);
 			_storeContext.Update(_pd);
+			_storeContext.SaveChanges();
 
-            return View();
+            return View(newData);
 		}
 
 
