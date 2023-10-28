@@ -1,0 +1,47 @@
+﻿@model AdminListViewModel
+@if 
+{
+	<table>
+		<thead>
+			<tr>
+				<th>
+					Name
+				</th>
+				<th>
+					Author
+				</th>
+				<th>
+					Year
+				</th>
+				<th>
+					Price
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Products)
+			{
+				<tr>
+					<td>
+						@* <input type="submit" asp-controller="Product" asp-action="Index" asp-route-ProductID=@item.ID value=@item.Name /> *@
+						@* @Html.ActionLink(item.Name, "Product", new {prodctID = item.ID}) *@
+						<a href="@Url.Action("Index", "Product", new {productID = item.ID})">@item.Name</a>
+					</td>
+					<td>
+						@item.Author
+					</td>
+					<td>
+						@IReturnNodePointerProject.Controllers.HomeController.ConvertToYear(item.Published)
+					</td>
+					<td>
+						$@IReturnNodePointerProject.Controllers.HomeController.findPrice(item.ID)
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<span><b>We are do sorry!</b> There are no products matching your search terms. have you tried removing the filters?</span>
+}
