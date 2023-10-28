@@ -149,21 +149,21 @@
 else
 {
     <body>
-        <form method="post" asp-action="Index">
+        <form method="post" asp-action="updateData">
             <div class="prodPhoto">
                 <p id="plaecholder">{NO IMAGE}</p>
             </div>
             <div class="Details">
-                <input asp-for="Name" type="text" id="Title-Genre-edit" value="@Model.Name" /> | <input asp-for="Genre" type="text" id="Title-Genre-edit" value="@Model.Genre">
-                <input asp-for="Author" type="text" id="Author" value="@Model.Author" style="margin-top: 3px;" />
+                <input asp-for="Name" name="Name" type="text" id="Title-Genre-edit" value="@ViewBag.SelectedProduct.Name" /> | <input asp-for="Genre" type="text" id="Title-Genre-edit" value="@ViewBag.SelectedProduct.Genre">
+                <input asp-for="Author" name="Author" type="text" id="Author" value="@ViewBag.SelectedProduct.Author" style="margin-top: 3px;" />
                 <div class="PriceBlock">
-                    <input asp-for="Price" type="text" id="Price" value="@Model.price" style="margin-top: 3px;" />
-                    <input asp-for="StockNum" type="text" id="Stock" style="margin-top: 3px;" value="@Model.StokNum" />
+                    <input asp-for="Price" name="Price" type="number" id="Price" value="@ViewBag.SelectedProduct.price" style="margin-top: 3px;" />
+                    <input asp-for="StockNum" name="StokNum" type="number" id="Stock" style="margin-top: 3px;" value="@ViewBag.SelectedProduct.StokNum" />
                 </div>
                 <span id="btnHolder">
                     <button type="submit" id="SaveChanges" value="prodAmalgam">Save Changes</button>
                 </span>
-                <div asp-for="Description" type="text" id="Description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' contenteditable>@Model.Description</div>
+                <div asp-for="Description" name="Description" type="text" id="Description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' contenteditable>@ViewBag.SelectedProduct.Description</div>
             </div>
         </form>
     </body>

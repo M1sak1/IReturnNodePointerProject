@@ -54,12 +54,12 @@ namespace IReturnNodePointerProject.Controllers
                 SelectedProduct.Author = "Creator";
                 SelectedProduct.Genre = "Type";
             }
-			return View(SelectedProduct);
+            ViewBag.SelectedProduct = SelectedProduct;
+            return View(SelectedProduct);
 		}
 		[HttpPost]
-		public async Task<IActionResult> Index(prodAmalgam newData)
+		public async Task<IActionResult> updateData(prodAmalgam newData)
 		{
-
             var gg = _storeContext.Genre.AsQueryable();
             var pd = _storeContext.Product.AsQueryable();
             var st = _storeContext.Stocktake.AsQueryable();
@@ -78,7 +78,7 @@ namespace IReturnNodePointerProject.Controllers
 			_storeContext.Update(_st);
 			_storeContext.Update(_pd);
 
-            return View();	//just for displaying purposes
+            return View();
 		}
 
 
