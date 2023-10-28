@@ -45,7 +45,7 @@ namespace IReturnNodePointerProject.Controllers
                         {
                             prod.Quantity++;
                             cart.cartTotal += Math.Round(_st.Price);
-                            
+
                         }
                         else
                         {

@@ -25,6 +25,11 @@
 				});
 			});
 		});
+		$(document).ready(function () {
+			$("SaveChanges").click(function () {
+				alert("Changes Saved");
+			})
+		})
 	</script>
 </head>
 <html>
@@ -73,7 +78,7 @@
 			width: 100%;
 			float: right;
 		}
-		.Details #CardAdd{
+		.Details button{
 			width: 64%;
 			background: #f50000;
 			color: white;
@@ -82,21 +87,44 @@
 			margin-bottom: 10px;
 		}
 	</style>
-	<body>
-		<div class="prodPhoto">
-			<p id="plaecholder">{NO IMAGE}</p>
-		</div>
-		<div class="Details">
-			<p id="Title-Genre"><b>@Model.Name | @Model.Genre</b></p>
-			<p id="Author">@Model.Author</p>
-			<div class="PriceBlock">
-				<p id="Price"><b>$@Model.price</b></p>
-				<p id="Stock">@Model.Stock</p>
+	@if (false)
+	{
+		<body>
+			<div class="prodPhoto">
+				<p id="plaecholder">{NO IMAGE}</p>
 			</div>
-			<span id="btnHolder">
-			<button id="CardAdd">ADD TO CART</button>
-			</span>
-			<p id="Description">@Model.Description</p>
-		</div>
-	</body>
+			<div class="Details">
+				<p id="Title-Genre"><b>@Model.Name | @Model.Genre</b></p>
+				<p id="Author">@Model.Author</p>
+				<div class="PriceBlock">
+					<p id="Price"><b>$@Model.price</b></p>
+					<p id="Stock">@Model.Stock</p>
+				</div>
+				<span id="btnHolder">
+				<button id="CardAdd">ADD TO CART</button>
+				</span>
+				<p id="Description">@Model.Description</p>
+			</div>
+		</body>
+	}
+	else
+	{
+		<body>
+			<div class="prodPhoto">
+				<p id="plaecholder">{NO IMAGE}</p>
+			</div>
+			<div class="Details">
+				<input type="text" id="Title-Genre" value=@Model.Name /> | <input type="text" id="Title-Genre" value="@Model.Genre">
+				<input type="text" id="Author" value=@Model.Author />
+				<div class="PriceBlock">
+					<input type="text" id="Price" value=@Model.price />
+					<input type="text" id="Stock" value=@Model.Stock />
+				</div>
+				<span id="btnHolder">
+					<button id="SaveChanges">Save Changes</button>
+				</span>
+				<input type="text" id="Description" value=@Model.Description />
+			</div>
+		</body>
+	}
 </html>
