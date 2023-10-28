@@ -36,7 +36,7 @@
 				Name
 			</th>
 		<th>
-			<button style="background-color:green">
+			<button style="background-color:green" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "Patron"}) + "'")" >
 				New Patron
 			</button>
 		</th>
@@ -55,12 +55,12 @@
 						@item.Name
 					</td>
 					<td>
-						<button style="background-color:red">
+						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
 							Delete
 						</button>
 					</td>
 					<td>
-						<button style="background-color:yellow">
+						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
 							Edit
 						</button>
 					</td>
@@ -79,7 +79,7 @@
 			Name
 		</th>
 		<th>
-			<button style="background-color:green">
+			<button style="background-color:green" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "User"}) + "'")">
 				New Employee
 			</button>
 		</th>
@@ -98,12 +98,12 @@
 							@item.Name
 					</td>
 					<td>
-						<button style="background-color:red">
+						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
 							Delete
 						</button>
 					</td>
 					<td>
-						<button style="background-color:yellow">
+						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
 							Edit
 						</button>
 					</td>
@@ -122,7 +122,7 @@
 			Name
 		</th>
 		<th>
-			<button style="background-color:green">
+			<button style="background-color:green" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "Patron"}) + "'")">
 				New Admin
 			</button>
 		</th>
@@ -141,12 +141,12 @@
 						@item.Name
 					</td>
 					<td>
-						<button style="background-color:red">
+						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("Cart", "Account", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
 							Delete
 						</button>
 					</td>
 					<td>
-						<button style="background-color:yellow">
+						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("Cart", "Account", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
 							Edit
 						</button>
 					</td>

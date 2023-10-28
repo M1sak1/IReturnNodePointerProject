@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using IReturnNodePointerProject.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Ajax.Utilities;
 
 namespace IReturnNodePointerProject.Controllers
 {
@@ -26,6 +26,12 @@ namespace IReturnNodePointerProject.Controllers
             allLists.UserData = CheckoutTable.ToList();
                 
             return View(allLists);
+        }
+        public IActionResult AddUser()
+        {
+            if(User == )
+            ViewBag.View = "patron";
+            return PartialView();
         }
     }
 }

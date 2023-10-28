@@ -12,7 +12,7 @@ Customers:
 	Retrieve login information (forgot your password?) god i hope not 
 Admin:
 	Add/edit/delete items from the shop
-	Add/Edit/Delete Users from the shop
+	Add/Edit/Delete Users from the shop           
 Employee:
 	View Items
 	View Accounts
