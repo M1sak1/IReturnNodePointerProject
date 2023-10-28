@@ -36,9 +36,10 @@
 				Name
 			</th>
 		<th>
-			<button style="background-color:green" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "Patron"}) + "'")" >
-				New Patron
-			</button>
+			@if (ViewBag.View == "UnResolved")
+			{
+				<a href="@Url.Action("AdminAccountsView", "Admin", new {userType = "Patron"})">Add Patron</a>
+			}
 		</th>
 		</thead>
 		<tbody>	
@@ -55,12 +56,12 @@
 						@item.Name
 					</td>
 					<td>
-						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
+						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
 							Delete
 						</button>
 					</td>
 					<td>
-						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
+						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
 							Edit
 						</button>
 					</td>
@@ -79,9 +80,10 @@
 			Name
 		</th>
 		<th>
-			<button style="background-color:green" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "User"}) + "'")">
-				New Employee
-			</button>
+			@if (ViewBag.View == "UnResolved")
+			{
+				<a href="@Url.Action("AdminAccountsView", "Admin", new {userType = "User"})">Add Patron</a>
+			}
 		</th>
 		</thead>
 		<tbody>
@@ -98,12 +100,12 @@
 							@item.Name
 					</td>
 					<td>
-						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
+						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
 							Delete
 						</button>
 					</td>
 					<td>
-						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
+						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
 							Edit
 						</button>
 					</td>
@@ -122,9 +124,10 @@
 			Name
 		</th>
 		<th>
-			<button style="background-color:green" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart", new{ parameter1 = "Admin"}) + "'")">
-				New Admin
-			</button>
+			@if (ViewBag.View == "UnResolved")
+			{
+				<a href="@Url.Action("AdminAccountsView", "Admin", new {userType = "User"})">Add Patron</a>
+			}
 		</th>
 		</thead>
 		<tbody>
@@ -141,12 +144,12 @@
 						@item.Name
 					</td>
 					<td>
-						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("Cart", "Account", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
+						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
 							Delete
 						</button>
 					</td>
 					<td>
-						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("Cart", "Account", new{ parameter1 = "User", parameter2 = item.UserID}) + "'")">
+						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
 							Edit
 						</button>
 					</td>
@@ -155,8 +158,11 @@
 		</tbody>
 	</table>
 	@{
-		await Html.RenderPartialAsync("AddAccount", new IReturnNodePointerProject.Models.LoginViewModel());
-		await Html.RenderPartialAsync("EditAccount", new IReturnNodePointerProject.Models.LoginViewModel());
+
+		if (ViewBag.View == "Add")
+		{
+			await Html.RenderPartialAsync("AddAccount",new IReturnNodePointerProject.Models.User());
+		}
 	}
 </body>
 </html>

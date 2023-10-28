@@ -40,9 +40,17 @@
         <button class="navBtn" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart") + "'");">
             Cart
         </button>
-        <button class="navBtn" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin") + "'");">
-            Admin
-        </button>
+        @if (HttpContextAccessor.HttpContext.Session.GetString("AccessLevel") != "Admin")
+        {
+            <button class="navBtn" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin") + "'");">
+                Admin
+            </button>
+        }
+        @if (loggedIn) {
+        <div>
+            You Are Logged in
+        </div>
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">
