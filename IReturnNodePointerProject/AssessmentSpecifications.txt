@@ -39,4 +39,4 @@ Validation Notes:
 	•	Address Line 1/2 contains both letters and numbers e.g. 377 Ring Road
 	•	Post Code Contains Numbers only e.g. 2308 not two thousand and eight
 	•	State can be selected from a dropdown – can be Full Names or acronyms e.g. New South Wales or NSW
-•		Each of these things should have a message displayed to the User if they are incorrect or missing.
+•		Each of these things should have a message displayed to the User if they are incorrect or missing. 

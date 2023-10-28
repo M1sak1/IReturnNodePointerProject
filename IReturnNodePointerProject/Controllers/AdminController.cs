@@ -27,10 +27,27 @@ namespace IReturnNodePointerProject.Controllers
                 
             return View(allLists);
         }
-        public IActionResult AddUser()
+        public IActionResult AddUser(string userType)
         {
-            if(User == )
-            ViewBag.View = "patron";
+            if (userType.Equals("Patrons"))
+            {
+				ViewBag.View = "patron";
+                Patrons patron = new Patrons();
+                return PartialView(patron);
+            }
+            else
+            {
+                User user = new User();
+				ViewBag.View = "company";
+                return PartialView(user);
+            }
+        }
+        public IActionResult EditUser(string userType , int UserID)
+        {
+            return PartialView();
+        }
+        public IActionResult DeleteUser(string userType, int UserID)
+        {
             return PartialView();
         }
     }
