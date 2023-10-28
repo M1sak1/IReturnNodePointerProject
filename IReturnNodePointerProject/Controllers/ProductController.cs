@@ -1,5 +1,6 @@
 ﻿using IReturnNodePointerProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 using NuGet.Configuration;
 using System.Reflection.Metadata;
@@ -20,6 +21,7 @@ namespace IReturnNodePointerProject.Controllers
 		}
 		public async Task <IActionResult> Index(int productID)
 		{
+			Console.WriteLine("Here");
 			var gg = _storeContext.Genre.AsQueryable();
 			var pd = _storeContext.Product.AsQueryable();
 			var st = _storeContext.Stocktake.AsQueryable();
@@ -34,6 +36,7 @@ namespace IReturnNodePointerProject.Controllers
                 SelectedProduct.price = _st[0].Price;
                 SelectedProduct.Author = _pd[0].Author;
                 SelectedProduct.Genre = gg.Where(gg => gg.genreID == _pd[0].Genre).ToArray()[0].Name;
+				SelectedProduct.StokNum = _st[0].Quantity;
 				if (_st[0].Quantity > 0)
 				{
 					SelectedProduct.Stock = "In Stock";
@@ -45,15 +48,41 @@ namespace IReturnNodePointerProject.Controllers
             }
 			else
 			{
-                SelectedProduct.Name = "Not Found";
-                SelectedProduct.Description = "Not Found";
+                SelectedProduct.Name = "Name";
+                SelectedProduct.Description = "Description";
                 SelectedProduct.price = 0.00;
-                SelectedProduct.Author = "Not Found";
-                SelectedProduct.Genre = "Not Found";
+                SelectedProduct.Author = "Creator";
+                SelectedProduct.Genre = "Type";
             }
 			return View(SelectedProduct);
 		}
 		[HttpPost]
+		public async Task<IActionResult> Index(prodAmalgam newData)
+		{
+
+            var gg = _storeContext.Genre.AsQueryable();
+            var pd = _storeContext.Product.AsQueryable();
+            var st = _storeContext.Stocktake.AsQueryable();
+            var _pd = pd.Where(pd => pd.ID == newData.ProductID).ToArray()[0];
+            var _st = st.Where(st => st.ProductId == newData.ProductID).ToArray()[0];
+			//the stocktake
+			_st.Price = newData.price;
+			_st.Quantity = newData.Quantity;
+			//product
+			_pd.Author = newData.Author;
+			_pd.Description = newData.Description;
+			_pd.Name = newData.Name;
+			_pd.LastUpdated = DateTime.Now;
+            //fancy stuff
+			//updateing
+			_storeContext.Update(_st);
+			_storeContext.Update(_pd);
+
+            return View();	//just for displaying purposes
+		}
+
+
+        [HttpPost]
 		public void AddToCart(int productID)
 		{
 			Console.WriteLine(productID);

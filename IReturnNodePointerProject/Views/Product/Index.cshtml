@@ -2,129 +2,170 @@
 	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-	Layout = "_Layout";
+    Layout = "_Layout";
 }
 @model IReturnNodePointerProject.Models.prodAmalgam;
 <!DOCTYPE HTML>
 <head>
-	<script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
-	<script>
-		$(document).ready(function () {
-			$("#CardAdd").click(function () {
-				$.ajax({
-					url: "/Product/AddToCart",
-					data: { 'productID': @Model.ProductID},
-					datatype: "text",
-					type: "POST",
-					success: function () {
-						//alert("Added");
-					},
-					error: function () {
-						alert("Gix has failed, I shall not - Sheldred");
-					}
-				});
-			});
-		});
-		$(document).ready(function () {
-			$("SaveChanges").click(function () {
-				alert("Changes Saved");
-			})
-		})
-	</script>
+    <script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+            $("#CardAdd").click(function () {
+                $.ajax({
+                    url: "/Product/AddToCart",
+                    data: { 'productID': @Model.ProductID},
+                    datatype: "text",
+                    type: "POST",
+                    success: function () {
+                        //alert("Added");
+                    },
+                    error: function () {
+                        alert("Gix has failed, I shall not - Sheldred");
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $("#SaveChanges").click(function () {
+                alert("Changes Saved");
+            })
+        });
+        $(document).ready(function () {
+            $("#Description").on("onloadeddata", function () {
+                this.style.height = this.scrollHeight + 10 + "px";
+            })
+        })
+
+        // You could attach to keyUp, etc. if keydown doesn't work
+        Event.observe('text-area', 'keydown', resizeIt);
+
+        resizeIt(); //Initial on load
+    </script>
 </head>
 <html>
-	<style>
-		.prodPhoto{
-			width: 48%;
-			height: 100px;
-			float: Left;
-			border: solid black;
-			padding-right: 2%;
-			padding-top: 42%;
-			margin-top: 30px;
-			position: relative;
-		}
-		.prodPhoto #plaecholder {
-			top: 50%;
-			position: absolute;
-			margin-top: -10px;
-			left: 44%;
-			margin-left: -10px;
-		}
-		.Details{
-			padding-top:30px;
-			width:50%;
-			float: right;
-		}
-		.Details #Description{
-			float: left;
-		}
-		.Details #Title-Genre{
-			font-size: 23px;
-		}
-		.PriceBlock{
-			width: 100%;
-			display: inline-block;
-		}
-		.PriceBlock #Price{
-			font-size: 23px;
-			float: left;
-		}
-		.PriceBlock #Stock{
-			float: right;
-			font-size: 5;
-		}
-		.Details #btnHolder{
-			width: 100%;
-			float: right;
-		}
-		.Details button{
-			width: 64%;
-			background: #f50000;
-			color: white;
-			border-radius: 10px;
-			padding: 10px 0 10px 0;
-			margin-bottom: 10px;
-		}
-	</style>
-	@if (false)
-	{
-		<body>
-			<div class="prodPhoto">
-				<p id="plaecholder">{NO IMAGE}</p>
-			</div>
-			<div class="Details">
-				<p id="Title-Genre"><b>@Model.Name | @Model.Genre</b></p>
-				<p id="Author">@Model.Author</p>
-				<div class="PriceBlock">
-					<p id="Price"><b>$@Model.price</b></p>
-					<p id="Stock">@Model.Stock</p>
-				</div>
-				<span id="btnHolder">
-				<button id="CardAdd">ADD TO CART</button>
-				</span>
-				<p id="Description">@Model.Description</p>
-			</div>
-		</body>
-	}
-	else
-	{
-		<body>
-			<div class="prodPhoto">
-				<p id="plaecholder">{NO IMAGE}</p>
-			</div>
-			<div class="Details">
-				<input type="text" id="Title-Genre" value=@Model.Name /> | <input type="text" id="Title-Genre" value="@Model.Genre">
-				<input type="text" id="Author" value=@Model.Author />
-				<div class="PriceBlock">
-					<input type="text" id="Price" value=@Model.price />
-					<input type="text" id="Stock" value=@Model.Stock />
-				</div>
-				<span id="btnHolder">
-					<button id="SaveChanges">Save Changes</button>
-				</span>
-				<input type="text" id="Description" value=@Model.Description />
-			</div>
-		</body>
-	}
+<style>
+    .prodPhoto {
+        width: 48%;
+        height: 100px;
+        float: Left;
+        border: solid black;
+        padding-right: 2%;
+        padding-top: 42%;
+        margin-top: 30px;
+        position: relative;
+    }
+
+    .prodPhoto #plaecholder {
+        top: 50%;
+        position: absolute;
+        margin-top: -10px;
+        left: 44%;
+        margin-left: -10px;
+    }
+
+    .Details {
+        padding-top: 30px;
+        width: 50%;
+        float: right;
+    }
+
+    .Details #Description {
+        float: left;
+    }
+
+    .Details #Title-Genre {
+        font-size: 23px;
+    }
+
+    .Details #Title-Genre-edit{
+        width: 40%;
+        font-size: 23px;
+    }
+
+    .PriceBlock {
+        width: 100%;
+        display: inline-block;
+    }
+
+    .PriceBlock #Price {
+        font-size: 23px;
+        float: left;
+    }
+
+    .PriceBlock #Stock {
+        float: right;
+        font-size: 5;
+    }
+
+    .Details #btnHolder {
+        width: 100%;
+        float: right;
+    }
+
+    .Details button {
+        width: 64%;
+        background: #f50000;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 0 10px 0;
+        margin-bottom: 10px;
+    }
+    .Details #SaveChanges{
+        width: 64%;
+        background: #f50000;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 0 10px 0;
+        margin-bottom: 10px;
+    }
+
+    .Details textarea {
+        width: 100%;
+    }
+    .Details input{
+        border: hidden;
+    }
+</style>
+@if (false) //change this to however we tell if the user is not an admin
+{
+    <body>
+        <div class="prodPhoto">
+            <p id="plaecholder">{NO IMAGE}</p>
+        </div>
+        <div class="Details">
+            <p id="Title-Genre"><b>@Model.Name | @Model.Genre</b></p>
+            <p id="Author">@Model.Author</p>
+            <div class="PriceBlock">
+                <p id="Price"><b>$@Model.price</b></p>
+                <p id="Stock">@Model.Stock</p>
+            </div>
+            <span id="btnHolder">
+                <button id="CardAdd">ADD TO CART</button>
+            </span>
+            <p id="Description">@Model.Description</p>
+        </div>
+    </body>
+}
+else
+{
+    <body>
+        <form method="post" asp-action="Index">
+            <div class="prodPhoto">
+                <p id="plaecholder">{NO IMAGE}</p>
+            </div>
+            <div class="Details">
+                <input asp-for="Name" type="text" id="Title-Genre-edit" value="@Model.Name" /> | <input asp-for="Genre" type="text" id="Title-Genre-edit" value="@Model.Genre">
+                <input asp-for="Author" type="text" id="Author" value="@Model.Author" style="margin-top: 3px;" />
+                <div class="PriceBlock">
+                    <input asp-for="Price" type="text" id="Price" value="@Model.price" style="margin-top: 3px;" />
+                    <input asp-for="StockNum" type="text" id="Stock" style="margin-top: 3px;" value="@Model.StokNum" />
+                </div>
+                <span id="btnHolder">
+                    <button type="submit" id="SaveChanges" value="prodAmalgam">Save Changes</button>
+                </span>
+                <div asp-for="Description" type="text" id="Description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' contenteditable>@Model.Description</div>
+            </div>
+        </form>
+    </body>
+}
 </html>
