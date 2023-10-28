@@ -195,7 +195,6 @@ namespace IReturnNodePointerProject.Controllers
 				{
                     ModelState.AddModelError("Error", "Registration Failed: user already exists");
                     ViewBag.Data = model;
-                   
 					return View(model);
 				}
 			}

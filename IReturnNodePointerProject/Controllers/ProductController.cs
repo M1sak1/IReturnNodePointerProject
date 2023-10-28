@@ -19,6 +19,7 @@ namespace IReturnNodePointerProject.Controllers
 			SelectedProduct = new prodAmalgam();
 			_storeContext = context;
 		}
+		[HttpGet]
 		public async Task <IActionResult> Index(int productID)
 		{
 			Console.WriteLine("Here");
@@ -58,7 +59,7 @@ namespace IReturnNodePointerProject.Controllers
             return View(SelectedProduct);
 		}
 		[HttpPost]
-		public async Task<IActionResult> updateData(prodAmalgam newData)
+		public async Task<IActionResult> Index(prodAmalgam newData)
 		{
             var gg = _storeContext.Genre.AsQueryable();
             var pd = _storeContext.Product.AsQueryable();
