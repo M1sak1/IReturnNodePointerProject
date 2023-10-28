@@ -1,7 +1,13 @@
 ﻿@*
 	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@inject IHttpContextAccessor HttpContextAccessor;
 @{
+    bool isAdmin = false;
+    if (HttpContextAccessor.HttpContext.Session.GetString("AccessLevel") == "Admin")
+    {
+        isAdmin = true;
+    }
     Layout = "_Layout";
 }
 @model IReturnNodePointerProject.Models.prodAmalgam;
@@ -71,6 +77,7 @@
 
     .Details #Description {
         float: left;
+        width: 100%;
     }
 
     .Details #Title-Genre {
@@ -125,8 +132,9 @@
     .Details input{
         border: hidden;
     }
-</style>
-@if (false) //change this to however we tell if the user is not an admin
+    
+    </style>
+@if (!true) //change this to however we tell if the user is not an admin
 {
     <body>
         <div class="prodPhoto">
@@ -160,7 +168,8 @@ else
                 <p id="plaecholder">{NO IMAGE}</p>
             </div>
             <div class="Details">
-                <input asp-for="Name" name="Name" type="text" id="Title-Genre-edit" value="@ViewBag.SelectedProduct.Name" /> | <input asp-for="Genre" type="text" id="Title-Genre-edit" value="@ViewBag.SelectedProduct.Genre">
+                <input asp-for="Name" name="Name" type="text" id="Title-Genre-edit" value="@ViewBag.SelectedProduct.Name"/> 
+                @Html.DropDownList("Genre", new SelectList(ViewBag.SelectedProduct.hidden.genres , "genreID", "Name"), new { @id="Title-Genre-edit" })
                 <input asp-for="Author" name="Author" type="text" id="Author" value="@ViewBag.SelectedProduct.Author" style="margin-top: 3px;" />
                 <div class="PriceBlock">
                     <input asp-for="Price" name="Price" type="number" id="Price" value="@ViewBag.SelectedProduct.price" style="margin-top: 3px;" />
@@ -169,8 +178,10 @@ else
                 <span id="btnHolder">
                     <button type="submit" id="SaveChanges" value="prodAmalgam">Save Changes</button>
                 </span>
-                <input asp-for="Description" name="Description" type="text" id="Description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' value="@ViewBag.SelectedProduct.Description"/>
+                <textarea asp-for="Description" rows="10" name="Description" type="text" id="Description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>@ViewBag.SelectedProduct.Description</textarea>
             </div>
+            <hr/>
+            <p>Hidden Attributes</p>
         </form>
     </body>
 }
