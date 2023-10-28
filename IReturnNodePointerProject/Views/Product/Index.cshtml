@@ -30,11 +30,11 @@
                 alert("Changes Saved");
             })
         });
-        $(document).ready(function () {
-            $("#Description").on("onloadeddata", function () {
-                this.style.height = this.scrollHeight + 10 + "px";
-            })
-        })
+        var input = document.getElementById('#Description');
+        input.addEventListener('input', resizeInput);
+        function resizeInput() {
+            this.style.width = this.value.length + "ch";
+        }
 
         // You could attach to keyUp, etc. if keydown doesn't work
         Event.observe('text-area', 'keydown', resizeIt);
@@ -140,7 +140,13 @@
                 <p id="Stock">@Model.Stock</p>
             </div>
             <span id="btnHolder">
-                <button id="CardAdd">ADD TO CART</button>
+                @if(Model.StokNum == 0)
+                {
+                    <div id="CartAdd">Out Of Stock!</div>
+                }
+                else{
+                    <button id="CardAdd">ADD TO CART</button>
+                }
             </span>
             <p id="Description">@Model.Description</p>
         </div>
@@ -149,7 +155,7 @@
 else
 {
     <body>
-        <form method="post" asp-action="updateData">
+        <form method="post" asp-action="Index">
             <div class="prodPhoto">
                 <p id="plaecholder">{NO IMAGE}</p>
             </div>
@@ -163,7 +169,7 @@ else
                 <span id="btnHolder">
                     <button type="submit" id="SaveChanges" value="prodAmalgam">Save Changes</button>
                 </span>
-                <div asp-for="Description" name="Description" type="text" id="Description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' contenteditable>@ViewBag.SelectedProduct.Description</div>
+                <input asp-for="Description" name="Description" type="text" id="Description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' value="@ViewBag.SelectedProduct.Description"/>
             </div>
         </form>
     </body>

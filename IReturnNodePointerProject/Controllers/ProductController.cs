@@ -58,7 +58,7 @@ namespace IReturnNodePointerProject.Controllers
             return View(SelectedProduct);
 		}
 		[HttpPost]
-		public async Task<IActionResult> updateData(prodAmalgam newData)
+		public async Task<IActionResult> Index(prodAmalgam newData)
 		{
             var gg = _storeContext.Genre.AsQueryable();
             var pd = _storeContext.Product.AsQueryable();
@@ -74,11 +74,13 @@ namespace IReturnNodePointerProject.Controllers
 			_pd.Name = newData.Name;
 			_pd.LastUpdated = DateTime.Now;
             //fancy stuff
+			
 			//updateing
 			_storeContext.Update(_st);
 			_storeContext.Update(_pd);
+			_storeContext.SaveChanges();
 
-            return View();
+            return View(newData);
 		}
 
 
