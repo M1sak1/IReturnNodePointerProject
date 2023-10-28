@@ -155,8 +155,8 @@
 		</tbody>
 	</table>
 	@{
-		await Html.RenderPartialAsync("AddAccount");
-		await Html.RenderPartialAsync("EditAccount");
+		await Html.RenderPartialAsync("AddAccount", new IReturnNodePointerProject.Models.LoginViewModel());
+		await Html.RenderPartialAsync("EditAccount", new IReturnNodePointerProject.Models.LoginViewModel());
 	}
 </body>
 </html>

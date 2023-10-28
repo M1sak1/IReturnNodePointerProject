@@ -26,23 +26,30 @@ namespace IReturnNodePointerProject.Controllers
             allLists.UserData = CheckoutTable.ToList();
                 
             return View(allLists);
+
         }
-        public IActionResult AddUser(string userType)
+        [HttpGet]
+        public IActionResult AddAccount()
+        {
+            return PartialView(new LoginViewModel());
+        }
+		[HttpGet]
+		public IActionResult AddAccount(string userType)
         {
             if (userType.Equals("Patrons"))
             {
 				ViewBag.View = "patron";
                 Patrons patron = new Patrons();
-                return PartialView(patron);
+                return PartialView(new LoginViewModel());
             }
             else
             {
                 User user = new User();
 				ViewBag.View = "company";
-                return PartialView(user);
+                return PartialView(new LoginViewModel());
             }
         }
-        public IActionResult EditUser(string userType , int UserID)
+        public IActionResult EditAccount(string userType , int UserID)
         {
             return PartialView();
         }
