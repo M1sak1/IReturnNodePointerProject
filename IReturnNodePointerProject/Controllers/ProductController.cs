@@ -1,6 +1,7 @@
 ﻿using IReturnNodePointerProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using NuGet.Configuration;
 using System.Reflection.Metadata;
@@ -130,17 +131,27 @@ namespace IReturnNodePointerProject.Controllers
             ViewBag.SelectedProduct = newData;
             return View(newData);
 		}
-
-		public void UpdateDDLists(int GenreHolder)
+		[HttpPost]
+		public void DeleteProduct(int productID)
 		{
-			ViewBag.SelectedProduct.GenreID = GenreHolder;
-		}
+            var pd = _storeContext.Product.AsQueryable();
+            var st = _storeContext.Stocktake.AsQueryable();
+            var _pd = pd.Where(pd => pd.ID == productID).ToArray()[0];
+            var _st = st.Where(st => st.ProductId == productID).ToArray()[0];
+            _storeContext.Stocktake.Remove(_st);
+            _storeContext.Product.Remove(_pd);
+			_storeContext.SaveChanges();
+        }
+
+
+
+
 
 
         [HttpPost]
 		public void AddToCart(int productID)
 		{
-			Console.WriteLine(productID);
+			//Console.WriteLine(productID);
 			var JsOBJ = "";
 			//creating a cookie to fill in with the void
 			if (string.IsNullOrEmpty( HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart") )) 
@@ -156,7 +167,7 @@ namespace IReturnNodePointerProject.Controllers
 				JsOBJ = JsonConvert.SerializeObject(Cart);
 			}
 			HttpContext.Session.SetString("BlockBuster_2_Electric_Boogaloo_Cart", JsOBJ);
-			Console.WriteLine(HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart"));
+			//Console.WriteLine(HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart"));
 		}
 	}
 }
