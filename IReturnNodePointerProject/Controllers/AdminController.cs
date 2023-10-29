@@ -87,119 +87,27 @@ namespace IReturnNodePointerProject.Controllers
             return View(allLists);
 
         }
-        //Add Accounts
+        //Add Accounts and edits
         [HttpPost]
-        public IActionResult AdminAccountsView(User model, string btn)
+        public IActionResult AdminAccountsView(User model, string btn, int value)
         {
-            //cancel the add function
-            ViewBag.Data = model;
-            //add to database and generate a salt / hash the password 
-            //Creates a salt of size 16 and randon numbers/letters
-            //generating a string to combine with the password and to have a value ready to go into the database
-            Random random = new Random();
-            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            string Salt = new string(Enumerable.Range(1, 32).Select(_ => chars[random.Next(chars.Length)]).ToArray());
-            string Combinedpassword = Salt + model.HashPW;
-            //converts the password into bytes 
-            byte[] CombinedPassword = Encoding.UTF8.GetBytes(Combinedpassword, 0, Combinedpassword.Length);
-            //turns it into a hashed value
-            string Password = Encoding.UTF8.GetString(CombinedPassword);
-            SHA256 mySHA256 = SHA256.Create();
-            byte[] HashedPassword = mySHA256.ComputeHash(CombinedPassword);
-            //changing the typing of the HashPW to fit into the db 
-            string stringHashedPassword = Convert.ToHexString(HashedPassword);
-            
-            if (btn == "Patron")
+                ViewBag.User = model;
+                ViewBag.Patron = model;
+
+            if (value == 1)
             {
-                //Check if that Patron already exists 
-                if (!_storeContext.Patrons.Any(y => y.Email == model.email))
-                {
-                    //empty models
-                    Patrons patrons = new Patrons();
-                    TO tO = new TO();
-                    //database data 
-                    patrons.Email = model.email;
-                    patrons.Name = model.Name;
-                    patrons.Salt = Salt;
-                    patrons.HashPW = stringHashedPassword;
-                    _storeContext.Patrons.Add(patrons);
-                    _storeContext.SaveChanges();
-                    //to use the primary key generated in patrons we gotta save it first to stop foreign key issues 
-                    tO.patronID = patrons.UserID;
-                    tO.Email = model.email;
-                    _storeContext.TO.Add(tO);
-                    _storeContext.SaveChanges();
-                    ViewBag.View = "UnResolved";
-
-                }
-                else
-                {
-                    ModelState.AddModelError("Error", "Registration Failed: user already exists");
-                }
+                //empty models
+                Patrons patrons = new Patrons();
+                patrons = _storeContext.Patrons.FirstOrDefault(x => x.UserID == model.UserID);
+                //database data 
+                patrons.Email = model.email;
+                patrons.Name = model.Name;
+                //changing the typing of the HashPW to fit into the db 
+                _storeContext.Patrons.Update(patrons);
+                _storeContext.SaveChanges();
+                ViewBag.View = "UnResolved";
             }
-            else if (btn == "Employee")
-            {
-                if (!_storeContext.User.Any(x => x.UserName == model.UserName))
-                {
-                    User user = new User();
-                    user.UserName = model.UserName;
-                    user.Name = model.Name;
-                    user.email = model.email;
-                    user.Salt = Salt;
-                    user.HashPW = stringHashedPassword;
-                    user.IsAdmin = false;
-                    _storeContext.User.Add(user);
-                    _storeContext.SaveChanges();
-                    ViewBag.View = "UnResolved";
-                }
-            }
-            else if (btn == "Admin")
-            {
-                if (!_storeContext.User.Any(x => x.UserName == model.UserName))
-                {
-                    User user = new User();
-                    user.UserName = model.UserName;
-                    user.Name = model.Name;
-                    user.Salt = Salt;
-                    user.HashPW = stringHashedPassword;
-                    user.IsAdmin = true;
-                    _storeContext.User.Add(user);
-                    _storeContext.SaveChanges();
-                    ViewBag.View = "UnResolved";
-                }
-            }
-
-            var UserTable = _storeContext.User.AsQueryable();
-            var PatronTable = _storeContext.Patrons.AsQueryable();
-            var CheckoutTable = _storeContext.TO.AsQueryable();
-            allLists.Admins = UserTable.Where(x => x.IsAdmin == true).ToList();
-            allLists.Employees = UserTable.Where(x => x.IsAdmin != true).ToList();
-            allLists.Users = PatronTable.ToList();
-            allLists.UserData = CheckoutTable.ToList();
-            return View(allLists);
-        }
-
-        //use data gathered to edit account
-        public IActionResult EditAccountView(User model, string btn)
-        {
-            ViewBag.User = model;
-            ViewBag.Patron = model;
-
-            if (btn == "Patron")
-            {
-                    //empty models
-
-                    Patrons patrons = new Patrons();
-                    patrons = _storeContext.Patrons.FirstOrDefault(x => x.UserID == model.UserID);
-                    //database data 
-                    patrons.Email = model.email;
-                    patrons.Name = model.Name;
-                    //changing the typing of the HashPW to fit into the db 
-                    _storeContext.Patrons.Update(patrons);
-                    _storeContext.SaveChanges();
-                    ViewBag.View = "UnResolved";
-            }
-            else if (btn == "Employee")
+            else if (value == 2)
             {
                 //empty models
                 User Account = new User();
@@ -211,7 +119,142 @@ namespace IReturnNodePointerProject.Controllers
                 _storeContext.SaveChanges();
                 ViewBag.View = "UnResolved";
             }
-            else if (btn == "Admin")
+            else if (value == 3)
+            {
+                //empty models
+                User Account = new User();
+                Account = _storeContext.User.FirstOrDefault(x => x.UserID == model.UserID);
+                //database data 
+                Account.email = model.email;
+                Account.Name = model.Name;
+                _storeContext.User.Update(Account);
+                _storeContext.SaveChanges();
+                ViewBag.View = "UnResolved";
+            }
+            else
+            {
+
+
+                //cancel the add function
+                ViewBag.Data = model;
+                //add to database and generate a salt / hash the password 
+                //Creates a salt of size 16 and randon numbers/letters
+                //generating a string to combine with the password and to have a value ready to go into the database
+                Random random = new Random();
+                const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                string Salt = new string(Enumerable.Range(1, 32).Select(_ => chars[random.Next(chars.Length)]).ToArray());
+                string Combinedpassword = Salt + model.HashPW;
+                //converts the password into bytes 
+                byte[] CombinedPassword = Encoding.UTF8.GetBytes(Combinedpassword, 0, Combinedpassword.Length);
+                //turns it into a hashed value
+                string Password = Encoding.UTF8.GetString(CombinedPassword);
+                SHA256 mySHA256 = SHA256.Create();
+                byte[] HashedPassword = mySHA256.ComputeHash(CombinedPassword);
+                //changing the typing of the HashPW to fit into the db 
+                string stringHashedPassword = Convert.ToHexString(HashedPassword);
+
+                if (btn == "Patron")
+                {
+                    //Check if that Patron already exists 
+                    if (!_storeContext.Patrons.Any(y => y.Email == model.email))
+                    {
+                        //empty models
+                        Patrons patrons = new Patrons();
+                        TO tO = new TO();
+                        //database data 
+                        patrons.Email = model.email;
+                        patrons.Name = model.Name;
+                        patrons.Salt = Salt;
+                        patrons.HashPW = stringHashedPassword;
+                        _storeContext.Patrons.Add(patrons);
+                        _storeContext.SaveChanges();
+                        //to use the primary key generated in patrons we gotta save it first to stop foreign key issues 
+                        tO.patronID = patrons.UserID;
+                        tO.Email = model.email;
+                        _storeContext.TO.Add(tO);
+                        _storeContext.SaveChanges();
+                        ViewBag.View = "UnResolved";
+
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Error", "Registration Failed: user already exists");
+                    }
+                }
+                else if (btn == "Employee")
+                {
+                    if (!_storeContext.User.Any(x => x.UserName == model.UserName))
+                    {
+                        User user = new User();
+                        user.UserName = model.UserName;
+                        user.Name = model.Name;
+                        user.email = model.email;
+                        user.Salt = Salt;
+                        user.HashPW = stringHashedPassword;
+                        user.IsAdmin = false;
+                        _storeContext.User.Add(user);
+                        _storeContext.SaveChanges();
+                        ViewBag.View = "UnResolved";
+                    }
+                }
+                else if (btn == "Admin")
+                {
+                    if (!_storeContext.User.Any(x => x.UserName == model.UserName))
+                    {
+                        User user = new User();
+                        user.UserName = model.UserName;
+                        user.Name = model.Name;
+                        user.Salt = Salt;
+                        user.HashPW = stringHashedPassword;
+                        user.IsAdmin = true;
+                        _storeContext.User.Add(user);
+                        _storeContext.SaveChanges();
+                        ViewBag.View = "UnResolved";
+                    }
+                }
+            }
+            var UserTable = _storeContext.User.AsQueryable();
+            var PatronTable = _storeContext.Patrons.AsQueryable();
+            var CheckoutTable = _storeContext.TO.AsQueryable();
+            allLists.Admins = UserTable.Where(x => x.IsAdmin == true).ToList();
+            allLists.Employees = UserTable.Where(x => x.IsAdmin != true).ToList();
+            allLists.Users = PatronTable.ToList();
+            allLists.UserData = CheckoutTable.ToList();
+            return View(allLists);
+        }
+        [HttpPost]
+        //use data gathered to edit account
+        public IActionResult EditAccountView(User model, int btn)
+        {
+            ViewBag.User = model;
+            ViewBag.Patron = model;
+
+            if (btn == 1)
+            {
+                    //empty models
+                    Patrons patrons = new Patrons();
+                    patrons = _storeContext.Patrons.FirstOrDefault(x => x.UserID == model.UserID);
+                    //database data 
+                    patrons.Email = model.email;
+                    patrons.Name = model.Name;
+                    //changing the typing of the HashPW to fit into the db 
+                    _storeContext.Patrons.Update(patrons);
+                    _storeContext.SaveChanges();
+                    ViewBag.View = "UnResolved";
+            }
+            else if (btn == 2)
+            {
+                //empty models
+                User Account = new User();
+                Account = _storeContext.User.FirstOrDefault(x => x.UserID == model.UserID);
+                //database data 
+                Account.email = model.email;
+                Account.UserName = model.UserName;
+                _storeContext.User.Update(Account);
+                _storeContext.SaveChanges();
+                ViewBag.View = "UnResolved";
+            }
+            else if (btn == 3)
             {
                 //empty models
                 User Account = new User();
@@ -226,22 +269,22 @@ namespace IReturnNodePointerProject.Controllers
 
             return RedirectToAction("AdminAccoutsView");
         }
-        public IActionResult Delete(string userType , int ID)
+        public IActionResult Delete(int usernum , int ID)
         {
-			switch (userType)
+			switch (usernum)
             {
-                case "Patron":
+                case 1:
 					var user = _storeContext.Patrons.FirstOrDefault(x => x.UserID == ID);
                     var TO = _storeContext.TO.FirstOrDefault(x => x.patronID == ID);
 					_storeContext.TO.Remove(TO);
 					_storeContext.SaveChanges();
                     _storeContext.Patrons.Remove(user);
                     break;
-                case "Employee":
+                case 2:
                     var Employee = _storeContext.User.FirstOrDefault(x => x.UserID == ID);
                     _storeContext.User.Remove((User)Employee);
                     break;
-                case "Admin":
+                case 3:
                     int count = _storeContext.User.Count(x => x.IsAdmin == true);
                     if (count > 1) {
                         var Admin = _storeContext.User.FirstOrDefault(x => x.UserID == ID);
