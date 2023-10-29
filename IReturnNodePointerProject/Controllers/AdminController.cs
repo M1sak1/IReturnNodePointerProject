@@ -222,53 +222,7 @@ namespace IReturnNodePointerProject.Controllers
             allLists.UserData = CheckoutTable.ToList();
             return View(allLists);
         }
-        [HttpPost]
-        //use data gathered to edit account
-        public IActionResult EditAccountView(User model, int btn)
-        {
-            ViewBag.User = model;
-            ViewBag.Patron = model;
-
-            if (btn == 1)
-            {
-                    //empty models
-                    Patrons patrons = new Patrons();
-                    patrons = _storeContext.Patrons.FirstOrDefault(x => x.UserID == model.UserID);
-                    //database data 
-                    patrons.Email = model.email;
-                    patrons.Name = model.Name;
-                    //changing the typing of the HashPW to fit into the db 
-                    _storeContext.Patrons.Update(patrons);
-                    _storeContext.SaveChanges();
-                    ViewBag.View = "UnResolved";
-            }
-            else if (btn == 2)
-            {
-                //empty models
-                User Account = new User();
-                Account = _storeContext.User.FirstOrDefault(x => x.UserID == model.UserID);
-                //database data 
-                Account.email = model.email;
-                Account.UserName = model.UserName;
-                _storeContext.User.Update(Account);
-                _storeContext.SaveChanges();
-                ViewBag.View = "UnResolved";
-            }
-            else if (btn == 3)
-            {
-                //empty models
-                User Account = new User();
-                Account = _storeContext.User.FirstOrDefault(x => x.UserID == model.UserID);
-                //database data 
-                Account.email = model.email;
-                Account.Name = model.Name;
-                _storeContext.User.Update(Account);
-                _storeContext.SaveChanges();
-                ViewBag.View = "UnResolved";
-            }
-
-            return RedirectToAction("AdminAccoutsView");
-        }
+       
         public IActionResult Delete(int usernum , int ID)
         {
 			switch (usernum)
