@@ -1,6 +1,7 @@
 ﻿using IReturnNodePointerProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using NuGet.Configuration;
 using System.Reflection.Metadata;
@@ -92,29 +93,32 @@ namespace IReturnNodePointerProject.Controllers
             var bg = _storeContext.Book_genre.AsQueryable();
             var jg = _storeContext.Game_genre.AsQueryable();
             var mg = _storeContext.Movie_genre.AsQueryable();
-
             var _pd = pd.Where(pd => pd.ID == newData.ProductID).ToArray()[0];
             var _st = st.Where(st => st.ProductId == newData.ProductID).ToArray()[0];
-			//the stocktake
-			_st.Price = newData.price;
-			_st.Quantity = newData.StokNum;
-			//product
-			_pd.Author = newData.Author;
-			_pd.Description = newData.Description;
-			_pd.Name = newData.Name;
-			_pd.LastUpdated = DateTime.Now;
+			//this will only update if the admin exists.
+            if (HttpContext.Session.GetString("UserID") != null)
+			{
+				//the stocktake
+				_st.Price = newData.price;
+				_st.Quantity = newData.StokNum;
+				//product
+				_pd.Author = newData.Author;
+				_pd.Description = newData.Description;
+				_pd.Name = newData.Name;
+				_pd.LastUpdated = DateTime.Now;
+				_pd.LastUpdatedBy = HttpContext.Session.GetString("UserID");
 
-            //Console.WriteLine(Request.Form["Genre"]);
-            _pd.Genre = Convert.ToInt32(Request.Form["Genre"]);
-			_pd.subGenre = Convert.ToInt32(Request.Form["SubGenre"]);
-			_st.SourceId = Convert.ToInt32(Request.Form["Provider"]);
-            //fancy stuff
+				//Console.WriteLine(Request.Form["Genre"]);
+				_pd.Genre = Convert.ToInt32(Request.Form["Genre"]);
+				_pd.subGenre = Convert.ToInt32(Request.Form["SubGenre"]);
+				_st.SourceId = Convert.ToInt32(Request.Form["Provider"]);
+				//fancy stuff
 
-            //updateing
-            _storeContext.Update(_st);
-			_storeContext.Update(_pd);
-			_storeContext.SaveChanges();
-
+				//updateing
+				_storeContext.Update(_st);
+				_storeContext.Update(_pd);
+				_storeContext.SaveChanges();
+			}
 			//hidden -- re initalisation
 			newData.Genre = gg.Where(gg => gg.genreID == _pd.Genre).ToArray()[0].Name;
             newData.hidden = new hiddenData();
@@ -127,17 +131,30 @@ namespace IReturnNodePointerProject.Controllers
             ViewBag.SelectedProduct = newData;
             return View(newData);
 		}
-
-		public void UpdateDDLists(int GenreHolder)
+		[HttpPost]
+		public void DeleteProduct(int productID)
 		{
-			ViewBag.SelectedProduct.GenreID = GenreHolder;
-		}
+            var pd = _storeContext.Product.AsQueryable();
+            var st = _storeContext.Stocktake.AsQueryable();
+            var _pd = pd.Where(pd => pd.ID == productID).ToArray()[0];
+            var _st = st.Where(st => st.ProductId == productID).ToArray()[0];
+			//nulling everything
+
+            _storeContext.Stocktake.Remove(_st);
+            _storeContext.SaveChanges();
+            _storeContext.Product.Remove(_pd);
+            _storeContext.SaveChanges();
+        }
+
+
+
+
 
 
         [HttpPost]
 		public void AddToCart(int productID)
 		{
-			Console.WriteLine(productID);
+			//Console.WriteLine(productID);
 			var JsOBJ = "";
 			//creating a cookie to fill in with the void
 			if (string.IsNullOrEmpty( HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart") )) 
@@ -153,7 +170,7 @@ namespace IReturnNodePointerProject.Controllers
 				JsOBJ = JsonConvert.SerializeObject(Cart);
 			}
 			HttpContext.Session.SetString("BlockBuster_2_Electric_Boogaloo_Cart", JsOBJ);
-			Console.WriteLine(HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart"));
+			//Console.WriteLine(HttpContext.Session.GetString("BlockBuster_2_Electric_Boogaloo_Cart"));
 		}
 	}
 }
