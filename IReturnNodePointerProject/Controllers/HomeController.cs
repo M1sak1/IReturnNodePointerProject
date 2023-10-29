@@ -108,13 +108,6 @@ namespace IReturnNodePointerProject.Controllers
 		}
 		public void Addnewitem(string name)
 		{
-			var product = new Product();
-			product.Name = "Boop";
-			_storeContext.Product.Add(product);
-			_storeContext.SaveChanges();
-			var stocktake = new Stocktake();
-			stocktake.ProductId = product.ID;
-			_storeContext.Stocktake.Add(stocktake);
 			//ViewBag.Data =
 		}
 		public static double findPrice(int itemID) {

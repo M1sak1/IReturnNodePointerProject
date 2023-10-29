@@ -33,6 +33,27 @@ namespace IReturnNodePointerProject.Controllers
             var bg = _storeContext.Book_genre.AsQueryable();
             var jg = _storeContext.Game_genre.AsQueryable();
             var mg = _storeContext.Movie_genre.AsQueryable();
+			if(productID == -1)
+			{
+				//creating a dummy product
+				var product = new Product();
+				product.Name = "Temp";
+				product.Description = "lorum ipsum";
+				product.Author = "Temp";
+				product.Published = DateTime.Now;
+				product.Genre = 1;
+				product.subGenre = 1;
+				var stocktake = new Stocktake();
+				stocktake.SourceId = 1;
+				stocktake.Quantity = 0;
+				stocktake.Price = 0;
+				_storeContext.Product.Add(product);
+				stocktake.ItemId = product.ID;
+				_storeContext.Stocktake.Add(stocktake);
+				_storeContext.Product.Add(product);
+				_storeContext.SaveChanges();
+				productID = product.ID;
+			}
             //finding the data
             var _pd = pd.Where(pd => pd.ID == productID).ToArray();
 			var _st = st.Where(st => st.ProductId == productID).ToArray();
