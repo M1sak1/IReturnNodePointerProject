@@ -1,5 +1,6 @@
 ﻿using IReturnNodePointerProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
@@ -106,19 +107,45 @@ namespace IReturnNodePointerProject.Controllers
 			var year = dt.Year;
 			return year;
 		}
-		public void Addnewitem(string name)
+		[HttpPost]
+		public void Addnewitem()
 		{
-			//ViewBag.Data =
+			//creating a dummy product
+			var product = new Product();
+			product.Name = "Temp";
+			product.Description = "lorum ipsum";
+			product.Author = "Temp";
+			product.Published = DateTime.Now;
+			product.Genre = 1;
+			product.subGenre = 1;
+			product.LastUpdated = DateTime.Now;
+			var stocktake = new Stocktake();
+			stocktake.SourceId = 1;
+			stocktake.Quantity = 0;
+			stocktake.Price = 0;
+
+			_storeContext.Product.Add(product);
+			_storeContext.SaveChanges();
+			stocktake.ProductId = product.ID;
+			_storeContext.Stocktake.Add(stocktake);
+			_storeContext.SaveChanges();
+			//return RedirectToAction("Index", "Product", product.ID);
+			//Url.Action("Index", "Product", new { productID = product.ID });
 		}
 		public static double findPrice(int itemID) {
-			//this is a stupid way to do this but it works lol O(n)
+			//this is a stupid way to do this but it works lol
 			var price = 0d;
 			var loc = allLists.Stonks.ElementAt(0);
-			for (var i = 0; i < allLists.Stonks.Count; i++){
+			//var st = _storeContext.Stocktake.AsQueryable();
+
+			//var price = st.Where(st => st.ProductId == itemID).ToArray()[0].Price;
+			for (var i = 0; i < allLists.Stonks.Count; i++)
+			{
 				loc = allLists.Stonks.ElementAt(i);
-				if (loc.ItemId == itemID){
+				if (loc.ItemId == itemID)
+				{
 					//Console.WriteLine("found");
-					price = loc.Price; 
+					price = loc.Price;
 					break; //just in case the price is 0, O(n)
 				}
 			}

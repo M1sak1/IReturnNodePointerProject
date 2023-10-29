@@ -24,18 +24,9 @@ namespace IReturnNodePointerProject.Controllers
 		[HttpGet]
 		public async Task <IActionResult> Index(int productID)
 		{
-			//calling the database
-			var gg = _storeContext.Genre.AsQueryable();
-			var pd = _storeContext.Product.AsQueryable();
-			var st = _storeContext.Stocktake.AsQueryable();
-			var sc = _storeContext.Source.AsQueryable();
-			//genres
-            var bg = _storeContext.Book_genre.AsQueryable();
-            var jg = _storeContext.Game_genre.AsQueryable();
-            var mg = _storeContext.Movie_genre.AsQueryable();
-			if(productID == -1)
+			//var UserData = (Patrons)_storeContext.Patrons.FirstOrDefault(x => x.UserID == Convert.ToInt32(HttpContext.Session.GetString("UserID")));
+            if (productID == -1)
 			{
-				//creating a dummy product
 				var product = new Product();
 				product.Name = "Temp";
 				product.Description = "lorum ipsum";
@@ -43,63 +34,78 @@ namespace IReturnNodePointerProject.Controllers
 				product.Published = DateTime.Now;
 				product.Genre = 1;
 				product.subGenre = 1;
-				var stocktake = new Stocktake();
+				product.LastUpdated = DateTime.Now;
+				//product.LastUpdatedBy = UserData.Name;
+                var stocktake = new Stocktake();
 				stocktake.SourceId = 1;
 				stocktake.Quantity = 0;
 				stocktake.Price = 0;
-				_storeContext.Product.Add(product);
-				stocktake.ItemId = product.ID;
-				_storeContext.Stocktake.Add(stocktake);
+
 				_storeContext.Product.Add(product);
 				_storeContext.SaveChanges();
-				productID = product.ID;
+				_storeContext.Stocktake.Add(stocktake);
+                stocktake.ProductId = product.ID;
+                _storeContext.SaveChanges();
+				return RedirectToAction("Index", "Product", new { productID = product.ID });
 			}
-            //finding the data
-            var _pd = pd.Where(pd => pd.ID == productID).ToArray();
-			var _st = st.Where(st => st.ProductId == productID).ToArray();
-			var _gg = gg.Where(gg => gg.genreID == _pd[0].Genre).ToArray()[0];
+			else
+			{
+				//calling the database
+				var gg = _storeContext.Genre.AsQueryable();
+				var pd = _storeContext.Product.AsQueryable();
+				var st = _storeContext.Stocktake.AsQueryable();
+				var sc = _storeContext.Source.AsQueryable();
+				//genres
+				var bg = _storeContext.Book_genre.AsQueryable();
+				var jg = _storeContext.Game_genre.AsQueryable();
+				var mg = _storeContext.Movie_genre.AsQueryable();
+				//finding the data
+				var _pd = pd.Where(pd => pd.ID == productID).ToArray();
+				var _st = st.Where(st => st.ProductId == productID).ToArray();
+				var _gg = gg.Where(gg => gg.genreID == _pd[0].Genre).ToArray()[0];
 
 
-            if (_pd.Length > 0) {
-				SelectedProduct.ProductID = productID;
-                SelectedProduct.Name = _pd[0].Name;
-                SelectedProduct.Description = _pd[0].Description;
-                SelectedProduct.price = _st[0].Price;
-                SelectedProduct.Author = _pd[0].Author;
-                SelectedProduct.Genre = _gg.Name;
-				SelectedProduct.GenreID = _gg.genreID;
-				SelectedProduct.StokNum = _st[0].Quantity;
-				SelectedProduct.subGenreID = _pd[0].subGenre;
-				SelectedProduct.SourceID = _st[0].SourceId;
-                //
-                SelectedProduct.hidden = new hiddenData();
-				//SelectedProduct.hidden.sources = sc.ToList();
-				SelectedProduct.hidden.genres = gg.ToList();
-				SelectedProduct.hidden.bookGen = bg.ToList();
-				SelectedProduct.hidden.movieGen = mg.ToList();
-				SelectedProduct.hidden.gameGen = jg.ToList();
-				SelectedProduct.hidden.sources = sc.Where(sc => sc.Genre == _pd[0].Genre).ToList();
+				if (_pd.Length > 0) {
+					SelectedProduct.ProductID = productID;
+					SelectedProduct.Name = _pd[0].Name;
+					SelectedProduct.Description = _pd[0].Description;
+					SelectedProduct.price = _st[0].Price;
+					SelectedProduct.Author = _pd[0].Author;
+					SelectedProduct.Genre = _gg.Name;
+					SelectedProduct.GenreID = _gg.genreID;
+					SelectedProduct.StokNum = _st[0].Quantity;
+					SelectedProduct.subGenreID = _pd[0].subGenre;
+					SelectedProduct.SourceID = _st[0].SourceId;
+					SelectedProduct.ReleaseDate = _pd[0].Published;
+					//
+					SelectedProduct.hidden = new hiddenData();
+					//SelectedProduct.hidden.sources = sc.ToList();
+					SelectedProduct.hidden.genres = gg.ToList();
+					SelectedProduct.hidden.bookGen = bg.ToList();
+					SelectedProduct.hidden.movieGen = mg.ToList();
+					SelectedProduct.hidden.gameGen = jg.ToList();
+					SelectedProduct.hidden.sources = sc.Where(sc => sc.Genre == _pd[0].Genre).ToList();
 
-                if (_st[0].Quantity > 0)
-				{
-					SelectedProduct.Stock = "In Stock";
+					if (_st[0].Quantity > 0)
+					{
+						SelectedProduct.Stock = "In Stock";
+					}
+					else
+					{
+						SelectedProduct.Stock = "Out Of Stock";
+					}
 				}
 				else
 				{
-					SelectedProduct.Stock = "Out Of Stock";
+					SelectedProduct.Name = "Name";
+					SelectedProduct.Description = "Description";
+					SelectedProduct.price = 0.00;
+					SelectedProduct.Author = "Creator";
+					SelectedProduct.Genre = "Type";
 				}
-            }
-			else
-			{
-                SelectedProduct.Name = "Name";
-                SelectedProduct.Description = "Description";
-                SelectedProduct.price = 0.00;
-                SelectedProduct.Author = "Creator";
-                SelectedProduct.Genre = "Type";
-            }
-
-            ViewBag.SelectedProduct = SelectedProduct;
-            return View(SelectedProduct);
+				ViewBag.SelectedProduct = SelectedProduct;
+				return View(SelectedProduct);
+			}
 		}
 		[HttpPost]
 		public async Task<IActionResult> Index(prodAmalgam newData)
@@ -109,6 +115,7 @@ namespace IReturnNodePointerProject.Controllers
             var pd = _storeContext.Product.AsQueryable();
             var st = _storeContext.Stocktake.AsQueryable();
             var sc = _storeContext.Source.AsQueryable();
+            //var UserData = (Patrons)_storeContext.Patrons.FirstOrDefault(x => x.UserID == Convert.ToInt32(HttpContext.Session.GetString("UserID")));
             //genres
             var bg = _storeContext.Book_genre.AsQueryable();
             var jg = _storeContext.Game_genre.AsQueryable();
@@ -126,10 +133,11 @@ namespace IReturnNodePointerProject.Controllers
 				_pd.Description = newData.Description;
 				_pd.Name = newData.Name;
 				_pd.LastUpdated = DateTime.Now;
-				_pd.LastUpdatedBy = HttpContext.Session.GetString("UserID");
+				_pd.Published = newData.ReleaseDate;
+				//_pd.LastUpdatedBy = UserData.Name;
 
-				//Console.WriteLine(Request.Form["Genre"]);
-				_pd.Genre = Convert.ToInt32(Request.Form["Genre"]);
+                //Console.WriteLine(Request.Form["Genre"]);
+                _pd.Genre = Convert.ToInt32(Request.Form["Genre"]);
 				_pd.subGenre = Convert.ToInt32(Request.Form["SubGenre"]);
 				_st.SourceId = Convert.ToInt32(Request.Form["Provider"]);
 				//fancy stuff
@@ -165,11 +173,6 @@ namespace IReturnNodePointerProject.Controllers
             _storeContext.Product.Remove(_pd);
             _storeContext.SaveChanges();
         }
-
-
-
-
-
 
         [HttpPost]
 		public void AddToCart(int productID)

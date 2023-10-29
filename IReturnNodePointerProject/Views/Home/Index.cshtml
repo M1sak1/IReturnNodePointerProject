@@ -16,7 +16,24 @@
 		<title> @ViewData["Title"] - Media Store</title>
 		<script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
 		<script>
-
+			//creating new Data
+			$(document).ready(function () {
+				$("#CreateNew").click(function () {
+					if (true) {
+						$.ajax({
+							url: "/Home/Addnewitem",
+							type: "POST",
+							success: function () {
+							alert(ViewBag.product);
+								@Url.Action("Index", "Product");
+							},
+							error: function () {
+								alert("Failed")
+							}
+						})
+					}
+				});
+			});
 		</script>
 	</head>
 	<body>
@@ -78,7 +95,7 @@
 				}
 				<input type="submit" value="search" id="submit"/>
 			}
-			@if (@* HttpContextAccessor.HttpContext.Session.GetString("AccessLevel") == "Admin" *@ true )
+			@if (HttpContextAccessor.HttpContext.Session.GetString("AccessLevel") == "Admin")
 			{
 				<a href="@Url.Action("Index", "Product", new {productID = -1})">Create New</a>
 			}

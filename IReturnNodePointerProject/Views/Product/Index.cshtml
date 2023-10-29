@@ -36,17 +36,17 @@
                 if (confirm("Are you sure you want to delete this product? this action can not be undone.")) {
                     $.ajax({
                         url: "/Product/DeleteProduct",
-                        data: {'productID' : @Model.ProductID},
+                        data: { 'productID': @Model.ProductID},
                         datatype: "text",
                         type: "POST",
-                        success: function(){
+                        success: function () {
                             alert("worked");
                             window.location.href = '@Url.Action("Index", "Home")';
                         },
-                        error: function(){
-                            alert("Failed")
+                        error: function () {
+                            alert("Failed");
                         }
-                    })
+                    });
                 }
             });
         });
@@ -242,6 +242,8 @@ else
             </div>
             <div class="Details" id="Partial-container">
                 <p><b>Hidden Attributes -- Changeing the product type will change these attributes! Please be sure of what you are doing</b></p>
+                <label for="ReleaseDate">Release date: </label>
+                <input name="ReleaseDate" type="datetime" value=@ViewBag.SelectedProduct.ReleaseDate />
                 @Html.Partial("special_controlls")
             </div>
         </form>
