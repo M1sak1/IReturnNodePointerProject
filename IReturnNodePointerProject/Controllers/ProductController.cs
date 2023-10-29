@@ -138,9 +138,12 @@ namespace IReturnNodePointerProject.Controllers
             var st = _storeContext.Stocktake.AsQueryable();
             var _pd = pd.Where(pd => pd.ID == productID).ToArray()[0];
             var _st = st.Where(st => st.ProductId == productID).ToArray()[0];
+			//nulling everything
+
             _storeContext.Stocktake.Remove(_st);
+            _storeContext.SaveChanges();
             _storeContext.Product.Remove(_pd);
-			_storeContext.SaveChanges();
+            _storeContext.SaveChanges();
         }
 
 
