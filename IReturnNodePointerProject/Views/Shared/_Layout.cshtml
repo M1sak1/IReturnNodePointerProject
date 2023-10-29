@@ -2,6 +2,7 @@
 @inject IHttpContextAccessor HttpContextAccessor;
 @{
 	bool loggedIn = string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("UserID"));
+    string level = HttpContextAccessor.HttpContext.Session.GetString("AccessLevel");
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -40,16 +41,31 @@
         <button class="navBtn" onclick="@("window.location.href='" + @Url.Action("Cart", "Cart") + "'");">
             Cart
         </button>
-        @if (HttpContextAccessor.HttpContext.Session.GetString("AccessLevel") != "Admin")
+        @if (level == "Admin")
         {
             <button class="navBtn" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin") + "'");">
                 Admin
             </button>
         }
-        @if (loggedIn) {
-        <div>
-            You Are Logged in
-        </div>
+        @if (!loggedIn) {
+            @if (level == "Patron")
+            {
+                <div>
+                    You Are Logged in User
+            </div>
+            }
+            @if (level == "Employee")
+            {
+                <div>
+                    You Are Logged in Employee
+                </div>
+            }
+            @if (level == "Admin")
+            {
+                <div>
+                    You Are Logged in Admin
+                </div>
+            }
         }
     </header>
     <div class="container">

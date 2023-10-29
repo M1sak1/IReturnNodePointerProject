@@ -3,9 +3,14 @@
 {
     <div class="row">
         <div class="col-md-4">
-            <form method="post" asp-action="EditAccountView">
+            <form method="post" asp-controller="Admin" asp-action="EditAccountView">
                 <h1>Edit Patron Account:</h1>
-                
+                <div class="row mb-2">
+                    <label class="col-form-label col-md-5">UserID: (Do Not Change)</label>
+                    <div class="col-md-10">
+                        <input asp-for="UserID" class="form-control" id="UserID" name="UserID" type="text" value=@ViewBag.Patron.UserID  />
+                    </div>
+                </div>
                 <div class="row mb-2">
                     <label class="col-form-label col-md-5">Email/UserName:</label>
                     <div class="col-md-10">
@@ -18,14 +23,12 @@
                         <input asp-for="Name" class="form-control" id="Name" name="Name" type="text" value=@ViewBag.Patron.Name />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col offset-md-2">
-                        <button type="submit" class="btn btn-primary" name="Edit" id="User" value="Patron">Submit</button>
+                        <button type="submit" class="btn btn-primary" name="value" id="User" value=1>Submit</button>
                         @Html.ActionLink("Cancel","AdminAccountsView","Admin","unResolved")
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
@@ -58,11 +61,11 @@
                     <div class="col offset-md-2">
                         @if (ViewBag.userType == "Employee")
                         {
-                            <button type="submit" class="btn btn-primary" name="Edit" id="Employee" value="Employee">Submit</button>
+                            <button type="submit" class="btn btn-primary" name="value" id="Employee" value=2>Submit</button>
                         }
                         @if (ViewBag.userType == "Admin")
                         {
-                            <button type="submit" class="btn btn-primary" name="Edit" id="Admin" value="Admin">Submit</button>
+                            <button type="submit" class="btn btn-primary" name="value" id="Admin" value=3>Submit</button>
                         }
                         @Html.ActionLink("Cancel","AdminAccountsView","Admin","unResolved")
                     </div>

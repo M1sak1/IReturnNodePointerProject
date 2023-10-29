@@ -106,13 +106,16 @@ namespace IReturnNodePointerProject.Controllers
 					{
 						//Admin Pages
 						HttpContext.Session.SetInt32("UserID", (int)User.UserID);
-						if ((bool)User.IsAdmin)
+						if (User.IsAdmin == true)
 						{
 							//Return view to the admin side
 							HttpContext.Session.SetString("AccessLevel", "Admin");
 						}
-						//employee View
-						HttpContext.Session.SetString("AccessLevel", "Employee");
+						else
+						{
+							//employee View
+							HttpContext.Session.SetString("AccessLevel", "Employee");
+						}
 						return RedirectToAction("Index", "Home");
 					}
 				}

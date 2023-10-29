@@ -35,6 +35,9 @@
 			<th>
 				Name
 			</th>
+			<th>
+				Empty Space
+			</th>
 		<th>
 			@if (ViewBag.View == "UnResolved")
 			{
@@ -57,7 +60,7 @@
 					</td>
 					<td/>
 					<td>
-						@Html.ActionLink("Delete", "Admin", new{userType = "Patron" , ID = item.UserID})
+						@Html.ActionLink("Delete","Delete", "Admin", new{usernum = 1 , ID = item.UserID})
 					</td>
 					<td>
 						@Html.ActionLink("Edit","AdminAccountsView" ,"Admin", new{userType = "Patron" , item = item.UserID })
@@ -105,7 +108,7 @@
 					</td>
 					<td>
 
-						@Html.ActionLink("Delete","Delete", "Admin", new{ userType = "Employee", ID = item.UserID})
+						@Html.ActionLink("Delete","Delete", "Admin", new{ usernum = 2, ID = item.UserID})
 					</td>
 					<td>
 						@Html.ActionLink("Edit","AdminAccountsView" ,"Admin", new{ Type = "Employee" ,item = item.UserID})
@@ -151,7 +154,7 @@
 						@item.Name
 					</td>
 					<td>
-						@Html.ActionLink("Delete","Delete", "Admin", new{ userType = "Admin", ID = item.UserID})
+						@Html.ActionLink("Delete","Delete", "Admin", new{ usernum = 3, ID = item.UserID})
 					</td>
 					<td>
 						@Html.ActionLink("Edit","AdminAccountsView" ,"Admin", new{Type = "Admin" ,item = item.UserID})
