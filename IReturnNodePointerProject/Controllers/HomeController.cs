@@ -1,5 +1,6 @@
 ﻿using IReturnNodePointerProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Management.SqlParser.Parser;
@@ -106,9 +107,30 @@ namespace IReturnNodePointerProject.Controllers
 			var year = dt.Year;
 			return year;
 		}
-		public void Addnewitem(string name)
+		[HttpPost]
+		public void Addnewitem()
 		{
-			//ViewBag.Data =
+			//creating a dummy product
+			var product = new Product();
+			product.Name = "Temp";
+			product.Description = "lorum ipsum";
+			product.Author = "Temp";
+			product.Published = DateTime.Now;
+			product.Genre = 1;
+			product.subGenre = 1;
+			product.LastUpdated = DateTime.Now;
+			var stocktake = new Stocktake();
+			stocktake.SourceId = 1;
+			stocktake.Quantity = 0;
+			stocktake.Price = 0;
+
+			_storeContext.Product.Add(product);
+			_storeContext.SaveChanges();
+			stocktake.ProductId = product.ID;
+			_storeContext.Stocktake.Add(stocktake);
+			_storeContext.SaveChanges();
+			//return RedirectToAction("Index", "Product", product.ID);
+			//Url.Action("Index", "Product", new { productID = product.ID });
 		}
 		public static double findPrice(int itemID) {
 			//this is a stupid way to do this but it works lol O(n)

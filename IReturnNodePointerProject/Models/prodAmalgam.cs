@@ -11,6 +11,7 @@ namespace IReturnNodePointerProject.Models
 		public string Author { get; set; }
 		public string Genre { get; set; }
 		public int GenreID { get; set; }
+		public DateTime ReleaseDate { get; set; }
 		public int subGenreID { get; set; }
 		public string Stock { get; set; }
 		public int StokNum { get; set; }
