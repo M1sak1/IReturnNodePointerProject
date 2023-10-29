@@ -133,14 +133,19 @@ namespace IReturnNodePointerProject.Controllers
 			//Url.Action("Index", "Product", new { productID = product.ID });
 		}
 		public static double findPrice(int itemID) {
-			//this is a stupid way to do this but it works lol O(n)
+			//this is a stupid way to do this but it works lol
 			var price = 0d;
 			var loc = allLists.Stonks.ElementAt(0);
-			for (var i = 0; i < allLists.Stonks.Count; i++){
+			//var st = _storeContext.Stocktake.AsQueryable();
+
+			//var price = st.Where(st => st.ProductId == itemID).ToArray()[0].Price;
+			for (var i = 0; i < allLists.Stonks.Count; i++)
+			{
 				loc = allLists.Stonks.ElementAt(i);
-				if (loc.ItemId == itemID){
+				if (loc.ItemId == itemID)
+				{
 					//Console.WriteLine("found");
-					price = loc.Price; 
+					price = loc.Price;
 					break; //just in case the price is 0, O(n)
 				}
 			}
