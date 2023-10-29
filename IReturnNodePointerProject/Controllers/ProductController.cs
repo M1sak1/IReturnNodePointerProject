@@ -115,7 +115,8 @@ namespace IReturnNodePointerProject.Controllers
 			_storeContext.Update(_pd);
 			_storeContext.SaveChanges();
 
-            //hidden -- re initalisation
+			//hidden -- re initalisation
+			newData.Genre = gg.Where(gg => gg.genreID == _pd.Genre).ToArray()[0].Name;
             newData.hidden = new hiddenData();
             newData.hidden.genres = gg.ToList();
             newData.hidden.bookGen = bg.ToList();
@@ -125,6 +126,11 @@ namespace IReturnNodePointerProject.Controllers
 
             ViewBag.SelectedProduct = newData;
             return View(newData);
+		}
+
+		public void UpdateDDLists(int GenreHolder)
+		{
+			ViewBag.SelectedProduct.GenreID = GenreHolder;
 		}
 
 

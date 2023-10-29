@@ -24,45 +24,6 @@
         }
     }
     var Genre = new SelectList(ViewBag.SelectedProduct.hidden.genres, "genreID", "Name");
-    // for the sub genres
-    var subgen = ViewBag.SelectedProduct.hidden.bookGen;
-    switch (ViewBag.SelectedProduct.Genre)
-    {
-        case "Books":
-            subgen = ViewBag.SelectedProduct.hidden.bookGen;
-            break;
-        case "Games":
-            subgen = ViewBag.SelectedProduct.hidden.gameGen;
-            break;
-        case "Movies":
-            subgen = ViewBag.SelectedProduct.hidden.movieGen;
-            break;
-        default:
-            break;
-    }
-    foreach (var item in subgen)
-    {
-        if (item.subGenreID == ViewBag.SelectedProduct.subGenreID)
-        {
-            var gen = item;
-            subgen.Remove(gen);
-            subgen.Insert(0, gen);
-            break;
-        }
-    }
-    var SubGenre = new SelectList(subgen, "subGenreID", "Name");
-    foreach (var item in ViewBag.SelectedProduct.hidden.sources)
-    {
-        //moving the current attribute to the top.
-        if (item.sourceid == ViewBag.SelectedProduct.SourceID)
-        {
-            var gen = item;
-            ViewBag.SelectedProduct.hidden.sources.Remove(gen);
-            ViewBag.SelectedProduct.hidden.sources.Insert(0, gen);
-            break;
-        }
-    }
-    var Sources = new SelectList(ViewBag.SelectedProduct.hidden.sources, "sourceid", "Source_name");
 }
 @model IReturnNodePointerProject.Models.prodAmalgam;
 <!DOCTYPE HTML>
@@ -85,6 +46,18 @@
                 });
             });
         });
+        //checking if the user actually wants to change the genre, and if they do, submitting
+        $(function () {
+            $('.Dropdown').change(function (e) {
+                console.log(e)
+                if(e.originalEvent != null && confirm('Changeing this will save your changes. Are you sure?')){
+                    $("#Form").submit();
+                }
+                else{
+                    $("#Title-Genre-edit-Drowdown").val(@ViewBag.SelectedProduct.GenreID).change()
+                }
+            });
+        });
         $(document).ready(function () {
             $("#SaveChanges").click(function () {
                 alert("Changes Saved");
@@ -101,7 +74,6 @@
         $(document).ready(function () {
             $('#Title-Genre-edit-Drowdown').val(@ViewBag.SelectedProduct.GenreID);
         });
-        resizeIt(); //Initial on load
     </script>
 </head>
 <html>
@@ -227,7 +199,7 @@
 else
 {
     <body>
-        <form method="post" asp-action="Index">
+        <form method="post" asp-action="Index" id="Form">
             <div class="prodPhoto">
                 <p id="plaecholder">{NO IMAGE}</p>
             </div>
@@ -244,16 +216,9 @@ else
                 </span>
                 <textarea asp-for="Description" rows="10" name="Description" type="text" id="Description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>@ViewBag.SelectedProduct.Description</textarea>
             </div>
-            <div class="Details">
-                <p><b>Hidden Attributes</b></p>
-                <div class="dropdown-hidden">
-                    <label for="Hidden-SubGen-Edit-Dropdown">Sub Genre: </label>
-                    @Html.DropDownList("SubGenre", SubGenre, new { @id="Hidden-SubGen-Edit-Dropdown", @class="Dropdown"})
-                </div>
-                <div class ="dropdown-hidden">
-                    <label for="Hidden-Source-Edit-Dropdown">Sauce: </label>
-                    @Html.DropDownList("Provider", Sources, new { @id="Hidden-Source-Edit-Dropdown", @class="Dropdown"})
-                </div>
+            <div class="Details" id="Partial-container">
+                <p><b>Hidden Attributes -- Changeing the product type will change these attributes! Please be sure of what you are doing</b></p>
+                @Html.Partial("special_controlls")
             </div>
         </form>
     </body>
