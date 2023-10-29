@@ -174,11 +174,6 @@ namespace IReturnNodePointerProject.Controllers
             _storeContext.SaveChanges();
         }
 
-
-
-
-
-
         [HttpPost]
 		public void AddToCart(int productID)
 		{
