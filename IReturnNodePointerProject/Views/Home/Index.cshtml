@@ -1,4 +1,6 @@
 ﻿@model ListViewModel
+@inject IHttpContextAccessor HttpContextAccessor;
+
 @{
 	ViewData["Title"] = "MediaStore";
 }
@@ -12,6 +14,10 @@
 	<head>
 		<meta name="viewport" content="width=device-width"/>
 		<title> @ViewData["Title"] - Media Store</title>
+		<script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+		<script>
+
+		</script>
 	</head>
 	<body>
 		<style type="text/css">
@@ -71,7 +77,11 @@
 					@Html.DropDownList("Genre", new SelectList(Model.gameGen, "Name", "Name", ViewBag.GenSortParam), "--Genre--", new { @class = "form-control" })
 				}
 				<input type="submit" value="search" id="submit"/>
-			} 
+			}
+			@if (@* HttpContextAccessor.HttpContext.Session.GetString("AccessLevel") == "Admin" *@ true )
+			{
+				<a href="@Url.Action("Index", "Product", new {productID = -1})">Create New</a>
+			}
 		</div>
 		<hr>
 		<!-- ALot of the stuff in here was modified from the tutorial in the doccumentation here: https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model?view=aspnetcore-7.0&tabs=visual-studio-->
