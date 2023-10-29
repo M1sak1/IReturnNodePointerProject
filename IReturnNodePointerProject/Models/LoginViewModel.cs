@@ -17,9 +17,9 @@ namespace IReturnNodePointerProject.Models
         [Compare(nameof(Password), ErrorMessage = "Passwords don't match.")] //https://stackoverflow.com/questions/4938078/using-dataannotations-to-compare-two-model-properties
         public string? ConfirmPassword { get; set; } = null;
         [StringLength(32)]
-        [Required] //probs not required but i havent coded against it 
+        [Required]  
         public string? PreferedName { get; set; } = null;
-        //idk might use this, we'll see....re-fucking required ;( add your name on the top right to signify if your logged in and change the text on the login/logout button 
+ 
         public bool RememberMe { get; set; }
 
     }

@@ -5,6 +5,7 @@
     Layout = "_Layout";
 }
 @model IReturnNodePointerProject.Controllers.CartDeets;
+
 <style>
     .cart-page{
         padding-top: 10px;
@@ -132,7 +133,7 @@
         <p id="help"><b>Need Help?</b> Drop us an email at Help@spherbuster.com.au</p>
         <hr/>
         <div class="info-block">
-            <p id="Label">Shipping Cost:</p>
+            <p id="Label">Shipping Cost:</p>W
             <p id="Data">Shipping Is Caculated At Checkout</p>
         </div>
         <div class="info-block">
@@ -140,7 +141,7 @@
             <div id="Data">$@Model.cartTotal</div>
         </div>
         <span id="btnHolder">
-            <button id="CardAdd">Purchase</button>
+            <button onclick="location.href='@Url.Action("Checkout", "Checkout")'">Purchase</button>
         </span>
     </div>
 </div>

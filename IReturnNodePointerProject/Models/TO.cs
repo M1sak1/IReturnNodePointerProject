@@ -12,7 +12,7 @@ namespace IReturnNodePointerProject.Models
 		//[Required]
 		public string Email	{ get; set; }
 		public string? PhoneNumber { get; set; } = null;
-		public string? StreetAddress { get; set; } = null;	
+		public string StreetAddress { get; set; } = null;	
 		public int? PostCode { get; set; } = null;
 		public string? Suburb { get; set; } = null;
 		public string? State { get; set; } = null;

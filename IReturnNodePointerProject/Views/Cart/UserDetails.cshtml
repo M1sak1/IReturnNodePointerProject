@@ -1,7 +1,8 @@
 ﻿@{
     Layout = "_Layout";
 }
-@model IReturnNodePointerProject.Controllers.CartDeets;
+
+@model IReturnNodePointerProject.Models.AccountViewModel;
 <style>
     .cart-page {
         padding-top: 10px;
@@ -46,7 +47,7 @@
 
     .cart-item #imgDisplay {
         width: 100px;
-        float: Left;
+        float: right;
         height: 100px;
         border: 1px solid black;
         margin-right: 10px;
@@ -87,71 +88,100 @@
     }
 
         .info-block #Label {
-            float: left;
+            float: right;
         }
 
         .info-block #Data {
-            float: right;
+            float: left;
         }
 </style>
-<div class="cart-page">
-    <div class="cart-list">
-        <p id="Title">Your Cart</p>
-        @if (Model.Cart.Count != 0)
-        {
-            @foreach (var item in Model.Cart)
-            {
-                <hr>
-                <div class="cart-item">
-                    <div id="information">
-                        <div id="imgDisplay"></div>
-                        <div class="text-block">
-                            <div class="head">
-                                <div id="product-name">
-                                    <b>@item.Name</b>
-                                </div>
-                                <div id="product-price">
-                                    $@item.price
-                                </div>
-                            </div>
-                            <div class="head">
-                                Vender: @item.Author
-                            </div>
-                            <div class="quantity-control">
-                                <div id="item-quantity">
-                                    Quantity: @item.Quantity
-                                </div>
-                            </div>
+    <div>
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post" asp-action="CartController">
+                    <h1>UpdateAccountInformation:</h1>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-md-5">PhoneNumber:</label>
+                        <div class="col-md-10">
+                            <input asp-for="PhoneNumber" class="form-control" id="PhoneNumber" name="PhoneNumber" type="text" value=@ViewBag.TO.PhoneNumber required />
+                            <span class="field-validation-valid" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span>
+                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                </div>
-            }
-        }
-        else
-        {
-            <div class="empty-cart">
-                Your Cart Is Empty
+                    <h2>Postal Information:</h2>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-md-5">Street Address:</label>
+                        <div class="col-md-10">
+                        <input type="text" asp-for="StreetAddress" class="form-control" id="StreetAddress" name="StreetAddress" value="@ViewBag.TO.StreetAddress" required />
+                            <span class="field-validation-valid" data-valmsg-for="StreetAddress" data-valmsg-replace="true"></span>
+                            @Html.ValidationMessageFor(m => m.StreetAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-md-5">PostCode:</label>
+                        <div class="col-md-10">
+                        <pre><input type="number" asp-for="PostCode" class="form-control" id="PostCode" name="PostCode" value=@ViewBag.TO.PostCode required /></pre>
+                            <span class="field-validation-valid" data-valmsg-for="PostCode" data-valmsg-replace="true"></span>
+                            @Html.ValidationMessageFor(m => m.PostCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-md-5">Suburb:</label>
+                        <div class="col-md-10">
+                        <input type="text" asp-for="Suburb" class="form-control" id="Suburb" name="Suburb" value=@ViewBag.TO.Suburb required />
+                            <span class="field-validation-valid" data-valmsg-for="Suburb" data-valmsg-replace="true"></span>
+                            @Html.ValidationMessageFor(m => m.Suburb, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-md-5">State:</label>
+                        <div class="col-md-10">
+                        <input type="text" asp-for="State" class="form-control" id="State" name="State" value=@ViewBag.TO.State required />
+                            <span class="field-validation-valid" data-valmsg-for="State" data-valmsg-replace="true"></span>
+                            @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <h2>Credit Card Information:</h2>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-md-5">CardNumbers:</label>
+                        <div class="col-md-10">
+                        <input type="text" asp-for="CardNumber" class="form-control" id="CardNumber" name="CardNumber" value=@ViewBag.TO.CardNumber required />
+                            <span class="field-validation-valid" data-valmsg-for="CardNumber" data-valmsg-replace="true"></span>
+                            @Html.ValidationMessageFor(m => m.CardNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-md-5">CardOwner:</label>
+                        <div class="col-md-10">
+                        <input type="text" asp-for="CardOwner" class="form-control" id="CardOwner" name="CardOwner" value=@ViewBag.TO.CardOwner required />
+                            <span class="field-validation-valid" data-valmsg-for="CardOwner" data-valmsg-replace="true"></span>
+                            @Html.ValidationMessageFor(m => m.CardOwner, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-md-5">Expiry:</label>
+                        <div class="col-md-10">
+                        <input type="text" asp-for="Expiry" class="form-control" id="Expiry" name="Expiry" value=@ViewBag.TO.Expiry required />
+                            <span class="field-validation-valid" data-valmsg-for="Expiry" data-valmsg-replace="true"></span>
+                            @Html.ValidationMessageFor(m => m.Expiry, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-md-5">CVV:</label>
+                        <div class="col-md-10">
+                        <input type="number" asp-for="CVV" class="form-control" id="CVV" name="CVV" value=@ViewBag.TO.CVV required />
+                            <span class="field-validation-valid" data-valmsg-for="CVV" data-valmsg-replace="true"></span>
+                            @Html.ValidationMessageFor(m => m.CVV, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col offset-md-2">
+                            <button type="submit" class="btn btn-primary" value="LoginViewModel">UpdateDetails</button>
+                        </div>
+                    </div>
+                </form>
+
             </div>
-        }
-        <!--all the non cart stuff-->
-    </div>
-    <div class="controlls">
-        <p id="Title">
-            Spherebuster
-        </p>
-        <hr />
-        <p id="help"><b>Need Help?</b> Drop us an email at Help@spherbuster.com.au</p>
-        <hr />
-        <div class="info-block">
-            <p id="Label">Shipping Cost:</p>
-            <p id="Data">Shipping Is Caculated At Checkout</p>
         </div>
-        <div class="info-block">
-            <div id="Label">Cart Total:</div>
-            <div id="Data">$@Model.cartTotal</div>
-        </div>
-        <span id="btnHolder">
-            <button id="CardAdd">Purchase</button>
-        </span>
     </div>
 </div>

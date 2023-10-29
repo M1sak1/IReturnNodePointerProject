@@ -4,15 +4,12 @@
 @{
     Layout = "_Layout";
 }
-<div class="cart-body">
-    @if (true) // remporary, have a function the returns true if the user is logged in
-    {
-        <div class="logged-in-body">
+@{
+    ViewData["Title"] = "Checkout";
+}
 
-        </div>
-    }
-    else
-    {
-        
-    }
-</div>
+
+<body>
+    <h1> You have Bought Your Cart</h1>
+    <button onclick="location.href='@Url.Action("Index", "Home")'">Return To Shopping!</button>
+</body>
