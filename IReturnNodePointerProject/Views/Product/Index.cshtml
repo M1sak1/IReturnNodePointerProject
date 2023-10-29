@@ -214,6 +214,9 @@ else
                 <span id="btnHolder">
                     <button type="submit" id="SaveChanges" value="prodAmalgam">Save Changes</button>
                 </span>
+                <span id="btnHolder">
+                    <button id="Delete" value="prodAmalgam">Delete Item</button>
+                </span>
                 <textarea asp-for="Description" rows="10" name="Description" type="text" id="Description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>@ViewBag.SelectedProduct.Description</textarea>
             </div>
             <div class="Details" id="Partial-container">
