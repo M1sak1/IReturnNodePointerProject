@@ -38,7 +38,7 @@
 		<th>
 			@if (ViewBag.View == "UnResolved")
 			{
-				<a href="@Url.Action("AdminAccountsView", "Admin", new {userType = "Patron"})">Add Patron</a>
+				<a href="@Url.Action("AdminAccountsView", "Admin", new {userType = "Patron" , item = 0})">Add Patron</a>
 			}
 		</th>
 		</thead>
@@ -55,15 +55,12 @@
 					<td>
 						@item.Name
 					</td>
+					<td/>
 					<td>
-						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
-							Delete
-						</button>
+						@Html.ActionLink("Delete", "Admin", new{userType = "Patron" , ID = item.UserID})
 					</td>
 					<td>
-						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
-							Edit
-						</button>
+						@Html.ActionLink("Edit","AdminAccountsView" ,"Admin", new{userType = "Patron" , item = item.UserID })
 					</td>
 				</tr>
 			}		
@@ -74,15 +71,19 @@
 			Employees
 		</th>
 		<th>
-			Username/Email
+			Username
+		</th>
+		<th>
+			Email
 		</th>
 		<th>
 			Name
 		</th>
+
 		<th>
 			@if (ViewBag.View == "UnResolved")
 			{
-				<a href="@Url.Action("AdminAccountsView", "Admin", new {userType = "User"})">Add Patron</a>
+				<a href="@Url.Action("AdminAccountsView", "Admin", new {userType = "Employee" , item = 0})">Add Employee</a>
 			}
 		</th>
 		</thead>
@@ -94,20 +95,20 @@
 							@item.UserID
 					</td>
 					<td>
+						@item.UserName
+					</td>
+					<td>
 						@item.email
 					</td>
 					<td>
 							@item.Name
 					</td>
 					<td>
-						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
-							Delete
-						</button>
+
+						@Html.ActionLink("Delete","Delete", "Admin", new{ userType = "Employee", ID = item.UserID})
 					</td>
 					<td>
-						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
-							Edit
-						</button>
+						@Html.ActionLink("Edit","AdminAccountsView" ,"Admin", new{ Type = "Employee" ,item = item.UserID})
 					</td>
 				</tr>
 			}
@@ -118,7 +119,10 @@
 			Admins
 		</th>
 		<th>
-			Username/Email
+			Username
+		</th>
+		<th>
+			Email
 		</th>
 		<th>
 			Name
@@ -126,7 +130,7 @@
 		<th>
 			@if (ViewBag.View == "UnResolved")
 			{
-				<a href="@Url.Action("AdminAccountsView", "Admin", new {userType = "User"})">Add Patron</a>
+				<a href="@Url.Action("AdminAccountsView", "Admin", new {userType = "Admin" , item = 0})">Add Admin</a>
 			}
 		</th>
 		</thead>
@@ -138,20 +142,19 @@
 						@item.UserID
 					</td>
 					<td>
+						@item.UserName
+					</td>
+					<td>
 						@item.email
 					</td>
 					<td>
 						@item.Name
 					</td>
 					<td>
-						<button style="background-color:red" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
-							Delete
-						</button>
+						@Html.ActionLink("Delete","Delete", "Admin", new{ userType = "Admin", ID = item.UserID})
 					</td>
 					<td>
-						<button style="background-color:yellow" onclick="@("window.location.href='" + @Url.Action("AdminAccountsView", "Admin", new{ userType = "User", parameter2 = item.UserID}) + "'")">
-							Edit
-						</button>
+						@Html.ActionLink("Edit","AdminAccountsView" ,"Admin", new{Type = "Admin" ,item = item.UserID})
 					</td>
 				</tr>
 			}
@@ -162,6 +165,10 @@
 		if (ViewBag.View == "Add")
 		{
 			await Html.RenderPartialAsync("AddAccount",new IReturnNodePointerProject.Models.User());
+		}
+		if(ViewBag.View == "Edit")
+		{
+			await Html.RenderPartialAsync("EditAccount", new IReturnNodePointerProject.Models.User());
 		}
 	}
 </body>

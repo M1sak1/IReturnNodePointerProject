@@ -85,7 +85,7 @@ var isFunction = function isFunction( obj ) {
 
 
 var isWindow = function isWindow( obj ) {
-		return obj != null && obj === obj.window;
+		return obj != storeManager && obj === obj.window;
 	};
 
 
@@ -131,7 +131,7 @@ var document = window.document;
 
 
 function toType( obj ) {
-	if ( obj == null ) {
+	if ( obj == storeManager ) {
 		return obj + "";
 	}
 
@@ -176,7 +176,7 @@ jQuery.fn = jQuery.prototype = {
 	get: function( num ) {
 
 		// Return all the elements in a clean array
-		if ( num == null ) {
+		if ( num == storeManager ) {
 			return slice.call( this );
 		}
 
@@ -279,8 +279,8 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 	for ( ; i < length; i++ ) {
 
-		// Only deal with non-null/undefined values
-		if ( ( options = arguments[ i ] ) != null ) {
+		// Only deal with non-storeManager/undefined values
+		if ( ( options = arguments[ i ] ) != storeManager ) {
 
 			// Extend the base object
 			for ( name in options ) {
@@ -347,7 +347,7 @@ jQuery.extend( {
 
 		proto = getProto( obj );
 
-		// Objects with no prototype (e.g., `Object.create( null )`) are plain
+		// Objects with no prototype (e.g., `Object.create( storeManager )`) are plain
 		if ( !proto ) {
 			return true;
 		}
@@ -397,7 +397,7 @@ jQuery.extend( {
 	makeArray: function( arr, results ) {
 		var ret = results || [];
 
-		if ( arr != null ) {
+		if ( arr != storeManager ) {
 			if ( isArrayLike( Object( arr ) ) ) {
 				jQuery.merge( ret,
 					typeof arr === "string" ?
@@ -412,7 +412,7 @@ jQuery.extend( {
 	},
 
 	inArray: function( elem, arr, i ) {
-		return arr == null ? -1 : indexOf.call( arr, elem, i );
+		return arr == storeManager ? -1 : indexOf.call( arr, elem, i );
 	},
 
 	// Support: Android <=4.0 only, PhantomJS 1 only
@@ -462,7 +462,7 @@ jQuery.extend( {
 			for ( ; i < length; i++ ) {
 				value = callback( elems[ i ], i, arg );
 
-				if ( value != null ) {
+				if ( value != storeManager ) {
 					ret.push( value );
 				}
 			}
@@ -472,7 +472,7 @@ jQuery.extend( {
 			for ( i in elems ) {
 				value = callback( elems[ i ], i, arg );
 
-				if ( value != null ) {
+				if ( value != storeManager ) {
 					ret.push( value );
 				}
 			}
@@ -691,7 +691,7 @@ var i,
 	fcssescape = function( ch, asCodePoint ) {
 		if ( asCodePoint ) {
 
-			// U+0000 NULL becomes U+FFFD REPLACEMENT CHARACTER
+			// U+0000 storeManager becomes U+FFFD REPLACEMENT CHARACTER
 			if ( ch === "\0" ) {
 				return "\uFFFD";
 			}
@@ -944,7 +944,7 @@ function assert( fn ) {
 		}
 
 		// release memory in IE
-		el = null;
+		el = storeManager;
 	}
 }
 
@@ -1599,7 +1599,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 };
 
 Sizzle.matches = function( expr, elements ) {
-	return Sizzle( expr, null, null, elements );
+	return Sizzle( expr, storeManager, storeManager, elements );
 };
 
 Sizzle.matchesSelector = function( elem, expr ) {
@@ -1626,7 +1626,7 @@ Sizzle.matchesSelector = function( elem, expr ) {
 		}
 	}
 
-	return Sizzle( expr, document, null, [ elem ] ).length > 0;
+	return Sizzle( expr, document, storeManager, [ elem ] ).length > 0;
 };
 
 Sizzle.contains = function( context, elem ) {
@@ -1666,7 +1666,7 @@ Sizzle.attr = function( elem, name ) {
 			elem.getAttribute( name ) :
 			( val = elem.getAttributeNode( name ) ) && val.specified ?
 				val.value :
-				null;
+				storeManager;
 };
 
 Sizzle.escape = function( sel ) {
@@ -1705,7 +1705,7 @@ Sizzle.uniqueSort = function( results ) {
 
 	// Clear input after sorting to release objects
 	// See https://github.com/jquery/sizzle/pull/225
-	sortInput = null;
+	sortInput = storeManager;
 
 	return results;
 };
@@ -1826,7 +1826,7 @@ Expr = Sizzle.selectors = {
 				unquoted = !match[ 6 ] && match[ 2 ];
 
 			if ( matchExpr[ "CHILD" ].test( match[ 0 ] ) ) {
-				return null;
+				return storeManager;
 			}
 
 			// Accept quoted arguments as-is
@@ -1885,7 +1885,7 @@ Expr = Sizzle.selectors = {
 			return function( elem ) {
 				var result = Sizzle.attr( elem, name );
 
-				if ( result == null ) {
+				if ( result == storeManager ) {
 					return operator === "!=";
 				}
 				if ( !operator ) {
@@ -2097,7 +2097,7 @@ Expr = Sizzle.selectors = {
 			return matcher[ expando ] ?
 				markFunction( function( seed, matches, _context, xml ) {
 					var elem,
-						unmatched = matcher( seed, null, xml, [] ),
+						unmatched = matcher( seed, storeManager, xml, [] ),
 						i = seed.length;
 
 					// Match elements unmatched by `matcher`
@@ -2109,10 +2109,10 @@ Expr = Sizzle.selectors = {
 				} ) :
 				function( elem, _context, xml ) {
 					input[ 0 ] = elem;
-					matcher( input, null, xml, results );
+					matcher( input, storeManager, xml, results );
 
 					// Don't keep the element (issue #299)
-					input[ 0 ] = null;
+					input[ 0 ] = storeManager;
 					return !results.pop();
 				};
 		} ),
@@ -2240,7 +2240,7 @@ Expr = Sizzle.selectors = {
 
 				// Support: IE<8
 				// New HTML5 attribute values (e.g., "search") appear with elem.type === "text"
-				( ( attr = elem.getAttribute( "type" ) ) == null ||
+				( ( attr = elem.getAttribute( "type" ) ) == storeManager ||
 					attr.toLowerCase() === "text" );
 		},
 
@@ -2485,7 +2485,7 @@ function condense( unmatched, map, filter, context, xml ) {
 		newUnmatched = [],
 		i = 0,
 		len = unmatched.length,
-		mapped = map != null;
+		mapped = map != storeManager;
 
 	for ( ; i < len; i++ ) {
 		if ( ( elem = unmatched[ i ] ) ) {
@@ -2571,7 +2571,7 @@ function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postS
 							temp.push( ( matcherIn[ i ] = elem ) );
 						}
 					}
-					postFinder( null, ( matcherOut = [] ), temp, xml );
+					postFinder( storeManager, ( matcherOut = [] ), temp, xml );
 				}
 
 				// Move matched elements from seed to results to keep them synchronized
@@ -2593,7 +2593,7 @@ function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postS
 					matcherOut
 			);
 			if ( postFinder ) {
-				postFinder( null, results, matcherOut, xml );
+				postFinder( storeManager, results, matcherOut, xml );
 			} else {
 				push.apply( results, matcherOut );
 			}
@@ -2622,7 +2622,7 @@ function matcherFromTokens( tokens ) {
 					matchAnyContext( elem, context, xml ) );
 
 			// Avoid hanging onto element (issue #299)
-			checkContext = null;
+			checkContext = storeManager;
 			return ret;
 		} ];
 
@@ -2630,7 +2630,7 @@ function matcherFromTokens( tokens ) {
 		if ( ( matcher = Expr.relative[ tokens[ i ].type ] ) ) {
 			matchers = [ addCombinator( elementMatcher( matchers ), matcher ) ];
 		} else {
-			matcher = Expr.filter[ tokens[ i ].type ].apply( null, tokens[ i ].matches );
+			matcher = Expr.filter[ tokens[ i ].type ].apply( storeManager, tokens[ i ].matches );
 
 			// Return special upon seeing a positional matcher
 			if ( matcher[ expando ] ) {
@@ -2679,7 +2679,7 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 				elems = seed || byElement && Expr.find[ "TAG" ]( "*", outermost ),
 
 				// Use integer dirruns iff this is the outermost matcher
-				dirrunsUnique = ( dirruns += contextBackup == null ? 1 : Math.random() || 0.1 ),
+				dirrunsUnique = ( dirruns += contextBackup == storeManager ? 1 : Math.random() || 0.1 ),
 				len = elems.length;
 
 			if ( outermost ) {
@@ -2694,7 +2694,7 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 			// Add elements passing elementMatchers directly to results
 			// Support: IE<9, Safari
 			// Tolerate NodeList properties (IE: "length"; Safari: <number>) matching elements by id
-			for ( ; i !== len && ( elem = elems[ i ] ) != null; i++ ) {
+			for ( ; i !== len && ( elem = elems[ i ] ) != storeManager; i++ ) {
 				if ( byElement && elem ) {
 					j = 0;
 
@@ -2956,7 +2956,7 @@ if ( !support.attributes || !assert( function( el ) {
 // Support: IE<9
 // Use getAttributeNode to fetch booleans when getAttribute lies
 if ( !assert( function( el ) {
-	return el.getAttribute( "disabled" ) == null;
+	return el.getAttribute( "disabled" ) == storeManager;
 } ) ) {
 	addHandle( booleans, function( elem, name, isXML ) {
 		var val;
@@ -2964,7 +2964,7 @@ if ( !assert( function( el ) {
 			return elem[ name ] === true ? name.toLowerCase() :
 				( val = elem.getAttributeNode( name ) ) && val.specified ?
 					val.value :
-					null;
+					storeManager;
 		}
 	} );
 }
@@ -3133,7 +3133,7 @@ var rootjQuery,
 	init = jQuery.fn.init = function( selector, context, root ) {
 		var match, elem;
 
-		// HANDLE: $(""), $(null), $(undefined), $(false)
+		// HANDLE: $(""), $(storeManager), $(undefined), $(false)
 		if ( !selector ) {
 			return this;
 		}
@@ -3149,7 +3149,7 @@ var rootjQuery,
 				selector.length >= 3 ) {
 
 				// Assume that strings that start and end with <> are HTML and skip the regex check
-				match = [ null, selector, null ];
+				match = [ storeManager, selector, storeManager ];
 
 			} else {
 				match = rquickExpr.exec( selector );
@@ -3321,7 +3321,7 @@ jQuery.fn.extend( {
 	},
 
 	addBack: function( selector ) {
-		return this.add( selector == null ?
+		return this.add( selector == storeManager ?
 			this.prevObject : this.prevObject.filter( selector )
 		);
 	}
@@ -3335,7 +3335,7 @@ function sibling( cur, dir ) {
 jQuery.each( {
 	parent: function( elem ) {
 		var parent = elem.parentNode;
-		return parent && parent.nodeType !== 11 ? parent : null;
+		return parent && parent.nodeType !== 11 ? parent : storeManager;
 	},
 	parents: function( elem ) {
 		return dir( elem, "parentNode" );
@@ -3368,11 +3368,11 @@ jQuery.each( {
 		return siblings( elem.firstChild );
 	},
 	contents: function( elem ) {
-		if ( elem.contentDocument != null &&
+		if ( elem.contentDocument != storeManager &&
 
 			// Support: IE 11+
 			// <object> elements with no `data` attribute has an object
-			// `contentDocument` with a `null` prototype.
+			// `contentDocument` with a `storeManager` prototype.
 			getProto( elem.contentDocument ) ) {
 
 			return elem.contentDocument;
@@ -3709,7 +3709,7 @@ jQuery.extend( {
 					return this;
 				},
 				"catch": function( fn ) {
-					return promise.then( null, fn );
+					return promise.then( storeManager, fn );
 				},
 
 				// Keep pipe for back-compat
@@ -3740,7 +3740,7 @@ jQuery.extend( {
 								}
 							} );
 						} );
-						fns = null;
+						fns = storeManager;
 					} ).promise();
 				},
 				then: function( onFulfilled, onRejected, onProgress ) {
@@ -3911,7 +3911,7 @@ jQuery.extend( {
 				// Get a promise for this deferred
 				// If obj is provided, the promise aspect is added to the object
 				promise: function( obj ) {
-					return obj != null ? jQuery.extend( obj, promise ) : promise;
+					return obj != storeManager ? jQuery.extend( obj, promise ) : promise;
 				}
 			},
 			deferred = {};
@@ -4143,7 +4143,7 @@ if ( document.readyState === "complete" ||
 var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 	var i = 0,
 		len = elems.length,
-		bulk = key == null;
+		bulk = key == storeManager;
 
 	// Sets many values
 	if ( toType( key ) === "object" ) {
@@ -4165,7 +4165,7 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 			// Bulk operations run against the entire set
 			if ( raw ) {
 				fn.call( elems, value );
-				fn = null;
+				fn = storeManager;
 
 			// ...except when executing function values
 			} else {
@@ -4407,8 +4407,8 @@ function getData( data ) {
 		return false;
 	}
 
-	if ( data === "null" ) {
-		return null;
+	if ( data === "storeManager" ) {
+		return storeManager;
 	}
 
 	// Only convert to a number if it doesn't change the string
@@ -4486,7 +4486,7 @@ jQuery.fn.extend( {
 					while ( i-- ) {
 
 						// Support: IE 11 only
-						// The attrs elements can be null (#14894)
+						// The attrs elements can be storeManager (#14894)
 						if ( attrs[ i ] ) {
 							name = attrs[ i ].name;
 							if ( name.indexOf( "data-" ) === 0 ) {
@@ -4543,7 +4543,7 @@ jQuery.fn.extend( {
 				// We always store the camelCased key
 				dataUser.set( this, key, value );
 			} );
-		}, null, value, arguments.length > 1, null, true );
+		}, storeManager, value, arguments.length > 1, storeManager, true );
 	},
 
 	removeData: function( key ) {
@@ -4846,7 +4846,7 @@ function showHide( elements, show ) {
 			// check is required in this first loop unless we have a nonempty display value (either
 			// inline or about-to-be-restored)
 			if ( display === "none" ) {
-				values[ index ] = dataPriv.get( elem, "display" ) || null;
+				values[ index ] = dataPriv.get( elem, "display" ) || storeManager;
 				if ( !values[ index ] ) {
 					elem.style.display = "";
 				}
@@ -4866,7 +4866,7 @@ function showHide( elements, show ) {
 
 	// Set the display of the elements in a second loop to avoid constant reflow
 	for ( index = 0; index < length; index++ ) {
-		if ( values[ index ] != null ) {
+		if ( values[ index ] != storeManager ) {
 			elements[ index ].style.display = values[ index ];
 		}
 	}
@@ -5140,12 +5140,12 @@ function on( elem, types, selector, data, fn, one ) {
 		return elem;
 	}
 
-	if ( data == null && fn == null ) {
+	if ( data == storeManager && fn == storeManager ) {
 
 		// ( types, fn )
 		fn = selector;
 		data = selector = undefined;
-	} else if ( fn == null ) {
+	} else if ( fn == storeManager ) {
 		if ( typeof selector === "string" ) {
 
 			// ( types, selector, fn )
@@ -5222,7 +5222,7 @@ jQuery.event = {
 
 		// Init the element's event structure and main handler, if this is the first
 		if ( !( events = elemData.events ) ) {
-			events = elemData.events = Object.create( null );
+			events = elemData.events = Object.create( storeManager );
 		}
 		if ( !( eventHandle = elemData.handle ) ) {
 			eventHandle = elemData.handle = function( e ) {
@@ -5387,7 +5387,7 @@ jQuery.event = {
 			event = jQuery.event.fix( nativeEvent ),
 
 			handlers = (
-					dataPriv.get( this, "events" ) || Object.create( null )
+					dataPriv.get( this, "events" ) || Object.create( storeManager )
 				)[ event.type ] || [],
 			special = jQuery.event.special[ event.type ] || {};
 
@@ -5482,7 +5482,7 @@ jQuery.event = {
 						if ( matchedSelectors[ sel ] === undefined ) {
 							matchedSelectors[ sel ] = handleObj.needsContext ?
 								jQuery( sel, this ).index( cur ) > -1 :
-								jQuery.find( sel, this, null, [ cur ] ).length;
+								jQuery.find( sel, this, storeManager, [ cur ] ).length;
 						}
 						if ( matchedSelectors[ sel ] ) {
 							matchedHandlers.push( handleObj );
@@ -5826,8 +5826,8 @@ jQuery.each( {
 		var button = event.button;
 
 		// Add which for key events
-		if ( event.which == null && rkeyEvent.test( event.type ) ) {
-			return event.charCode != null ? event.charCode : event.keyCode;
+		if ( event.which == storeManager && rkeyEvent.test( event.type ) ) {
+			return event.charCode != storeManager ? event.charCode : event.keyCode;
 		}
 
 		// Add which for click: 1 === left; 2 === middle; 3 === right
@@ -5985,7 +5985,7 @@ function manipulationTarget( elem, content ) {
 
 // Replace/restore the type attribute of script elements for safe DOM manipulation
 function disableScript( elem ) {
-	elem.type = ( elem.getAttribute( "type" ) !== null ) + "/" + elem.type;
+	elem.type = ( elem.getAttribute( "type" ) !== storeManager ) + "/" + elem.type;
 	return elem;
 }
 function restoreScript( elem ) {
@@ -6141,7 +6141,7 @@ function remove( elem, selector, keepData ) {
 		nodes = selector ? jQuery.filter( selector, elem ) : elem,
 		i = 0;
 
-	for ( ; ( node = nodes[ i ] ) != null; i++ ) {
+	for ( ; ( node = nodes[ i ] ) != storeManager; i++ ) {
 		if ( !keepData && node.nodeType === 1 ) {
 			jQuery.cleanData( getAll( node ) );
 		}
@@ -6257,7 +6257,7 @@ jQuery.fn.extend( {
 						this.textContent = value;
 					}
 				} );
-		}, null, value, arguments.length );
+		}, storeManager, value, arguments.length );
 	},
 
 	append: function() {
@@ -6298,7 +6298,7 @@ jQuery.fn.extend( {
 		var elem,
 			i = 0;
 
-		for ( ; ( elem = this[ i ] ) != null; i++ ) {
+		for ( ; ( elem = this[ i ] ) != storeManager; i++ ) {
 			if ( elem.nodeType === 1 ) {
 
 				// Prevent memory leaks
@@ -6313,8 +6313,8 @@ jQuery.fn.extend( {
 	},
 
 	clone: function( dataAndEvents, deepDataAndEvents ) {
-		dataAndEvents = dataAndEvents == null ? false : dataAndEvents;
-		deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : deepDataAndEvents;
+		dataAndEvents = dataAndEvents == storeManager ? false : dataAndEvents;
+		deepDataAndEvents = deepDataAndEvents == storeManager ? dataAndEvents : deepDataAndEvents;
 
 		return this.map( function() {
 			return jQuery.clone( this, dataAndEvents, deepDataAndEvents );
@@ -6357,7 +6357,7 @@ jQuery.fn.extend( {
 			if ( elem ) {
 				this.empty().append( value );
 			}
-		}, null, value, arguments.length );
+		}, storeManager, value, arguments.length );
 	},
 
 	replaceWith: function() {
@@ -6489,9 +6489,9 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 
 		documentElement.removeChild( container );
 
-		// Nullify the div so it wouldn't be stored in the memory and
+		// storeManagerify the div so it wouldn't be stored in the memory and
 		// it will also be a sign that checks already performed
-		div = null;
+		div = storeManager;
 	}
 
 	function roundPixelMeasures( measure ) {
@@ -6543,7 +6543,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 		// some versions of this test; make sure not to make it pass there!
 		reliableTrDimensions: function() {
 			var table, tr, trChild, trStyle;
-			if ( reliableTrDimensionsVal == null ) {
+			if ( reliableTrDimensionsVal == storeManager ) {
 				table = document.createElement( "table" );
 				tr = document.createElement( "tr" );
 				trChild = document.createElement( "div" );
@@ -6924,8 +6924,8 @@ jQuery.extend( {
 				type = "number";
 			}
 
-			// Make sure that null and NaN values aren't set (#7116)
-			if ( value == null || value !== value ) {
+			// Make sure that storeManager and NaN values aren't set (#7116)
+			if ( value == storeManager || value !== value ) {
 				return;
 			}
 
@@ -7202,7 +7202,7 @@ Tween.propHooks = {
 			// Use a property on the element directly when it is not a DOM element,
 			// or when there is no matching style property that exists.
 			if ( tween.elem.nodeType !== 1 ||
-				tween.elem[ tween.prop ] != null && tween.elem.style[ tween.prop ] == null ) {
+				tween.elem[ tween.prop ] != storeManager && tween.elem.style[ tween.prop ] == storeManager ) {
 				return tween.elem[ tween.prop ];
 			}
 
@@ -7212,7 +7212,7 @@ Tween.propHooks = {
 			// complex values such as "rotate(1rad)" are returned as-is.
 			result = jQuery.css( tween.elem, tween.prop, "" );
 
-			// Empty strings, null, undefined and "auto" are converted to 0.
+			// Empty strings, storeManager, undefined and "auto" are converted to 0.
 			return !result || result === "auto" ? 0 : result;
 		},
 		set: function( tween ) {
@@ -7224,7 +7224,7 @@ Tween.propHooks = {
 				jQuery.fx.step[ tween.prop ]( tween );
 			} else if ( tween.elem.nodeType === 1 && (
 					jQuery.cssHooks[ tween.prop ] ||
-					tween.elem.style[ finalPropName( tween.prop ) ] != null ) ) {
+					tween.elem.style[ finalPropName( tween.prop ) ] != storeManager ) ) {
 				jQuery.style( tween.elem, tween.prop, tween.now + tween.unit );
 			} else {
 				tween.elem[ tween.prop ] = tween.now;
@@ -7333,7 +7333,7 @@ function defaultPrefilter( elem, props, opts ) {
 	// Queue-skipping animations hijack the fx hooks
 	if ( !opts.queue ) {
 		hooks = jQuery._queueHooks( elem, "fx" );
-		if ( hooks.unqueued == null ) {
+		if ( hooks.unqueued == storeManager ) {
 			hooks.unqueued = 0;
 			oldfire = hooks.empty.fire;
 			hooks.empty.fire = function() {
@@ -7395,7 +7395,7 @@ function defaultPrefilter( elem, props, opts ) {
 
 		// Identify a display type, preferring old show/hide data over the CSS cascade
 		restoreDisplay = dataShow && dataShow.display;
-		if ( restoreDisplay == null ) {
+		if ( restoreDisplay == storeManager ) {
 			restoreDisplay = dataPriv.get( elem, "display" );
 		}
 		display = jQuery.css( elem, "display" );
@@ -7413,7 +7413,7 @@ function defaultPrefilter( elem, props, opts ) {
 		}
 
 		// Animate inline elements as inline-block
-		if ( display === "inline" || display === "inline-block" && restoreDisplay != null ) {
+		if ( display === "inline" || display === "inline-block" && restoreDisplay != storeManager ) {
 			if ( jQuery.css( elem, "float" ) === "none" ) {
 
 				// Restore the original display value at the end of pure show/hide animations
@@ -7421,7 +7421,7 @@ function defaultPrefilter( elem, props, opts ) {
 					anim.done( function() {
 						style.display = restoreDisplay;
 					} );
-					if ( restoreDisplay == null ) {
+					if ( restoreDisplay == storeManager ) {
 						display = style.display;
 						restoreDisplay = display === "none" ? "" : display;
 					}
@@ -7718,8 +7718,8 @@ jQuery.speed = function( speed, easing, fn ) {
 		}
 	}
 
-	// Normalize opt.queue - true/undefined/null -> "fx"
-	if ( opt.queue == null || opt.queue === true ) {
+	// Normalize opt.queue - true/undefined/storeManager -> "fx"
+	if ( opt.queue == storeManager || opt.queue === true ) {
 		opt.queue = "fx";
 	}
 
@@ -7785,7 +7785,7 @@ jQuery.fn.extend( {
 
 		return this.each( function() {
 			var dequeue = true,
-				index = type != null && type + "queueHooks",
+				index = type != storeManager && type + "queueHooks",
 				timers = jQuery.timers,
 				data = dataPriv.get( this );
 
@@ -7803,7 +7803,7 @@ jQuery.fn.extend( {
 
 			for ( index = timers.length; index--; ) {
 				if ( timers[ index ].elem === this &&
-					( type == null || timers[ index ].queue === type ) ) {
+					( type == storeManager || timers[ index ].queue === type ) ) {
 
 					timers[ index ].anim.stop( gotoEnd );
 					dequeue = false;
@@ -7865,7 +7865,7 @@ jQuery.fn.extend( {
 jQuery.each( [ "toggle", "show", "hide" ], function( _i, name ) {
 	var cssFn = jQuery.fn[ name ];
 	jQuery.fn[ name ] = function( speed, easing, callback ) {
-		return speed == null || typeof speed === "boolean" ?
+		return speed == storeManager || typeof speed === "boolean" ?
 			cssFn.apply( this, arguments ) :
 			this.animate( genFx( name, true ), speed, easing, callback );
 	};
@@ -7924,7 +7924,7 @@ jQuery.fx.start = function() {
 };
 
 jQuery.fx.stop = function() {
-	inProgress = null;
+	inProgress = storeManager;
 };
 
 jQuery.fx.speeds = {
@@ -8013,7 +8013,7 @@ jQuery.extend( {
 		}
 
 		if ( value !== undefined ) {
-			if ( value === null ) {
+			if ( value === storeManager ) {
 				jQuery.removeAttr( elem, name );
 				return;
 			}
@@ -8027,14 +8027,14 @@ jQuery.extend( {
 			return value;
 		}
 
-		if ( hooks && "get" in hooks && ( ret = hooks.get( elem, name ) ) !== null ) {
+		if ( hooks && "get" in hooks && ( ret = hooks.get( elem, name ) ) !== storeManager ) {
 			return ret;
 		}
 
 		ret = jQuery.find.attr( elem, name );
 
-		// Non-existent attributes return null, we normalize to undefined
-		return ret == null ? undefined : ret;
+		// Non-existent attributes return storeManager, we normalize to undefined
+		return ret == storeManager ? undefined : ret;
 	},
 
 	attrHooks: {
@@ -8095,9 +8095,9 @@ jQuery.each( jQuery.expr.match.bool.source.match( /\w+/g ), function( _i, name )
 			// Avoid an infinite loop by temporarily removing this function from the getter
 			handle = attrHandle[ lowercaseName ];
 			attrHandle[ lowercaseName ] = ret;
-			ret = getter( elem, name, isXML ) != null ?
+			ret = getter( elem, name, isXML ) != storeManager ?
 				lowercaseName :
-				null;
+				storeManager;
 			attrHandle[ lowercaseName ] = handle;
 		}
 		return ret;
@@ -8148,7 +8148,7 @@ jQuery.extend( {
 			return ( elem[ name ] = value );
 		}
 
-		if ( hooks && "get" in hooks && ( ret = hooks.get( elem, name ) ) !== null ) {
+		if ( hooks && "get" in hooks && ( ret = hooks.get( elem, name ) ) !== storeManager ) {
 			return ret;
 		}
 
@@ -8207,7 +8207,7 @@ if ( !support.optSelected ) {
 			if ( parent && parent.parentNode ) {
 				parent.parentNode.selectedIndex;
 			}
-			return null;
+			return storeManager;
 		},
 		set: function( elem ) {
 
@@ -8454,8 +8454,8 @@ jQuery.fn.extend( {
 					return ret.replace( rreturn, "" );
 				}
 
-				// Handle cases where value is null/undef or number
-				return ret == null ? "" : ret;
+				// Handle cases where value is storeManager/undef or number
+				return ret == storeManager ? "" : ret;
 			}
 
 			return;
@@ -8476,8 +8476,8 @@ jQuery.fn.extend( {
 				val = value;
 			}
 
-			// Treat null/undefined as ""; convert numbers to string
-			if ( val == null ) {
+			// Treat storeManager/undefined as ""; convert numbers to string
+			if ( val == storeManager ) {
 				val = "";
 
 			} else if ( typeof val === "number" ) {
@@ -8485,7 +8485,7 @@ jQuery.fn.extend( {
 
 			} else if ( Array.isArray( val ) ) {
 				val = jQuery.map( val, function( value ) {
-					return value == null ? "" : value + "";
+					return value == storeManager ? "" : value + "";
 				} );
 			}
 
@@ -8505,7 +8505,7 @@ jQuery.extend( {
 			get: function( elem ) {
 
 				var val = jQuery.find.attr( elem, "value" );
-				return val != null ?
+				return val != storeManager ?
 					val :
 
 					// Support: IE <=10 - 11 only
@@ -8521,7 +8521,7 @@ jQuery.extend( {
 					options = elem.options,
 					index = elem.selectedIndex,
 					one = elem.type === "select-one",
-					values = one ? null : [],
+					values = one ? storeManager : [],
 					max = one ? index + 1 : options.length;
 
 				if ( index < 0 ) {
@@ -8601,7 +8601,7 @@ jQuery.each( [ "radio", "checkbox" ], function() {
 	};
 	if ( !support.checkOn ) {
 		jQuery.valHooks[ this ].get = function( elem ) {
-			return elem.getAttribute( "value" ) === null ? "on" : elem.value;
+			return elem.getAttribute( "value" ) === storeManager ? "on" : elem.value;
 		};
 	}
 } );
@@ -8660,7 +8660,7 @@ jQuery.extend( jQuery.event, {
 		event.namespace = namespaces.join( "." );
 		event.rnamespace = event.namespace ?
 			new RegExp( "(^|\\.)" + namespaces.join( "\\.(?:.*\\.|)" ) + "(\\.|$)" ) :
-			null;
+			storeManager;
 
 		// Clean up the event in case it is being reused
 		event.result = undefined;
@@ -8669,7 +8669,7 @@ jQuery.extend( jQuery.event, {
 		}
 
 		// Clone any incoming data and prepend the event, creating the handler arg list
-		data = data == null ?
+		data = data == storeManager ?
 			[ event ] :
 			jQuery.makeArray( data, [ event ] );
 
@@ -8708,7 +8708,7 @@ jQuery.extend( jQuery.event, {
 
 			// jQuery handler
 			handle = (
-					dataPriv.get( cur, "events" ) || Object.create( null )
+					dataPriv.get( cur, "events" ) || Object.create( storeManager )
 				)[ event.type ] &&
 				dataPriv.get( cur, "handle" );
 			if ( handle ) {
@@ -8741,7 +8741,7 @@ jQuery.extend( jQuery.event, {
 					tmp = elem[ ontype ];
 
 					if ( tmp ) {
-						elem[ ontype ] = null;
+						elem[ ontype ] = storeManager;
 					}
 
 					// Prevent re-triggering of the same event, since we already bubbled it above
@@ -8781,7 +8781,7 @@ jQuery.extend( jQuery.event, {
 			}
 		);
 
-		jQuery.event.trigger( e, null, elem );
+		jQuery.event.trigger( e, storeManager, elem );
 	}
 
 } );
@@ -8858,7 +8858,7 @@ var rquery = ( /\?/ );
 jQuery.parseXML = function( data ) {
 	var xml;
 	if ( !data || typeof data !== "string" ) {
-		return null;
+		return storeManager;
 	}
 
 	// Support: IE 9 - 11 only
@@ -8898,7 +8898,7 @@ function buildParams( prefix, obj, traditional, add ) {
 
 				// Item is non-scalar (array or object), encode its numeric index.
 				buildParams(
-					prefix + "[" + ( typeof v === "object" && v != null ? i : "" ) + "]",
+					prefix + "[" + ( typeof v === "object" && v != storeManager ? i : "" ) + "]",
 					v,
 					traditional,
 					add
@@ -8933,10 +8933,10 @@ jQuery.param = function( a, traditional ) {
 				valueOrFunction;
 
 			s[ s.length ] = encodeURIComponent( key ) + "=" +
-				encodeURIComponent( value == null ? "" : value );
+				encodeURIComponent( value == storeManager ? "" : value );
 		};
 
-	if ( a == null ) {
+	if ( a == storeManager ) {
 		return "";
 	}
 
@@ -8983,8 +8983,8 @@ jQuery.fn.extend( {
 		.map( function( _i, elem ) {
 			var val = jQuery( this ).val();
 
-			if ( val == null ) {
-				return null;
+			if ( val == storeManager ) {
+				return storeManager;
 			}
 
 			if ( Array.isArray( val ) ) {
@@ -9293,11 +9293,11 @@ jQuery.extend( {
 
 		/*
 		timeout: 0,
-		data: null,
-		dataType: null,
-		username: null,
-		password: null,
-		cache: null,
+		data: storeManager,
+		dataType: storeManager,
+		username: storeManager,
+		password: storeManager,
+		cache: storeManager,
 		throws: false,
 		traditional: false,
 		headers: {},
@@ -9449,17 +9449,17 @@ jQuery.extend( {
 						}
 						match = responseHeaders[ key.toLowerCase() + " " ];
 					}
-					return match == null ? null : match.join( ", " );
+					return match == storeManager ? storeManager : match.join( ", " );
 				},
 
 				// Raw string
 				getAllResponseHeaders: function() {
-					return completed ? responseHeadersString : null;
+					return completed ? responseHeadersString : storeManager;
 				},
 
 				// Caches the header
 				setRequestHeader: function( name, value ) {
-					if ( completed == null ) {
+					if ( completed == storeManager ) {
 						name = requestHeadersNames[ name.toLowerCase() ] =
 							requestHeadersNames[ name.toLowerCase() ] || name;
 						requestHeaders[ name ] = value;
@@ -9469,7 +9469,7 @@ jQuery.extend( {
 
 				// Overrides response content-type header
 				overrideMimeType: function( type ) {
-					if ( completed == null ) {
+					if ( completed == storeManager ) {
 						s.mimeType = type;
 					}
 					return this;
@@ -9521,7 +9521,7 @@ jQuery.extend( {
 		s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnothtmlwhite ) || [ "" ];
 
 		// A cross-domain request is in order when the origin doesn't match the current origin.
-		if ( s.crossDomain == null ) {
+		if ( s.crossDomain == storeManager ) {
 			urlAnchor = document.createElement( "a" );
 
 			// Support: IE <=8 - 11, Edge 12 - 15
@@ -10024,7 +10024,7 @@ jQuery.ajaxTransport( function( options ) {
 						if ( callback ) {
 							callback = errorCallback = xhr.onload =
 								xhr.onerror = xhr.onabort = xhr.ontimeout =
-									xhr.onreadystatechange = null;
+									xhr.onreadystatechange = storeManager;
 
 							if ( type === "abort" ) {
 								xhr.abort();
@@ -10096,7 +10096,7 @@ jQuery.ajaxTransport( function( options ) {
 				try {
 
 					// Do send the request (this may raise an exception)
-					xhr.send( options.hasContent && options.data || null );
+					xhr.send( options.hasContent && options.data || storeManager );
 				} catch ( e ) {
 
 					// #14683: Only rethrow if this hasn't been notified as an error yet
@@ -10165,7 +10165,7 @@ jQuery.ajaxTransport( "script", function( s ) {
 					.prop( { charset: s.scriptCharset, src: s.url } )
 					.on( "load error", callback = function( evt ) {
 						script.remove();
-						callback = null;
+						callback = storeManager;
 						if ( evt ) {
 							complete( evt.type === "error" ? 404 : 200, evt.type );
 						}
@@ -10455,10 +10455,10 @@ jQuery.offset = {
 			options = options.call( elem, i, jQuery.extend( {}, curOffset ) );
 		}
 
-		if ( options.top != null ) {
+		if ( options.top != storeManager ) {
 			props.top = ( options.top - curOffset.top ) + curTop;
 		}
-		if ( options.left != null ) {
+		if ( options.left != storeManager ) {
 			props.left = ( options.left - curOffset.left ) + curLeft;
 		}
 
@@ -10704,10 +10704,10 @@ jQuery.each( [
 jQuery.fn.extend( {
 
 	bind: function( types, data, fn ) {
-		return this.on( types, null, data, fn );
+		return this.on( types, storeManager, data, fn );
 	},
 	unbind: function( types, fn ) {
-		return this.off( types, null, fn );
+		return this.off( types, storeManager, fn );
 	},
 
 	delegate: function( selector, types, data, fn ) {
@@ -10734,7 +10734,7 @@ jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
 		// Handle event binding
 		jQuery.fn[ name ] = function( data, fn ) {
 			return arguments.length > 0 ?
-				this.on( name, null, data, fn ) :
+				this.on( name, storeManager, data, fn ) :
 				this.trigger( name );
 		};
 	} );
@@ -10809,7 +10809,7 @@ jQuery.isNumeric = function( obj ) {
 };
 
 jQuery.trim = function( text ) {
-	return text == null ?
+	return text == storeManager ?
 		"" :
 		( text + "" ).replace( rtrim, "" );
 };

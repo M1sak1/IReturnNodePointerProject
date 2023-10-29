@@ -1,4 +1,73 @@
-﻿@model IReturnNodePointerProject.Models.LoginViewModel;
+﻿@model IReturnNodePointerProject.Models.User;
+@if (ViewBag.userType == "Patron")
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" asp-action="EditAccountView">
+                <h1>Edit Patron Account:</h1>
+                
+                <div class="row mb-2">
+                    <label class="col-form-label col-md-5">Email/UserName:</label>
+                    <div class="col-md-10">
+                        <input asp-for="email" class="form-control" id="email" name="email" type="text" value=@ViewBag.Patron.Email required="required" />
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-form-label col-md-5">DisplayName:</label>
+                    <div class="col-md-10">
+                        <input asp-for="Name" class="form-control" id="Name" name="Name" type="text" value=@ViewBag.Patron.Name />
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col offset-md-2">
+                        <button type="submit" class="btn btn-primary" name="Edit" id="User" value="Patron">Submit</button>
+                        @Html.ActionLink("Cancel","AdminAccountsView","Admin","unResolved")
+                    </div>
+                </div>
 
-
+            </form>
+        </div>
+    </div>
+}
+@if (ViewBag.userType == "Employee" || ViewBag.userType == "Admin")
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" asp-action="EditAccountView">
+                <h1>Edit Company Account:</h1>
+                <div class="row mb-2">
+                    <label class="col-form-label col-md-5">UserName:</label>
+                    <div class="col-md-10">
+                        <input asp-for="UserName" class="form-control" id="UserName" name="UserName" type="text" value=@ViewBag.User.UserName required="required" />
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-form-label col-md-5">Email:</label>
+                    <div class="col-md-10">
+                        <input asp-for="email" class="form-control" id="email" name="email" type="text" value=@ViewBag.User.email />
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-form-label col-md-5">DisplayName:</label>
+                    <div class="col-md-10">
+                        <input asp-for="Name" class="form-control" id="Name" name="Name" type="text" value=@ViewBag.User.Name />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col offset-md-2">
+                        @if (ViewBag.userType == "Employee")
+                        {
+                            <button type="submit" class="btn btn-primary" name="Edit" id="Employee" value="Employee">Submit</button>
+                        }
+                        @if (ViewBag.userType == "Admin")
+                        {
+                            <button type="submit" class="btn btn-primary" name="Edit" id="Admin" value="Admin">Submit</button>
+                        }
+                        @Html.ActionLink("Cancel","AdminAccountsView","Admin","unResolved")
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}

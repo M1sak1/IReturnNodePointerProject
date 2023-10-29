@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace IReturnNodePointerProject.Models
 {
@@ -12,6 +13,7 @@ namespace IReturnNodePointerProject.Models
 		public int Genre { get; set; }
 		public int subGenre { get; set; }
 		public DateTime Published { get; set; }
+		[AllowNull]
 		public String LastUpdatedBy { get; set; }
 		public DateTime LastUpdated { get; set; }
 	}

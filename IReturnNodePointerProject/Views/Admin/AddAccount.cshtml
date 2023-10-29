@@ -1,13 +1,51 @@
-﻿@if (ViewBag.userType == "Patron")
+﻿@model IReturnNodePointerProject.Models.User;
+@if (ViewBag.userType == "Patron")
 {
-@model IReturnNodePointerProject.Models.User;
     <div class="row">
         <div class="col-md-4">
             <form method="post" asp-action="AdminAccountsView">
-                <div class="row mb-5">
-                    <p style="color:red">@Html.ValidationMessage("Error","")</p>
-                </div>
                 <h1>Add Patron Account:</h1>
+                <div class="row mb-2">
+                    <label class="col-form-label col-md-5">Email/UserName:</label>
+                    <div class="col-md-10">
+                        <input asp-for="email" class="form-control" id="email" name="email" type="text" value=@ViewBag.Data.email required ="required"  />
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-form-label col-md-5">DisplayName:</label>
+                    <div class="col-md-10">
+                    <input asp-for="Name" class="form-control" id="Name" name="Name" type="text" value=@ViewBag.Data.Name  />
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label class="col-form-label col-md-5">Password:</label>
+                    <div class="col-md-10">
+                        <input type="text" asp-for="HashPW" class="form-control" id="HashPW" name="HashPW" value=@ViewBag.Data.HashPW required="required" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col offset-md-2">
+                        <button type="submit" class="btn btn-primary" name="btn" id="User"  value="Patron">Submit</button>
+                        @Html.ActionLink("Cancel","AdminAccountsView","Admin","unResolved")
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+}
+@if (ViewBag.userType == "Employee" || ViewBag.userType == "Admin")
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post" asp-action="AdminAccountsView">
+                <h1>Add Company Account:</h1>
+                <div class="row mb-2">
+                    <label class="col-form-label col-md-5">UserName:</label>
+                    <div class="col-md-10">
+                        <input asp-for="UserName" class="form-control" id="UserName" name="UserName" type="text" value=@ViewBag.Data.UserName required="required" />
+                    </div>
+                </div>
                 <div class="row mb-2">
                     <label class="col-form-label col-md-5">Email:</label>
                     <div class="col-md-10">
@@ -23,50 +61,19 @@
                 <div class="row mb-2">
                     <label class="col-form-label col-md-5">Password:</label>
                     <div class="col-md-10">
-                    <input type="text" asp-for="HashPW" class="form-control" id="HashPW" name="HashPW" value=@ViewBag.Data.HashPW />
+                        <input type="text" asp-for="HashPW" class="form-control" id="HashPW" name="HashPW" value=@ViewBag.Data.HashPW required="required" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col offset-md-2">
-                        <button type="submit" class="btn btn-primary" value="User">Submit</button>
-                    </div>
-                </div>
-
-            </form>
-        </div>
-    </div>
-}
-@if (ViewBag.userType == "User")
-{
-    <div class="row">
-        <div class="col-md-4">
-            <form method="post" asp-action="AdminAccountsView">
-                <h1>Add Company Account:</h1>
-                <div class="row mb-2">
-                    <label class="col-form-label col-md-5">Email:</label>
-                    <div class="col-md-10">
-                        <input asp-for="Email" class="form-control" id="Email" name="Email" type="text" value=@ViewBag.Data.email />
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-form-label col-md-5">DisplayName:</label>
-                    <div class="col-md-10">
-                    <input asp-for="Name" class="form-control" id="Name" name="Name" type="text" value=@ViewBag.Data.Name />
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-form-label col-md-5">Password:</label>
-                    <div class="col-md-10">
-                    <input type="text" asp-for="HashPW" class="form-control" id="HashPW" name="HashPW" value=@ViewBag.Data.HashPW />
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-form-label col-md-5">Admin</label>
-                    <input type="radio" asp-for="IsAdmin" class="form-control" id="IsAdmin" name="IsAdmin" value=@ViewBag.Data.IsAdmin />
-                </div>
-                <div class="row">
-                    <div class="col offset-md-2">
-                        <button type="submit" class="btn btn-primary" value="User">Submit</button>
+                        @if (ViewBag.userType == "Employee")
+                        {
+                            <button type="submit" class="btn btn-primary" name="btn" id="Employee" value="Employee">Submit</button>
+                        }
+                        @if (ViewBag.userType == "Admin"){
+                            <button type="submit" class="btn btn-primary" name="btn" id="Admin" value="Admin">Submit</button>
+                        }
+                        @Html.ActionLink("Cancel","AdminAccountsView","Admin","unResolved")
                     </div>
                 </div>
             </form>

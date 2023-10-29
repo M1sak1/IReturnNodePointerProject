@@ -17,11 +17,15 @@ public class ApplicationDbContext : DbContext
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		base.OnModelCreating(builder);
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
-    }
 
+		// Customize the ASP.NET Identity model and override the defaults if needed.
+		// For example, you can rename the ASP.NET Identity table names and more.
+		// Add your customizations after calling base.OnModelCreating(builder);
+	}
+	internal interface ISoftDelete
+	{
+		bool IsDeleted { get; set; }
+	}
 	public DbSet<Product> Product { get; set; }
 	public DbSet<Genre> Genre { get; set; }
 	public DbSet<Book_genre> Book_genre { get; set; }
