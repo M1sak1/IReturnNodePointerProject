@@ -33,7 +33,6 @@ namespace IReturnNodePointerProject.Controllers
             var bg = _storeContext.Book_genre.AsQueryable();
             var jg = _storeContext.Game_genre.AsQueryable();
             var mg = _storeContext.Movie_genre.AsQueryable();
-
             //finding the data
             var _pd = pd.Where(pd => pd.ID == productID).ToArray();
 			var _st = st.Where(st => st.ProductId == productID).ToArray();

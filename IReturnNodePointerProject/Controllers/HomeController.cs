@@ -100,10 +100,22 @@ namespace IReturnNodePointerProject.Controllers
 		//		View(await _storeContext.Product.ToListAsync() ) :
 		//		Problem("Entity set 'MvcMovieContext.Movie'  is null.");
 		}
+
 		public static int ConvertToYear(DateTime dt)
 		{
 			var year = dt.Year;
 			return year;
+		}
+		public void Addnewitem(string name)
+		{
+			var product = new Product();
+			product.Name = "Boop";
+			_storeContext.Product.Add(product);
+			_storeContext.SaveChanges();
+			var stocktake = new Stocktake();
+			stocktake.ProductId = product.ID;
+			_storeContext.Stocktake.Add(stocktake);
+			//ViewBag.Data =
 		}
 		public static double findPrice(int itemID) {
 			//this is a stupid way to do this but it works lol O(n)
