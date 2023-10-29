@@ -129,8 +129,8 @@ namespace IReturnNodePointerProject.Controllers
                     string stringHashedPassword = Convert.ToHexString(HashedPassword);
                     if (stringHashedPassword == User.HashPW) //compares the 2 hashed passwords if they are the same the user has used the right login information
 					{
-						//Patron View
-						HttpContext.Session.SetString("UserID", Convert.ToString(User.UserID));
+                        //Patron View
+                        HttpContext.Session.SetString("UserID", Convert.ToString((int)User.UserID));
 						HttpContext.Session.SetString("AccessLevel", "Patron");
 						return RedirectToAction("Index", "Home");
 					}
@@ -160,7 +160,7 @@ namespace IReturnNodePointerProject.Controllers
 					Random random = new Random();
 					Patrons patrons = new Patrons();
 					TO tO = new TO();
-					//add to database and generate a salt / hash the password 
+					//add to database and generate a salt /		hash the password 
 					//Creates a salt of size 16 and randon numbers/letters
 					//generating a string to combine with the password and to have a value ready to go into the database
 					const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

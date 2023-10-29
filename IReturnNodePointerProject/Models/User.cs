@@ -14,6 +14,6 @@ namespace IReturnNodePointerProject.Models
         public string? Name { get; set; }
         public bool? IsAdmin { get; set; }
         public string? Salt { get; set; }
-        public string? HashPW { get; set; }
+		public string? HashPW { get; set; }
     }
 }
