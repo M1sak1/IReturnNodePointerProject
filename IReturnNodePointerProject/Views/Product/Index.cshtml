@@ -10,6 +10,21 @@
     }
     Layout = "_Layout";
 }
+@{
+    /// generating a stupid list BECUASE MVC WONT FUCKING LE ME ADD A SELECTED TAG!!!!!! I HATE YOU MICROSOFT
+    // for the genres
+    foreach (var item in ViewBag.SelectedProduct.hidden.genres)
+    {
+        if ( item.genreID == ViewBag.SelectedProduct.GenreID)
+        {
+            var gen = item;
+            ViewBag.SelectedProduct.hidden.genres.Remove(gen);
+            ViewBag.SelectedProduct.hidden.genres.Insert(0, gen);
+            break;
+        }
+    }
+    var Genre = new SelectList(ViewBag.SelectedProduct.hidden.genres, "genreID", "Name");
+}
 @model IReturnNodePointerProject.Models.prodAmalgam;
 <!DOCTYPE HTML>
 <head>
@@ -31,6 +46,18 @@
                 });
             });
         });
+        //checking if the user actually wants to change the genre, and if they do, submitting
+        $(function () {
+            $('.Dropdown').change(function (e) {
+                console.log(e)
+                if(e.originalEvent != null && confirm('Changeing this will save your changes. Are you sure?')){
+                    $("#Form").submit();
+                }
+                else{
+                    $("#Title-Genre-edit-Drowdown").val(@ViewBag.SelectedProduct.GenreID).change()
+                }
+            });
+        });
         $(document).ready(function () {
             $("#SaveChanges").click(function () {
                 alert("Changes Saved");
@@ -44,8 +71,9 @@
 
         // You could attach to keyUp, etc. if keydown doesn't work
         Event.observe('text-area', 'keydown', resizeIt);
-
-        resizeIt(); //Initial on load
+        $(document).ready(function () {
+            $('#Title-Genre-edit-Drowdown').val(@ViewBag.SelectedProduct.GenreID);
+        });
     </script>
 </head>
 <html>
@@ -85,6 +113,10 @@
     }
 
     .Details #Title-Genre-edit{
+        width: 40%;
+        font-size: 23px;
+    }
+    .Dropdown{
         width: 40%;
         font-size: 23px;
     }
@@ -132,6 +164,10 @@
     .Details input{
         border: hidden;
     }
+
+    .dropdown-hidden{
+        margin-top: 3px;
+    }
     
     </style>
 @if (!true) //change this to however we tell if the user is not an admin
@@ -163,25 +199,27 @@
 else
 {
     <body>
-        <form method="post" asp-action="Index">
+        <form method="post" asp-action="Index" id="Form">
             <div class="prodPhoto">
                 <p id="plaecholder">{NO IMAGE}</p>
             </div>
             <div class="Details">
-                <input asp-for="Name" name="Name" type="text" id="Title-Genre-edit" value="@ViewBag.SelectedProduct.Name"/> 
-                @Html.DropDownList("Genre", new SelectList(ViewBag.SelectedProduct.hidden.genres , "genreID", "Name"), new { @id="Title-Genre-edit" })
+                <input asp-for="Name" name="Name" type="text" id="Title-Genre-edit" value="@ViewBag.SelectedProduct.Name"/>
+                @Html.DropDownList("Genre", Genre,  new { @id="Title-Genre-edit-Drowdown", @class="Dropdown"})
                 <input asp-for="Author" name="Author" type="text" id="Author" value="@ViewBag.SelectedProduct.Author" style="margin-top: 3px;" />
                 <div class="PriceBlock">
-                    <input asp-for="Price" name="Price" type="number" id="Price" value="@ViewBag.SelectedProduct.price" style="margin-top: 3px;" />
-                    <input asp-for="StockNum" name="StokNum" type="number" id="Stock" style="margin-top: 3px;" value="@ViewBag.SelectedProduct.StokNum" />
+                    <input asp-for="Price" name="Price" type="number" id="Price" step=".01" value="@ViewBag.SelectedProduct.price" style="margin-top: 3px;" />
+                    <input asp-for="StockNum" name="StokNum" type="number" id="Stock" step="1" style="margin-top: 3px;" value="@ViewBag.SelectedProduct.StokNum" />
                 </div>
                 <span id="btnHolder">
                     <button type="submit" id="SaveChanges" value="prodAmalgam">Save Changes</button>
                 </span>
                 <textarea asp-for="Description" rows="10" name="Description" type="text" id="Description" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>@ViewBag.SelectedProduct.Description</textarea>
             </div>
-            <hr/>
-            <p>Hidden Attributes</p>
+            <div class="Details" id="Partial-container">
+                <p><b>Hidden Attributes -- Changeing the product type will change these attributes! Please be sure of what you are doing</b></p>
+                @Html.Partial("special_controlls")
+            </div>
         </form>
     </body>
 }

@@ -1,0 +1,52 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    // for the sub genres
+    var subgen = ViewBag.SelectedProduct.hidden.bookGen;
+    switch (ViewBag.SelectedProduct.Genre)
+    {
+        case "Books":
+            subgen = ViewBag.SelectedProduct.hidden.bookGen;
+            break;
+        case "Games":
+            subgen = ViewBag.SelectedProduct.hidden.gameGen;
+            break;
+        case "Movies":
+            subgen = ViewBag.SelectedProduct.hidden.movieGen;
+            break;
+        default:
+            break;
+    }
+    foreach (var item in subgen)
+    {
+        if (item.subGenreID == ViewBag.SelectedProduct.subGenreID)
+        {
+            var gen = item;
+            subgen.Remove(gen);
+            subgen.Insert(0, gen);
+            break;
+        }
+    }
+    var SubGenre = new SelectList(subgen, "subGenreID", "Name");
+    foreach (var item in ViewBag.SelectedProduct.hidden.sources)
+    {
+        //moving the current attribute to the top.
+        if (item.sourceid == ViewBag.SelectedProduct.SourceID)
+        {
+            var gen = item;
+            ViewBag.SelectedProduct.hidden.sources.Remove(gen);
+            ViewBag.SelectedProduct.hidden.sources.Insert(0, gen);
+            break;
+        }
+    }
+    var Sources = new SelectList(ViewBag.SelectedProduct.hidden.sources, "sourceid", "Source_name");
+}
+<div class="dropdown-hidden">
+    <label for="Hidden-SubGen-Edit-Dropdown">Sub Genre: </label>
+    @Html.DropDownList("SubGenre", SubGenre, new { @id="Hidden-SubGen-Edit-Dropdown", @class="Dropdown"})
+</div>
+<div class="dropdown-hidden">
+    <label for="Hidden-Source-Edit-Dropdown">Sauce: </label>
+    @Html.DropDownList("Provider", Sources, new { @id="Hidden-Source-Edit-Dropdown", @class="Dropdown"})
+</div>

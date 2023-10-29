@@ -48,14 +48,18 @@ namespace IReturnNodePointerProject.Controllers
                 SelectedProduct.Genre = _gg.Name;
 				SelectedProduct.GenreID = _gg.genreID;
 				SelectedProduct.StokNum = _st[0].Quantity;
-				//
-				SelectedProduct.hidden = new hiddenData();
+				SelectedProduct.subGenreID = _pd[0].subGenre;
+				SelectedProduct.SourceID = _st[0].SourceId;
+                //
+                SelectedProduct.hidden = new hiddenData();
 				//SelectedProduct.hidden.sources = sc.ToList();
 				SelectedProduct.hidden.genres = gg.ToList();
 				SelectedProduct.hidden.bookGen = bg.ToList();
 				SelectedProduct.hidden.movieGen = mg.ToList();
 				SelectedProduct.hidden.gameGen = jg.ToList();
-				if (_st[0].Quantity > 0)
+				SelectedProduct.hidden.sources = sc.Where(sc => sc.Genre == _pd[0].Genre).ToList();
+
+                if (_st[0].Quantity > 0)
 				{
 					SelectedProduct.Stock = "In Stock";
 				}
@@ -93,29 +97,40 @@ namespace IReturnNodePointerProject.Controllers
             var _st = st.Where(st => st.ProductId == newData.ProductID).ToArray()[0];
 			//the stocktake
 			_st.Price = newData.price;
-			_st.Quantity = newData.Quantity;
+			_st.Quantity = newData.StokNum;
 			//product
 			_pd.Author = newData.Author;
 			_pd.Description = newData.Description;
 			_pd.Name = newData.Name;
 			_pd.LastUpdated = DateTime.Now;
-			//hidden
-			newData.hidden = new hiddenData();
-            newData.hidden.genres = gg.ToList();
-            newData.hidden.bookGen = bg.ToList();
-            newData.hidden.movieGen = mg.ToList();
-            newData.hidden.gameGen = jg.ToList();
 
             //Console.WriteLine(Request.Form["Genre"]);
-            _pd.Genre = Convert.ToInt32(Request.Form );
+            _pd.Genre = Convert.ToInt32(Request.Form["Genre"]);
+			_pd.subGenre = Convert.ToInt32(Request.Form["SubGenre"]);
+			_st.SourceId = Convert.ToInt32(Request.Form["Provider"]);
             //fancy stuff
 
             //updateing
             _storeContext.Update(_st);
 			_storeContext.Update(_pd);
 			_storeContext.SaveChanges();
-			ViewBag.SelectedProduct = newData;
+
+			//hidden -- re initalisation
+			newData.Genre = gg.Where(gg => gg.genreID == _pd.Genre).ToArray()[0].Name;
+            newData.hidden = new hiddenData();
+            newData.hidden.genres = gg.ToList();
+            newData.hidden.bookGen = bg.ToList();
+            newData.hidden.movieGen = mg.ToList();
+            newData.hidden.gameGen = jg.ToList();
+            newData.hidden.sources = sc.Where(sc => sc.Genre == _pd.Genre).ToList();
+
+            ViewBag.SelectedProduct = newData;
             return View(newData);
+		}
+
+		public void UpdateDDLists(int GenreHolder)
+		{
+			ViewBag.SelectedProduct.GenreID = GenreHolder;
 		}
 
 
