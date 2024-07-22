@@ -19,7 +19,6 @@ namespace IReturnNodePointerProject.Models
 		public int ProductID { get; set; }
 		//this is only used in the cart, but true to the classes name, it is an amalgam
 		public int Quantity { get; set; }
-
 		public hiddenData? hidden; //this is only used occasionally
 }
 }
